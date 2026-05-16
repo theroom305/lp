@@ -1,0 +1,58 @@
+{
+  "nav": {
+    "label": "Primary navigation",
+    "buyers": "Buyers",
+    "owners": "Owners",
+    "about": "Method",
+    "contact": "Contact"
+  },
+  "home": {
+    "eyebrow": "Private market scaffold",
+    "title": "Fifteen buildings. One operating lens.",
+    "intro": "A restrained Room 305 surface for building intelligence, buyer qualification, and founder-led follow-up. Placeholder copy only until compliance gates clear.",
+    "profileEyebrow": "Microform",
+    "profileTitle": "Three fields before any call.",
+    "profileBody": "Country, trigger, and one open line are enough to route the lead without turning the first touch into intake theater."
+  },
+  "showroom": {
+    "eyebrow": "Building shells",
+    "title": "Curated corridor preview"
+  },
+  "leadForm": {
+    "country": "Where you live now",
+    "trigger": "What is the trigger",
+    "openQuestion": "What would you ask the founder",
+    "placeholder": "e.g. Is Seven Park actually short-term-rental approved?",
+    "submit": "Route this lead",
+    "submitting": "Routing",
+    "error": "The lead could not be routed.",
+    "success": "Lead routed as {tier}. Next action: {nextAction}.",
+    "triggers": {
+      "buySelf": "Buying for myself",
+      "buyInvestment": "Buying as investment",
+      "sellUnit": "Selling a unit",
+      "operations": "I already own and want better operations",
+      "exploring": "Just exploring"
+    }
+  },
+  "buyers": {
+    "eyebrow": "Buyer route",
+    "title": "Buyer qualification starts with restraint.",
+    "body": "This route will host the curated marketplace journey, A/B/C routing, and calendar handoff."
+  },
+  "owners": {
+    "eyebrow": "Owner route",
+    "title": "Owner acquisition is downstream of proof.",
+    "body": "This route remains a placeholder until owner-side storyboards and operating proof are cleared."
+  },
+  "about": {
+    "eyebrow": "Method",
+    "title": "Operate first. Claim later.",
+    "body": "Room 305 infrastructure is being built ahead of public claims. Compliance-dependent copy stays out until Stage 0 clears."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Start with the smallest useful signal.",
+    "body": "The same lead contract powers this page and the marketplace microform."
+  }
+}

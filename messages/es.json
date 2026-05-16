@@ -1,0 +1,58 @@
+{
+  "nav": {
+    "label": "Navegación principal",
+    "buyers": "Compradores",
+    "owners": "Propietarios",
+    "about": "Método",
+    "contact": "Contacto"
+  },
+  "home": {
+    "eyebrow": "Superficie privada",
+    "title": "Quince edificios. Un solo criterio operativo.",
+    "intro": "Una superficie sobria de Room 305 para inteligencia de edificios, calificación de compradores y seguimiento liderado por el fundador. Texto provisional hasta cerrar las verificaciones.",
+    "profileEyebrow": "Microformulario",
+    "profileTitle": "Tres campos antes de cualquier llamada.",
+    "profileBody": "País, motivo y una línea abierta bastan para enrutar el lead sin convertir el primer contacto en un interrogatorio."
+  },
+  "showroom": {
+    "eyebrow": "Edificios base",
+    "title": "Vista curada del corredor"
+  },
+  "leadForm": {
+    "country": "Dónde vive ahora",
+    "trigger": "Cuál es el motivo",
+    "openQuestion": "Qué le preguntaría al fundador",
+    "placeholder": "Ej. Seven Park realmente permite renta corta?",
+    "submit": "Enrutar este lead",
+    "submitting": "Enrutando",
+    "error": "No se pudo enrutar el lead.",
+    "success": "Lead enrutado como {tier}. Próxima acción: {nextAction}.",
+    "triggers": {
+      "buySelf": "Comprar para mí",
+      "buyInvestment": "Comprar como inversión",
+      "sellUnit": "Vender una unidad",
+      "operations": "Ya tengo una unidad y quiero mejor operación",
+      "exploring": "Solo estoy explorando"
+    }
+  },
+  "buyers": {
+    "eyebrow": "Ruta comprador",
+    "title": "La calificación empieza con sobriedad.",
+    "body": "Esta ruta alojará el recorrido curado, el enrutamiento A/B/C y el paso a calendario."
+  },
+  "owners": {
+    "eyebrow": "Ruta propietario",
+    "title": "La adquisición de propietarios viene después de la prueba.",
+    "body": "Esta ruta queda como marcador hasta cerrar el storyboard de propietarios y la prueba operativa."
+  },
+  "about": {
+    "eyebrow": "Método",
+    "title": "Operar primero. Afirmar después.",
+    "body": "La infraestructura de Room 305 se construye antes de las afirmaciones públicas. El texto dependiente de cumplimiento espera Stage 0."
+  },
+  "contact": {
+    "eyebrow": "Contacto",
+    "title": "Empiece con la señal útil más pequeña.",
+    "body": "El mismo contrato de lead alimenta esta página y el microformulario del marketplace."
+  }
+}
