@@ -64,7 +64,7 @@ export async function POST(request: NextRequest): Promise<Response> {
           ? {kind: "nurture"}
           : {
               kind: "calendar",
-              url: env.CALCOM_BOOKING_URL,
+              url: env.NEXT_PUBLIC_CALENDAR_URL,
             },
     };
 
