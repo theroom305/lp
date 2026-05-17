@@ -2,16 +2,14 @@ import type {Metadata} from "next";
 import {notFound} from "next/navigation";
 
 import {BuildingDossier} from "@/components/atlas/building-dossier";
-import {getDossierForBuilding, v1Buildings} from "@/content/atlas";
+import {getDossierForBuilding} from "@/content/atlas";
 import {PageShell} from "@/components/site/page-shell";
+
+export const dynamic = "force-dynamic";
 
 type BuildingPageProps = Readonly<{
   params: Promise<{slug: string}>;
 }>;
-
-export function generateStaticParams(): Array<{slug: string}> {
-  return v1Buildings.map((building) => ({slug: building.slug}));
-}
 
 export async function generateMetadata({
   params,
