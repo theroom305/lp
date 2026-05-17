@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "pnpm verify:claims && next build",
+    "build": "pnpm verify:claims && pnpm verify:claims:db && next build",
     "start": "next start",
     "lint": "eslint",
     "verify:claims": "node scripts/verify-public-claims.mjs",
+    "verify:claims:db": "node scripts/verify-disallowed-claims-db.mjs",
+    "claims:sync-db": "node scripts/sync-disallowed-claims-db.mjs",
     "db:push": "drizzle-kit push",
     "db:introspect": "drizzle-kit introspect"
   },

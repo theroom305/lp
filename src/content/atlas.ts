@@ -44,11 +44,14 @@ export type DossierSectionId =
   | "sources"
   | "memo-split";
 
-export type MemoRequestType =
-  | "rules"
-  | "operator"
-  | "investment_fit"
-  | "owner_takeover";
+export const memoRequestTypes = [
+  "rules",
+  "operator",
+  "investment_fit",
+  "owner_takeover",
+] as const;
+
+export type MemoRequestType = (typeof memoRequestTypes)[number];
 
 export type DossierSection = Readonly<{
   id: DossierSectionId;

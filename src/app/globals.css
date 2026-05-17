@@ -360,6 +360,12 @@ p {
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 }
 
+.atlas-subsection {
+  display: grid;
+  gap: 18px;
+  margin-top: clamp(28px, 5vw, 56px);
+}
+
 .atlas-card,
 .memo-card {
   background: var(--card);
@@ -368,6 +374,10 @@ p {
   display: grid;
   gap: 12px;
   padding: 20px;
+}
+
+.atlas-card-static {
+  background: color-mix(in srgb, var(--card) 82%, transparent);
 }
 
 .atlas-card-meta,
@@ -379,9 +389,16 @@ p {
   text-transform: uppercase;
 }
 
-.atlas-card h2 {
+.atlas-card h2,
+.atlas-card h3,
+.atlas-subsection h2 {
   font-size: clamp(1.5rem, 3vw, 2.2rem);
   line-height: 1;
+}
+
+.atlas-card h3,
+.atlas-subsection h2 {
+  margin: 0;
 }
 
 .atlas-card p,

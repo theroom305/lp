@@ -213,7 +213,6 @@ export function buildingJsonLd(building: BuildingRecord) {
 export function itemListJsonLd(
   name: string,
   buildings: readonly BuildingRecord[],
-  routeKey: RouteKey = "building",
 ) {
   return {
     "@context": "https://schema.org",
@@ -224,7 +223,7 @@ export function itemListJsonLd(
       position: index + 1,
       url: absoluteUrl(
         localizedPath({
-          key: routeKey === "building" ? "building" : routeKey,
+          key: "building",
           locale: "en",
           slug: building.slug,
         }),

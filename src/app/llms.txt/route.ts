@@ -7,7 +7,11 @@ import {absoluteUrl, localizedPath} from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-function buildingLine(slug: string, name: string, verificationState: string): string {
+function citableBuildingLine(
+  slug: string,
+  name: string,
+  verificationState: string,
+): string {
   return `- ${name}: ${absoluteUrl(localizedPath({key: "building", locale: "en", slug}))} (${verificationState})`;
 }
 
@@ -20,9 +24,9 @@ export function GET(): Response {
     "Room 305 is a pre-launch operating surface for South Florida building intelligence and owner/buyer routing.",
     "",
     "Public-claim discipline:",
-    "- Brokerage-claim copy is withheld until legal verification clears.",
+    "- Broker-authority copy is withheld until legal verification clears.",
     "- Building facts are citable only when the source state is public-visible and not expired.",
-    "- Verification-pending buildings may exist as route scaffolds, but should not be treated as cited public claims.",
+    "- Verification-pending building URLs are withheld from this file until source review clears.",
     "",
     "Primary routes:",
     `- Home: ${absoluteUrl(localizedPath({key: "home", locale: "en"}))}`,
@@ -35,7 +39,7 @@ export function GET(): Response {
     "Citable building entries:",
     ...(indexable.length > 0
       ? indexable.map((building) =>
-          buildingLine(
+          citableBuildingLine(
             building.slug,
             building.name,
             building.verificationState,
@@ -44,9 +48,7 @@ export function GET(): Response {
       : ["- None yet."]),
     "",
     "Verification-pending building universe:",
-    ...pending.map((building) =>
-      buildingLine(building.slug, building.name, building.verificationState),
-    ),
+    `- ${pending.length} entries withheld from citable URLs until source review clears.`,
     "",
     `Current atlas count: ${getPublicAtlasBuildings().length}`,
   ];

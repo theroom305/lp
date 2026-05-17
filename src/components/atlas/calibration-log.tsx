@@ -1,6 +1,6 @@
-import {neon} from "@neondatabase/serverless";
 import {getTranslations} from "next-intl/server";
 
+import {getSql} from "@/server/db/client";
 import {env} from "@/server/env";
 
 type CalibrationLogProps = Readonly<
@@ -49,7 +49,7 @@ async function getCalibrationEntries(
     return [];
   }
 
-  const sql = neon(env.DATABASE_URL);
+  const sql = getSql();
 
   if (buildingSlug) {
     const rows = (await sql`

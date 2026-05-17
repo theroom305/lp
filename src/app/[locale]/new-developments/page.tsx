@@ -29,13 +29,17 @@ export default function NewDevelopmentsPage() {
   const t = useTranslations("newDevelopments");
   const locale = useLocale() as Locale;
   const buildings = getNewDevelopmentBuildings();
+  const citableBuildings = buildings.filter(isBuildingIndexable);
+  const pendingBuildings = buildings.filter(
+    (building) => !isBuildingIndexable(building),
+  );
 
   return (
     <PageShell>
       <JsonLd
         data={itemListJsonLd(
           "Room 305 new developments",
-          buildings.filter(isBuildingIndexable),
+          citableBuildings,
         )}
       />
       <main
@@ -47,7 +51,7 @@ export default function NewDevelopmentsPage() {
         <p>{t("body")}</p>
 
         <div className="atlas-grid" data-test-id="new-developments-index">
-          {buildings.map((building) => (
+          {citableBuildings.map((building) => (
             <Link
               className="atlas-card"
               href={localizedPath({
@@ -64,6 +68,30 @@ export default function NewDevelopmentsPage() {
             </Link>
           ))}
         </div>
+
+        <section
+          className="atlas-subsection"
+          aria-labelledby="verifying-new-developments-heading"
+        >
+          <p className="eyebrow">Verification queue</p>
+          <h2 id="verifying-new-developments-heading">Source review in progress</h2>
+          <div
+            className="atlas-grid"
+            data-test-id="new-developments-verifying-index"
+          >
+            {pendingBuildings.map((building) => (
+              <div
+                className="atlas-card atlas-card-static"
+                key={building.slug}
+                data-test-id={`new-development-card-verifying-${building.slug}`}
+              >
+                <span className="atlas-card-meta">{building.city}</span>
+                <h3>{building.name}</h3>
+                <p>{building.stage.replaceAll("_", " ")}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
     </PageShell>
   );

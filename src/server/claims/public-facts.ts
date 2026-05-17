@@ -1,7 +1,6 @@
-import {neon} from "@neondatabase/serverless";
-
 import type {Locale} from "@/i18n/routing";
 import type {PublicFact, SourceTrustTier} from "@/content/atlas";
+import {getSql} from "@/server/db/client";
 import {env} from "@/server/env";
 
 type SourceRegistryRow = Readonly<{
@@ -27,7 +26,7 @@ export async function getPublicFactsForBuilding(
     return [];
   }
 
-  const sql = neon(env.DATABASE_URL);
+  const sql = getSql();
   const rows = (await sql`
     select
       id,

@@ -1,7 +1,7 @@
-import {neon} from "@neondatabase/serverless";
 import {createHash} from "crypto";
 import type {NextRequest} from "next/server";
 
+import {getSql} from "@/server/db/client";
 import {env} from "@/server/env";
 import {logger} from "@/server/logger";
 
@@ -35,12 +35,9 @@ const memoryBuckets = new Map<string, MemoryBucket>();
 function getClientFingerprint(request: NextRequest, scope: string): string {
   const forwardedFor = request.headers.get("x-forwarded-for") ?? "";
   const realIp = request.headers.get("x-real-ip") ?? "";
-  const userAgent = request.headers.get("user-agent") ?? "";
   const ip = forwardedFor.split(",")[0]?.trim() || realIp || "unknown";
 
-  return createHash("sha256")
-    .update(`${scope}:${ip}:${userAgent}`)
-    .digest("hex");
+  return createHash("sha256").update(`${scope}:${ip}`).digest("hex");
 }
 
 function getWindowStart(nowMs: number, windowMs: number): Date {
@@ -82,6 +79,27 @@ function checkMemoryLimit(
   };
 }
 
+const lastCleanupByScope = new Map<string, number>();
+
+async function cleanupExpiredBuckets(
+  sql: ReturnType<typeof getSql>,
+  config: RateLimitConfig,
+  nowMs: number,
+): Promise<void> {
+  const lastCleanupAt = lastCleanupByScope.get(config.scope) ?? 0;
+
+  if (nowMs - lastCleanupAt < 3_600_000) {
+    return;
+  }
+
+  lastCleanupByScope.set(config.scope, nowMs);
+  await sql`
+    delete from rate_limit_events
+    where scope = ${config.scope}
+      and window_start < ${new Date(nowMs - 86_400_000).toISOString()}::timestamptz
+  `;
+}
+
 export async function checkRateLimit(
   request: NextRequest,
   config: RateLimitConfig,
@@ -96,7 +114,7 @@ export async function checkRateLimit(
   }
 
   try {
-    const sql = neon(env.DATABASE_URL);
+    const sql = getSql();
     const [row] = await sql`
       insert into rate_limit_events (
         scope,
@@ -118,6 +136,17 @@ export async function checkRateLimit(
     `;
     const count = Number(row?.count ?? config.limit + 1);
 
+    try {
+      await cleanupExpiredBuckets(sql, config, nowMs);
+    } catch (cleanupError) {
+      logger.error({
+        event: "rate_limit.cleanup_failed",
+        scope: config.scope,
+        reason:
+          cleanupError instanceof Error ? cleanupError.message : "unknown",
+      });
+    }
+
     if (count > config.limit) {
       return {
         allowed: false,
@@ -134,17 +163,12 @@ export async function checkRateLimit(
     };
   } catch (error) {
     logger.error({
-      event: "rate_limit.failed",
+      event: "rate_limit.fallback",
       scope: config.scope,
       reason: error instanceof Error ? error.message : "unknown",
     });
 
-    return {
-      allowed: false,
-      remaining: 0,
-      resetAt,
-      reason: "limiter_unavailable",
-    };
+    return checkMemoryLimit(identityHash, config, nowMs);
   }
 }
 

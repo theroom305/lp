@@ -1,6 +1,6 @@
-import {neon} from "@neondatabase/serverless";
 import {createHash} from "crypto";
 
+import {getSql} from "@/server/db/client";
 import {env} from "@/server/env";
 import type {LeadRequest, LeadScore} from "@/server/lead/schema";
 
@@ -33,7 +33,7 @@ export async function persistLeadSubmission(
     throw new Error("DATABASE_URL is required when LEAD_STORAGE_MODE=postgres");
   }
 
-  const sql = neon(env.DATABASE_URL);
+  const sql = getSql();
   const rows = await sql`
     insert into lead_submissions (
       id,

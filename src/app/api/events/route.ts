@@ -1,22 +1,15 @@
 import {NextRequest} from "next/server";
 import {z, ZodError} from "zod";
 
-import {events, tasks} from "../../../../db/schema";
-import {enqueueApproval, logAgentAction} from "@/server/agent-infra/enforcement";
-import {getDb} from "@/server/db/client";
+import {getSql} from "@/server/db/client";
 import {JsonBodyError, readJsonBody} from "@/server/http/request-body";
 import {logger} from "@/server/logger";
 import {checkRateLimit, rateLimitHeaders} from "@/server/rate-limit/check";
-import {memoAdvisorMap} from "@/content/atlas";
+import {memoAdvisorMap, memoRequestTypes} from "@/content/atlas";
 
 export const runtime = "nodejs";
 
-const memoRequestTypeSchema = z.enum([
-  "rules",
-  "operator",
-  "investment_fit",
-  "owner_takeover",
-]);
+const memoRequestTypeSchema = z.enum(memoRequestTypes);
 
 const eventRequestSchema = z.discriminatedUnion("eventType", [
   z
@@ -53,6 +46,142 @@ type EventResponse = Readonly<{
   status: "accepted";
   taskCreated: boolean;
 }>;
+
+type EventPayload = z.infer<typeof eventRequestSchema>;
+
+type EventWriteInput = Readonly<{
+  payload: EventPayload;
+  eventData: Record<string, unknown>;
+  referrer: string | null;
+  userAgent: string | null;
+}>;
+
+async function writeMemoRequestEvent(input: EventWriteInput): Promise<void> {
+  const sql = getSql();
+  const outputExcerpt = `accepted:${input.payload.eventType}`;
+
+  await sql`
+    with inserted_event as (
+      insert into events (
+        event_type,
+        event_data,
+        building_slug,
+        url,
+        referrer,
+        user_agent
+      )
+      values (
+        ${input.payload.eventType},
+        ${JSON.stringify(input.eventData)}::jsonb,
+        ${input.payload.buildingSlug},
+        ${input.referrer},
+        ${input.referrer},
+        ${input.userAgent}
+      )
+      returning id
+    )
+    insert into agent_action_log (
+      agent,
+      action,
+      sensitivity_class,
+      related_building_slug,
+      output_excerpt_redacted
+    )
+    select
+      'room305-api',
+      ${input.payload.eventType},
+      ${"internal"}::sensitivity_class,
+      ${input.payload.buildingSlug},
+      ${outputExcerpt}
+    from inserted_event
+  `;
+}
+
+async function writeOwnerTakeoverEvent(input: EventWriteInput): Promise<void> {
+  const sql = getSql();
+  const outputExcerpt = `accepted:${input.payload.eventType}`;
+
+  await sql`
+    with inserted_event as (
+      insert into events (
+        event_type,
+        event_data,
+        building_slug,
+        url,
+        referrer,
+        user_agent
+      )
+      values (
+        ${input.payload.eventType},
+        ${JSON.stringify(input.eventData)}::jsonb,
+        ${input.payload.buildingSlug},
+        ${input.referrer},
+        ${input.referrer},
+        ${input.userAgent}
+      )
+      returning id
+    ),
+    inserted_approval as (
+      insert into approval_queue (
+        action_type,
+        risk_class,
+        sensitivity_class,
+        payload_ref,
+        payload_summary,
+        related_building_slug,
+        evidence,
+        proposer_agent,
+        requires_two_eyes
+      )
+      select
+        'owner_takeover_followup',
+        ${"medium"}::risk_class,
+        ${"confidential"}::sensitivity_class,
+        'events:' || inserted_event.id::text,
+        ${`Owner takeover intake for ${input.payload.buildingSlug}`},
+        ${input.payload.buildingSlug},
+        jsonb_build_object(
+          'event_id',
+          inserted_event.id,
+          'referrer',
+          ${input.referrer}::text
+        ),
+        'room305-api',
+        false
+      from inserted_event
+      returning id
+    ),
+    inserted_task as (
+      insert into tasks (
+        title,
+        body,
+        priority
+      )
+      values (
+        ${`HIGH: Owner takeover intake for ${input.payload.buildingSlug}`},
+        ${JSON.stringify(input.eventData)},
+        ${"high"}::task_priority
+      )
+      returning id
+    )
+    insert into agent_action_log (
+      agent,
+      action,
+      sensitivity_class,
+      approval_queue_id,
+      related_building_slug,
+      output_excerpt_redacted
+    )
+    select
+      'room305-api',
+      ${input.payload.eventType},
+      ${"confidential"}::sensitivity_class,
+      inserted_approval.id,
+      ${input.payload.buildingSlug},
+      ${outputExcerpt}
+    from inserted_approval
+  `;
+}
 
 function errorResponse(
   code: string,
@@ -107,10 +236,9 @@ export async function POST(request: NextRequest): Promise<Response> {
       );
     }
 
-    const db = getDb();
-    const referrer = request.headers.get("referer") ?? undefined;
-    const userAgent = request.headers.get("user-agent") ?? undefined;
-    const eventData =
+    const referrer = request.headers.get("referer");
+    const userAgent = request.headers.get("user-agent");
+    const eventData: Record<string, unknown> =
       payload.eventType === "memo_request"
         ? {
             memo_request_type: payload.eventData.memo_request_type,
@@ -119,53 +247,23 @@ export async function POST(request: NextRequest): Promise<Response> {
           }
         : payload.eventData;
 
-    const [eventRow] = await db.insert(events).values({
-      eventType: payload.eventType,
-      eventData,
-      buildingSlug: payload.buildingSlug,
-      url: referrer,
-      referrer,
-      userAgent,
-    }).returning({id: events.id});
-
-    let taskCreated = false;
-    let approvalQueueId: string | undefined;
-
     if (payload.eventType === "owner_takeover_intake") {
-      approvalQueueId = await enqueueApproval({
-        actionType: "owner_takeover_followup",
-        riskClass: "medium",
-        sensitivityClass: "confidential",
-        payloadRef: `events:${eventRow.id}`,
-        payloadSummary: `Owner takeover intake for ${payload.buildingSlug}`,
-        relatedBuildingSlug: payload.buildingSlug,
-        proposerAgent: "room305-api",
-        requiresTwoEyes: false,
-        evidence: {
-          event_id: eventRow.id,
-          referrer,
-        },
+      await writeOwnerTakeoverEvent({
+        payload,
+        eventData,
+        referrer,
+        userAgent,
       });
-
-      await db.insert(tasks).values({
-        title: `HIGH: Owner takeover intake for ${payload.buildingSlug}`,
-        body: JSON.stringify(eventData),
-        priority: "high",
+    } else {
+      await writeMemoRequestEvent({
+        payload,
+        eventData,
+        referrer,
+        userAgent,
       });
-      taskCreated = true;
     }
 
-    await logAgentAction({
-      agent: "room305-api",
-      action: payload.eventType,
-      sensitivityClass:
-        payload.eventType === "owner_takeover_intake"
-          ? "confidential"
-          : "internal",
-      approvalQueueId,
-      relatedBuildingSlug: payload.buildingSlug,
-      outputExcerptRedacted: `accepted:${payload.eventType}`,
-    });
+    const taskCreated = payload.eventType === "owner_takeover_intake";
 
     logger.info({
       event: "event.accepted",

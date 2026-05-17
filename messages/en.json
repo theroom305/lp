@@ -24,7 +24,7 @@
     "country": "Where you live now",
     "trigger": "What is the trigger",
     "openQuestion": "What would you ask the founder",
-    "placeholder": "e.g. Is Seven Park actually short-term-rental approved?",
+    "placeholder": "e.g. What is the verified rental-use path at Seven Park?",
     "submit": "Route this lead",
     "submitting": "Routing",
     "error": "The lead could not be routed.",
