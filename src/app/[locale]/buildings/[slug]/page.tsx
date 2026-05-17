@@ -2,42 +2,77 @@ import type {Metadata} from "next";
 import {notFound} from "next/navigation";
 
 import {BuildingDossier} from "@/components/atlas/building-dossier";
-import {getDossierForBuilding} from "@/content/atlas";
+import {JsonLd} from "@/components/seo/json-ld";
+import {getDossierForBuilding, isBuildingIndexable} from "@/content/atlas";
+import type {Locale} from "@/i18n/routing";
+import {
+  breadcrumbJsonLd,
+  buildingJsonLd,
+  localizedPath,
+  pageMetadata,
+} from "@/lib/seo";
+import {getPublicFactsForBuilding} from "@/server/claims/public-facts";
 import {PageShell} from "@/components/site/page-shell";
 
 export const dynamic = "force-dynamic";
 
 type BuildingPageProps = Readonly<{
-  params: Promise<{slug: string}>;
+  params: Promise<{locale: Locale; slug: string}>;
 }>;
 
 export async function generateMetadata({
   params,
 }: BuildingPageProps): Promise<Metadata> {
-  const {slug} = await params;
+  const {locale, slug} = await params;
   const dossier = getDossierForBuilding(slug);
 
   if (!dossier) {
     return {};
   }
 
-  return {
+  return pageMetadata({
     title: dossier.building.name,
     description: `Room 305 dossier scaffold for ${dossier.building.name}.`,
-  };
+    key: "building",
+    locale,
+    slug,
+    indexable: isBuildingIndexable(dossier.building),
+  });
 }
 
 export default async function BuildingPage({params}: BuildingPageProps) {
-  const {slug} = await params;
+  const {locale, slug} = await params;
   const dossier = getDossierForBuilding(slug);
 
   if (!dossier) {
     notFound();
   }
 
+  const publicFacts = await getPublicFactsForBuilding(slug, locale);
+  const dossierWithFacts = {
+    ...dossier,
+    sections: dossier.sections.map((section) =>
+      section.id === "sources" ? {...section, facts: publicFacts} : section,
+    ),
+  };
+
   return (
     <PageShell>
-      <BuildingDossier dossier={dossier} />
+      <JsonLd data={buildingJsonLd(dossier.building)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          {name: "Room 305", path: localizedPath({key: "home", locale})},
+          {
+            name: "Buildings",
+            path: localizedPath({key: "buildings", locale}),
+          },
+          {
+            name: dossier.building.name,
+            path: localizedPath({key: "building", locale, slug}),
+          },
+        ])}
+      />
+      <BuildingDossier dossier={dossierWithFacts} />
     </PageShell>
   );
 }

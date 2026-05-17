@@ -7,6 +7,7 @@ import {
   OwnerTakeoverIntakeForm,
 } from "@/components/atlas/owner-takeover";
 import {SourceDrawer, SourceStamp} from "@/components/atlas/source-provenance";
+import {filterRenderablePublicFacts} from "@/server/claims/policy";
 
 type BuildingDossierProps = Readonly<{
   dossier: BuildingDossierData;
@@ -52,7 +53,7 @@ export function BuildingDossier({dossier}: BuildingDossierProps) {
               data-test-id={`dossier-section-${section.id}`}
             >
               <div className="section-heading">
-                <p className="eyebrow">{section.label}</p>
+                <p className="eyebrow">{section.eyebrow}</p>
                 <h2>{section.label}</h2>
                 <p>{section.placeholder}</p>
               </div>
@@ -72,7 +73,9 @@ export function BuildingDossier({dossier}: BuildingDossierProps) {
               ) : null}
 
               {section.id === "sources" ? (
-                <SourceDrawer facts={section.facts} />
+                <SourceDrawer
+                  facts={filterRenderablePublicFacts(section.facts, "public_ui")}
+                />
               ) : null}
 
               {section.id === "memo-split" ? (

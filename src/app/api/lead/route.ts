@@ -10,6 +10,8 @@ import {
   type LeadApiError,
   type LeadApiResponse,
 } from "@/server/lead/schema";
+import {JsonBodyError, readJsonBody} from "@/server/http/request-body";
+import {checkRateLimit, rateLimitHeaders} from "@/server/rate-limit/check";
 
 export const runtime = "nodejs";
 
@@ -36,7 +38,32 @@ function errorResponse(
 
 export async function POST(request: NextRequest): Promise<Response> {
   try {
-    const payload = leadRequestSchema.parse(await request.json());
+    const rateLimit = await checkRateLimit(request, {
+      scope: "api:lead",
+      limit: 8,
+      windowSeconds: 60,
+    });
+
+    if (!rateLimit.allowed) {
+      return jsonResponse(
+        {
+          error: {
+            code: rateLimit.reason,
+            message:
+              rateLimit.reason === "rate_limited"
+                ? "Too many lead submissions. Try again shortly."
+                : "Rate limiter unavailable.",
+            details: {},
+          },
+        },
+        {
+          status: rateLimit.reason === "rate_limited" ? 429 : 503,
+          headers: rateLimitHeaders(rateLimit, 8),
+        },
+      );
+    }
+
+    const payload = leadRequestSchema.parse(await readJsonBody(request, 12_000));
     const scored = scoreLead(payload);
     const result = await persistLeadSubmission(payload, scored);
 
@@ -70,6 +97,10 @@ export async function POST(request: NextRequest): Promise<Response> {
 
     return jsonResponse(response, {status: result.duplicate ? 200 : 201});
   } catch (error) {
+    if (error instanceof JsonBodyError) {
+      return errorResponse(error.code, error.message, error.status);
+    }
+
     if (error instanceof ZodError) {
       return errorResponse("validation_failed", "Invalid lead payload.", 400, {
         issues: error.issues,

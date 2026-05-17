@@ -62,6 +62,10 @@
     "title": "Projected vs. actual",
     "body": "Public calibration entries stay empty until approved evidence is logged."
   },
+  "calibrationLog": {
+    "emptySummary": "No published entries yet",
+    "emptyBody": "Projected-vs-actual records publish only after the source packet is reviewed. Misses stay in the log when they are approved for public release."
+  },
   "owners": {
     "eyebrow": "Owner route",
     "title": "Owner acquisition is downstream of proof.",

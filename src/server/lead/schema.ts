@@ -20,39 +20,47 @@ export const leadStageSchema = z.enum([
 
 export const leadRequestSchema = z.object({
   idempotencyKey: z.string().min(16).max(120),
-  profile: z.object({
-    country: z.string().length(2).transform((value) => value.toUpperCase()),
-    trigger: leadTriggerSchema,
-    openQuestion: z.string().trim().max(500).optional(),
-  }),
+  profile: z
+    .object({
+      country: z.string().length(2).transform((value) => value.toUpperCase()),
+      trigger: leadTriggerSchema,
+      openQuestion: z.string().trim().max(500).optional(),
+    })
+    .strict(),
   contact: z
     .object({
       email: z.string().email().optional(),
       name: z.string().trim().max(120).optional(),
       phone: z.string().trim().max(40).optional(),
     })
+    .strict()
     .optional(),
-  context: z.object({
-    locale: z.enum(["en", "es"]),
-    sourceUrl: z.string().url().optional(),
-    referrer: z.string().url().optional(),
-    sessionId: z.string().min(8).max(120).optional(),
-    buildingSlug: z.string().max(80).optional(),
-    unitSlug: z.string().max(80).optional(),
-    utm: z
-      .object({
-        source: z.string().max(120).optional(),
-        medium: z.string().max(120).optional(),
-        campaign: z.string().max(120).optional(),
-        content: z.string().max(120).optional(),
-        term: z.string().max(120).optional(),
-      })
-      .optional(),
-  }),
-  consent: z.object({
-    marketing: z.boolean().default(false),
-  }),
-});
+  context: z
+    .object({
+      locale: z.enum(["en", "es"]),
+      sourceUrl: z.string().url().optional(),
+      referrer: z.string().url().optional(),
+      sessionId: z.string().min(8).max(120).optional(),
+      buildingSlug: z.string().max(80).optional(),
+      unitSlug: z.string().max(80).optional(),
+      utm: z
+        .object({
+          source: z.string().max(120).optional(),
+          medium: z.string().max(120).optional(),
+          campaign: z.string().max(120).optional(),
+          content: z.string().max(120).optional(),
+          term: z.string().max(120).optional(),
+        })
+        .strict()
+        .optional(),
+    })
+    .strict(),
+  consent: z
+    .object({
+      marketing: z.boolean().default(false),
+    })
+    .strict(),
+}).strict();
 
 export type LeadRequest = z.infer<typeof leadRequestSchema>;
 export type LeadTrigger = z.infer<typeof leadTriggerSchema>;

@@ -20,6 +20,7 @@ export type PublicFact = Readonly<{
   text: string;
   sourceId: string;
   scope: SourceScope;
+  claimVisibility: "public" | "private_note_only" | "internal_only" | "restricted";
   trustTier: SourceTrustTier;
   expiresAt: string | null;
   confidence: "verified" | "secondary" | "operator_observed" | "verifying";
@@ -52,6 +53,7 @@ export type MemoRequestType =
 export type DossierSection = Readonly<{
   id: DossierSectionId;
   label: string;
+  eyebrow: string;
   facts: readonly PublicFact[];
   placeholder: string;
 }>;
@@ -182,6 +184,18 @@ const sectionLabels: Record<DossierSectionId, string> = {
   "memo-split": "Memo Split CTA",
 };
 
+const sectionEyebrows: Record<DossierSectionId, string> = {
+  answer: "Section 01",
+  fit: "Section 02",
+  rules: "Source posture",
+  "what-could-go-wrong": "Pratfall check",
+  "operator-notes": "Operating judgment",
+  "ownership-path": "Owner path",
+  compare: "Market context",
+  sources: "Provenance",
+  "memo-split": "Advisor memo",
+};
+
 const placeholders: Record<DossierSectionId, string> = {
   answer: "Direct building answer placeholder. CC drafts in Step 3.5.",
   fit: "Buyer-fit and avoid-if placeholder. CC drafts in Step 3.5.",
@@ -210,10 +224,29 @@ export function getDossierForBuilding(slug: string): BuildingDossierData | undef
     sections: dossierSectionOrder.map((id) => ({
       id,
       label: sectionLabels[id],
+      eyebrow: sectionEyebrows[id],
       facts: [],
       placeholder: placeholders[id],
     })),
   };
+}
+
+export function isBuildingIndexable(building: BuildingRecord): boolean {
+  return building.verificationState !== "verifying";
+}
+
+export function getPublicAtlasBuildings(): readonly BuildingRecord[] {
+  return v1Buildings.filter((building) => building.publicPageV1);
+}
+
+export function getIndexableBuildings(): readonly BuildingRecord[] {
+  return getPublicAtlasBuildings().filter(isBuildingIndexable);
+}
+
+export function getPendingVerificationBuildings(): readonly BuildingRecord[] {
+  return getPublicAtlasBuildings().filter(
+    (building) => !isBuildingIndexable(building),
+  );
 }
 
 export function getNewDevelopmentBuildings(): readonly BuildingRecord[] {

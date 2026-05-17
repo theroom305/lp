@@ -37,7 +37,6 @@ export function MemoSplitCTA({buildingSlug, stage}: MemoSplitCTAProps) {
         buildingSlug,
         eventData: {
           memo_request_type: memoRequestType,
-          advisor: memoAdvisorMap[memoRequestType].advisor,
         },
       }),
     });

@@ -259,10 +259,14 @@ p {
 
 .building-card-body {
   align-items: start;
-  display: flex;
+  display: grid;
   gap: 12px;
-  justify-content: space-between;
+  grid-template-columns: minmax(0, 1fr) auto;
   padding: 18px;
+}
+
+.building-card-copy {
+  min-width: 0;
 }
 
 .building-card-body p {
@@ -270,7 +274,7 @@ p {
   margin: 8px 0 0;
 }
 
-.building-card-body span {
+.building-card-badge {
   border: 1px solid var(--border);
   border-radius: 999px;
   color: var(--muted-foreground);
@@ -366,9 +370,9 @@ p {
   padding: 20px;
 }
 
-.atlas-card span,
-.source-stamp span,
-.source-drawer li span {
+.atlas-card-meta,
+.source-stamp-label,
+.source-drawer-tier {
   color: var(--accent);
   font-size: 0.76rem;
   font-weight: 750;
@@ -447,7 +451,9 @@ p {
   border: 1px solid var(--border);
   border-radius: 999px;
   display: inline-flex;
+  flex-wrap: wrap;
   gap: 10px;
+  max-width: 100%;
   padding: 8px 12px;
   width: fit-content;
 }

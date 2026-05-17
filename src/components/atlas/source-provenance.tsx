@@ -5,11 +5,19 @@ type SourceStampProps = Readonly<{
   detail?: string;
 }>;
 
+function humanizeLabel(value: string): string {
+  return value
+    .split(/[_\s-]+/)
+    .filter(Boolean)
+    .map((part) => `${part.slice(0, 1).toUpperCase()}${part.slice(1)}`)
+    .join(" ");
+}
+
 export function SourceStamp({label, detail}: SourceStampProps) {
   return (
     <span className="source-stamp" data-test-id="source-stamp">
-      <span>{label}</span>
-      {detail ? <small>{detail}</small> : null}
+      <span className="source-stamp-label">{humanizeLabel(label)}</span>
+      {detail ? <small>{humanizeLabel(detail)}</small> : null}
     </span>
   );
 }
@@ -26,7 +34,7 @@ export function SourceDrawer({facts}: SourceDrawerProps) {
         <ul>
           {facts.map((fact) => (
             <li key={fact.id}>
-              <span>{fact.trustTier}</span>
+              <span className="source-drawer-tier">{fact.trustTier}</span>
               <p>{fact.text}</p>
               <small>{fact.confidence}</small>
             </li>

@@ -1,4 +1,5 @@
 import {neon} from "@neondatabase/serverless";
+import {getTranslations} from "next-intl/server";
 
 import {env} from "@/server/env";
 
@@ -81,6 +82,7 @@ function formatDelta(value: string | null): string {
 }
 
 export async function CalibrationLog(props: CalibrationLogProps) {
+  const t = await getTranslations("calibrationLog");
   const entries = await getCalibrationEntries(
     props.variant === "inline" ? props.buildingSlug : undefined,
   );
@@ -92,7 +94,7 @@ export async function CalibrationLog(props: CalibrationLogProps) {
   const rollingAccuracy =
     deltas.length > 0
       ? `${(deltas.reduce((sum, delta) => sum + delta, 0) / deltas.length).toFixed(1)}% mean absolute miss`
-      : "No public entries yet";
+      : t("emptySummary");
 
   return (
     <section
@@ -135,9 +137,7 @@ export async function CalibrationLog(props: CalibrationLogProps) {
             </div>
           ))
         ) : (
-          <p className="empty-state">
-            Empty until CC and Isaac approve public calibration entries.
-          </p>
+          <p className="empty-state">{t("emptyBody")}</p>
         )}
       </div>
     </section>

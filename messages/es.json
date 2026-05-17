@@ -62,6 +62,10 @@
     "title": "Proyectado vs. real",
     "body": "Las entradas públicas de calibración quedan vacías hasta registrar evidencia aprobada."
   },
+  "calibrationLog": {
+    "emptySummary": "Aún no hay entradas publicadas",
+    "emptyBody": "Los registros de proyección contra resultado se publican solo después de revisar el paquete de fuentes. Los errores permanecen en el registro cuando se aprueban para publicación."
+  },
   "owners": {
     "eyebrow": "Ruta propietario",
     "title": "La adquisición de propietarios viene después de la prueba.",

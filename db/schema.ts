@@ -2,6 +2,7 @@ import {sql} from "drizzle-orm";
 import {
   bigint,
   boolean,
+  check,
   index,
   integer,
   jsonb,
@@ -357,6 +358,7 @@ export const events = pgTable(
     ...timestamps,
   },
   (table) => [
+    check("events_event_data_size_chk", sql`pg_column_size(${table.eventData}) <= 4096`),
     index("events_session_created_idx").on(table.sessionId, table.createdAt),
     index("events_person_created_idx").on(table.personId, table.createdAt),
     index("events_event_type_created_idx").on(table.eventType, table.createdAt),
@@ -671,7 +673,7 @@ export const approvalQueue = pgTable(
     sensitivityClass: sensitivityClassEnum("sensitivity_class")
       .notNull()
       .default("internal"),
-    payloadRef: text("payload_ref"),
+    payloadRef: text("payload_ref").notNull(),
     payloadSummary: text("payload_summary"),
     targetPersonId: uuid("target_person_id").references(() => persons.id, {
       onDelete: "set null",
@@ -705,10 +707,36 @@ export const approvalQueue = pgTable(
     ...timestamps,
   },
   (table) => [
-    index("approval_queue_pending_idx").on(table.proposedAt),
+    check(
+      "approval_queue_payload_ref_not_blank",
+      sql`length(trim(${table.payloadRef})) > 0`,
+    ),
+    index("approval_queue_pending_idx")
+      .on(table.proposedAt)
+      .where(sql`${table.executedAt} is null and ${table.rejectedAt} is null`),
     index("approval_queue_risk_class_idx").on(table.riskClass),
     index("approval_queue_sensitivity_idx").on(table.sensitivityClass),
     index("approval_queue_target_person_idx").on(table.targetPersonId),
+  ],
+);
+
+export const rateLimitEvents = pgTable(
+  "rate_limit_events",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    scope: text("scope").notNull(),
+    identityHash: text("identity_hash").notNull(),
+    windowStart: timestamp("window_start", {withTimezone: true}).notNull(),
+    count: integer("count").notNull().default(1),
+    ...timestamps,
+  },
+  (table) => [
+    uniqueIndex("rate_limit_events_scope_identity_window_unique").on(
+      table.scope,
+      table.identityHash,
+      table.windowStart,
+    ),
+    index("rate_limit_events_window_idx").on(table.windowStart),
   ],
 );
 

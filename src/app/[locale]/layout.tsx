@@ -21,6 +21,7 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://theroom305.com"),
   title: {
     default: "Room 305",
     template: "%s | Room 305",

@@ -8,7 +8,7 @@ const envSchema = z.object({
     .url()
     .default("https://calendar.app.google/dJn7nyv4bsVxXwTB7"),
   RESEND_API_KEY: z.string().min(1).optional(),
-  AUTH_SECRET: z.string().min(32).optional(),
+  AUTH_SECRET: z.string().min(32),
   LEAD_NOTIFICATION_WEBHOOK_URL: z.string().url().optional(),
   SENTRY_DSN: z.string().url().optional(),
   LOG_LEVEL: z.enum(["trace", "debug", "info", "warn", "error"]).default("info"),
