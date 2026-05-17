@@ -11,6 +11,12 @@ export function PageShell({children}: PageShellProps) {
   const altLocale = locale === "es" ? "en" : "es";
   const localePrefix = `/${locale}`;
   const altHref = `/${altLocale}`;
+  const buildingsHref = locale === "es" ? `${localePrefix}/edificios` : `${localePrefix}/buildings`;
+  const newDevelopmentsHref =
+    locale === "es"
+      ? `${localePrefix}/desarrollos-nuevos`
+      : `${localePrefix}/new-developments`;
+  const notesHref = locale === "es" ? `${localePrefix}/notas` : `${localePrefix}/notes`;
 
   return (
     <div className="site-shell">
@@ -19,10 +25,11 @@ export function PageShell({children}: PageShellProps) {
           Room 305
         </Link>
         <nav aria-label={t("label")}>
-          <Link href={`${localePrefix}/buyers`}>{t("buyers")}</Link>
+          <Link href={buildingsHref}>{t("buildings")}</Link>
+          <Link href={newDevelopmentsHref}>{t("newDevelopments")}</Link>
           <Link href={`${localePrefix}/owners`}>{t("owners")}</Link>
+          <Link href={notesHref}>{t("notes")}</Link>
           <Link href={`${localePrefix}/about`}>{t("about")}</Link>
-          <Link href={`${localePrefix}/contact`}>{t("contact")}</Link>
         </nav>
         <Link
           href={altHref}

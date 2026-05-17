@@ -1,8 +1,10 @@
 {
   "nav": {
     "label": "Primary navigation",
-    "buyers": "Buyers",
+    "buildings": "Buildings",
+    "newDevelopments": "New Developments",
     "owners": "Owners",
+    "notes": "Notes",
     "about": "Method",
     "contact": "Contact"
   },
@@ -39,6 +41,26 @@
     "eyebrow": "Buyer route",
     "title": "Buyer qualification starts with restraint.",
     "body": "This route will host the curated marketplace journey, A/B/C routing, and calendar handoff."
+  },
+  "buildings": {
+    "eyebrow": "Building atlas",
+    "title": "Building dossiers",
+    "body": "Scaffold pages for the first public building set. Claims remain placeholders until source packets clear."
+  },
+  "newDevelopments": {
+    "eyebrow": "New development route",
+    "title": "Under-construction buildings",
+    "body": "A focused index for projects that need buyer-fit and rules verification before any claim is published."
+  },
+  "notes": {
+    "eyebrow": "Notes",
+    "title": "Operator notes",
+    "body": "Placeholder route for future founder notes and source-backed market observations."
+  },
+  "calibration": {
+    "eyebrow": "Calibration",
+    "title": "Projected vs. actual",
+    "body": "Public calibration entries stay empty until approved evidence is logged."
   },
   "owners": {
     "eyebrow": "Owner route",

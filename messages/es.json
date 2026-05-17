@@ -1,8 +1,10 @@
 {
   "nav": {
     "label": "Navegación principal",
-    "buyers": "Compradores",
+    "buildings": "Edificios",
+    "newDevelopments": "Desarrollos nuevos",
     "owners": "Propietarios",
+    "notes": "Notas",
     "about": "Método",
     "contact": "Contacto"
   },
@@ -39,6 +41,26 @@
     "eyebrow": "Ruta comprador",
     "title": "La calificación empieza con sobriedad.",
     "body": "Esta ruta alojará el recorrido curado, el enrutamiento A/B/C y el paso a calendario."
+  },
+  "buildings": {
+    "eyebrow": "Atlas de edificios",
+    "title": "Dossiers de edificios",
+    "body": "Páginas base para el primer grupo público de edificios. Las afirmaciones quedan como marcadores hasta aprobar fuentes."
+  },
+  "newDevelopments": {
+    "eyebrow": "Ruta de desarrollos",
+    "title": "Edificios en construcción",
+    "body": "Índice enfocado para proyectos que requieren verificación de reglas y encaje antes de publicar afirmaciones."
+  },
+  "notes": {
+    "eyebrow": "Notas",
+    "title": "Notas operativas",
+    "body": "Ruta placeholder para futuras notas del fundador y observaciones de mercado respaldadas por fuentes."
+  },
+  "calibration": {
+    "eyebrow": "Calibración",
+    "title": "Proyectado vs. real",
+    "body": "Las entradas públicas de calibración quedan vacías hasta registrar evidencia aprobada."
   },
   "owners": {
     "eyebrow": "Ruta propietario",

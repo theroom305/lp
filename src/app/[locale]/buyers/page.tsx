@@ -1,19 +1,13 @@
-import {useTranslations} from "next-intl";
+import {redirect} from "next/navigation";
 
-import {LeadMicroform} from "@/components/marketplace/lead-microform";
-import {PageShell} from "@/components/site/page-shell";
+import type {Locale} from "@/i18n/routing";
 
-export default function BuyersPage() {
-  const t = useTranslations("buyers");
+type BuyersPageProps = Readonly<{
+  params: Promise<{locale: Locale}>;
+}>;
 
-  return (
-    <PageShell>
-      <main className="route-page" aria-labelledby="buyers-heading">
-        <p className="eyebrow">{t("eyebrow")}</p>
-        <h1 id="buyers-heading">{t("title")}</h1>
-        <p>{t("body")}</p>
-        <LeadMicroform />
-      </main>
-    </PageShell>
-  );
+export default async function BuyersPage({params}: BuyersPageProps) {
+  const {locale} = await params;
+
+  redirect(locale === "es" ? "/es/edificios" : "/en/buildings");
 }

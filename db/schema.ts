@@ -8,6 +8,7 @@ import {
   numeric,
   pgEnum,
   pgTable,
+  pgView,
   text,
   timestamp,
   uniqueIndex,
@@ -166,6 +167,11 @@ export const taskStatusEnum = pgEnum("task_status", [
   "done",
   "cancelled",
 ]);
+export const taskPriorityEnum = pgEnum("task_priority", [
+  "low",
+  "normal",
+  "high",
+]);
 export const communicationDirectionEnum = pgEnum("communication_direction", [
   "inbound",
   "outbound",
@@ -183,6 +189,55 @@ export const outboxStatusEnum = pgEnum("outbox_status", [
   "sent",
   "failed",
   "cancelled",
+]);
+export const riskClassEnum = pgEnum("risk_class", [
+  "low",
+  "medium",
+  "high",
+  "critical",
+]);
+export const sensitivityClassEnum = pgEnum("sensitivity_class", [
+  "public",
+  "internal",
+  "confidential",
+  "restricted",
+]);
+export const sourceTypeEnum = pgEnum("source_type", [
+  "declaration_pdf",
+  "hoa_email",
+  "developer_site",
+  "mls_listing",
+  "county_record",
+  "municipal_ordinance",
+  "profile_miami_article",
+  "real_deal_article",
+  "condoblackbook_listing",
+  "isaac_observation",
+  "owner_statement",
+  "guesty_export",
+  "other",
+]);
+export const registryTrustTierEnum = pgEnum("registry_trust_tier", [
+  "primary",
+  "secondary",
+  "tertiary",
+  "operator",
+]);
+export const claimVisibilityEnum = pgEnum("claim_visibility", [
+  "public",
+  "private_note_only",
+  "internal_only",
+  "restricted",
+]);
+export const disallowedClaimScopeEnum = pgEnum("disallowed_claim_scope", [
+  "public_ui",
+  "public_metadata",
+  "email_copy",
+  "public_docs",
+  "public_api_endpoints",
+  "sitemap",
+  "llms_txt",
+  "all_public_surfaces",
 ]);
 
 export const persons = pgTable(
@@ -347,6 +402,7 @@ export const tasks = pgTable(
     title: text("title").notNull(),
     body: text("body"),
     status: taskStatusEnum("status").notNull().default("open"),
+    priority: taskPriorityEnum("priority").notNull().default("normal"),
     dueAt: timestamp("due_at", {withTimezone: true}),
     completedAt: timestamp("completed_at", {withTimezone: true}),
     deletedAt: timestamp("deleted_at", {withTimezone: true}),
@@ -479,9 +535,6 @@ export const ownerRecords = pgTable(
       () => persons.id,
       {onDelete: "set null"},
     ),
-    tenureMonths: integer("tenure_months").generatedAlwaysAs(
-      sql`case when operating_agreement_signed_at is null then null else floor(extract(epoch from (created_at - operating_agreement_signed_at)) / 2629746)::integer end`,
-    ),
     quarterlyCallLastAt: timestamp("quarterly_call_last_at", {
       withTimezone: true,
     }),
@@ -603,6 +656,237 @@ export const networkRecords = pgTable(
   (table) => [
     index("network_records_last_touch_at_idx").on(table.lastTouchAt),
     index("network_records_strategic_value_idx").on(table.strategicValue),
+  ],
+);
+
+export const approvalQueue = pgTable(
+  "approval_queue",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    proposedAt: timestamp("proposed_at", {withTimezone: true})
+      .notNull()
+      .defaultNow(),
+    actionType: text("action_type").notNull(),
+    riskClass: riskClassEnum("risk_class").notNull(),
+    sensitivityClass: sensitivityClassEnum("sensitivity_class")
+      .notNull()
+      .default("internal"),
+    payloadRef: text("payload_ref"),
+    payloadSummary: text("payload_summary"),
+    targetPersonId: uuid("target_person_id").references(() => persons.id, {
+      onDelete: "set null",
+    }),
+    relatedBuildingSlug: text("related_building_slug"),
+    evidence: jsonb("evidence").$type<JsonRecord>(),
+    diff: text("diff"),
+    proposerAgent: text("proposer_agent").notNull(),
+    requiresTwoEyes: boolean("requires_two_eyes").notNull().default(false),
+    approver1PersonId: uuid("approver_1_person_id").references(
+      () => persons.id,
+      {onDelete: "set null"},
+    ),
+    approver1Role: text("approver_1_role"),
+    approved1At: timestamp("approved_1_at", {withTimezone: true}),
+    approver2PersonId: uuid("approver_2_person_id").references(
+      () => persons.id,
+      {onDelete: "set null"},
+    ),
+    approver2Role: text("approver_2_role"),
+    approved2At: timestamp("approved_2_at", {withTimezone: true}),
+    rejectedAt: timestamp("rejected_at", {withTimezone: true}),
+    rejectedByPersonId: uuid("rejected_by_person_id").references(
+      () => persons.id,
+      {onDelete: "set null"},
+    ),
+    rejectionReason: text("rejection_reason"),
+    executedAt: timestamp("executed_at", {withTimezone: true}),
+    executionResult: jsonb("execution_result").$type<JsonRecord>(),
+    expiresAt: timestamp("expires_at", {withTimezone: true}),
+    ...timestamps,
+  },
+  (table) => [
+    index("approval_queue_pending_idx").on(table.proposedAt),
+    index("approval_queue_risk_class_idx").on(table.riskClass),
+    index("approval_queue_sensitivity_idx").on(table.sensitivityClass),
+    index("approval_queue_target_person_idx").on(table.targetPersonId),
+  ],
+);
+
+export const agentActionLog = pgTable(
+  "agent_action_log",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    occurredAt: timestamp("occurred_at", {withTimezone: true})
+      .notNull()
+      .defaultNow(),
+    agent: text("agent").notNull(),
+    action: text("action").notNull(),
+    model: text("model"),
+    promptVersion: text("prompt_version"),
+    sensitivityClass: sensitivityClassEnum("sensitivity_class")
+      .notNull()
+      .default("internal"),
+    inputHash: text("input_hash"),
+    outputHash: text("output_hash"),
+    outputExcerptRedacted: text("output_excerpt_redacted"),
+    outputArtifactUrl: text("output_artifact_url"),
+    approvalQueueId: uuid("approval_queue_id").references(
+      () => approvalQueue.id,
+      {onDelete: "set null"},
+    ),
+    rollbackPath: text("rollback_path"),
+    relatedPersonId: uuid("related_person_id").references(() => persons.id, {
+      onDelete: "set null",
+    }),
+    relatedBuildingSlug: text("related_building_slug"),
+    durationMs: integer("duration_ms"),
+    costUsdCents: integer("cost_usd_cents"),
+  },
+  (table) => [
+    index("agent_action_log_agent_action_idx").on(
+      table.agent,
+      table.action,
+      table.occurredAt,
+    ),
+    index("agent_action_log_sensitivity_idx").on(table.sensitivityClass),
+    index("agent_action_log_related_person_idx").on(table.relatedPersonId),
+  ],
+);
+
+export const sourceRegistry = pgTable(
+  "source_registry",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    sourceUrl: text("source_url"),
+    sourceFile: text("source_file"),
+    sourceType: sourceTypeEnum("source_type").notNull(),
+    trustTier: registryTrustTierEnum("trust_tier").notNull(),
+    claimBasis: text("claim_basis").notNull(),
+    relatedBuildingSlug: text("related_building_slug"),
+    pulledAt: timestamp("pulled_at", {withTimezone: true})
+      .notNull()
+      .defaultNow(),
+    expiresAt: timestamp("expires_at", {withTimezone: true}),
+    allowedPublicScopes: text("allowed_public_scopes")
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    claimVisibility: claimVisibilityEnum("claim_visibility")
+      .notNull()
+      .default("internal_only"),
+    hash: text("hash"),
+    retrievedBy: text("retrieved_by"),
+    notes: text("notes"),
+    ...timestamps,
+  },
+  (table) => [
+    index("source_registry_building_idx").on(table.relatedBuildingSlug),
+    index("source_registry_expiring_idx").on(table.expiresAt),
+    index("source_registry_visibility_idx").on(table.claimVisibility),
+  ],
+);
+
+export const sourceRegistryWithStatus = pgView(
+  "source_registry_with_status",
+  {
+    id: uuid("id"),
+    sourceUrl: text("source_url"),
+    sourceFile: text("source_file"),
+    sourceType: sourceTypeEnum("source_type"),
+    trustTier: registryTrustTierEnum("trust_tier"),
+    claimBasis: text("claim_basis"),
+    relatedBuildingSlug: text("related_building_slug"),
+    pulledAt: timestamp("pulled_at", {withTimezone: true}),
+    expiresAt: timestamp("expires_at", {withTimezone: true}),
+    allowedPublicScopes: text("allowed_public_scopes").array(),
+    claimVisibility: claimVisibilityEnum("claim_visibility"),
+    hash: text("hash"),
+    retrievedBy: text("retrieved_by"),
+    notes: text("notes"),
+    createdAt: timestamp("created_at", {withTimezone: true}),
+    updatedAt: timestamp("updated_at", {withTimezone: true}),
+    isExpired: boolean("is_expired"),
+    freshnessState: text("freshness_state"),
+  },
+).as(sql`
+  select
+    *,
+    (expires_at is not null and expires_at < now()) as is_expired,
+    case
+      when expires_at is null then 'no_expiry'
+      when expires_at < now() then 'expired'
+      when expires_at < now() + interval '30 days' then 'expiring_soon'
+      else 'fresh'
+    end as freshness_state
+  from ${sourceRegistry}
+`);
+
+export const disallowedClaims = pgTable(
+  "disallowed_claims",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    claimPattern: text("claim_pattern").notNull(),
+    reason: text("reason").notNull(),
+    gateToClear: text("gate_to_clear").notNull(),
+    scope: disallowedClaimScopeEnum("scope").notNull(),
+    addedAt: timestamp("added_at", {withTimezone: true})
+      .notNull()
+      .defaultNow(),
+    addedByAgent: text("added_by_agent"),
+    clearedAt: timestamp("cleared_at", {withTimezone: true}),
+    clearedByPersonId: uuid("cleared_by_person_id").references(
+      () => persons.id,
+      {onDelete: "set null"},
+    ),
+    active: boolean("active").generatedAlwaysAs(sql`cleared_at is null`),
+    ...timestamps,
+  },
+  (table) => [
+    index("disallowed_claims_active_scope_idx").on(table.scope, table.active),
+  ],
+);
+
+export const calibrationLogEntries = pgTable(
+  "calibration_log_entries",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    buildingSlug: text("building_slug").notNull(),
+    relatedPersonId: uuid("related_person_id").references(() => persons.id, {
+      onDelete: "set null",
+    }),
+    projectionArtifactId: uuid("projection_artifact_id").references(
+      () => communications.id,
+      {onDelete: "set null"},
+    ),
+    projectionMadeAt: timestamp("projection_made_at", {
+      withTimezone: true,
+    }).notNull(),
+    projectionSummary: text("projection_summary").notNull(),
+    projectedValueSummary: text("projected_value_summary"),
+    measurementWindowStart: timestamp("measurement_window_start", {
+      withTimezone: true,
+    }).notNull(),
+    measurementWindowEnd: timestamp("measurement_window_end", {
+      withTimezone: true,
+    }).notNull(),
+    actualValueSummary: text("actual_value_summary").notNull(),
+    accuracyDeltaPct: numeric("accuracy_delta_pct", {precision: 6, scale: 2}),
+    retrospectiveNote: text("retrospective_note").notNull(),
+    isPublic: boolean("is_public").notNull().default(false),
+    publishedAt: timestamp("published_at", {withTimezone: true}),
+    approvedByPersonId: uuid("approved_by_person_id").references(
+      () => persons.id,
+      {onDelete: "set null"},
+    ),
+    sourceIds: uuid("source_ids")
+      .array()
+      .notNull()
+      .default(sql`'{}'::uuid[]`),
+    ...timestamps,
+  },
+  (table) => [
+    index("calibration_log_public_idx").on(table.isPublic, table.publishedAt),
+    index("calibration_log_building_idx").on(table.buildingSlug),
   ],
 );
 
