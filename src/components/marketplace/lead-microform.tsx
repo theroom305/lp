@@ -7,6 +7,8 @@ type LeadIntent = "buying" | "selling";
 
 type LeadMicroformProps = Readonly<{
   defaultIntent?: LeadIntent;
+  prefillBuildingName?: string;
+  prefillIntent?: LeadIntent;
 }>;
 
 type SubmitState =
@@ -24,6 +26,11 @@ type SubmitState =
       message: string;
     };
 
+type ChipOption = Readonly<{
+  labelKey: string;
+  value: string;
+}>;
+
 const financingOptions = ["cash", "financing", "unsure"] as const;
 const sellerPainOptions = [
   "price",
@@ -33,6 +40,28 @@ const sellerPainOptions = [
   "uncertainty",
   "other",
 ] as const;
+
+const budgetOptions: readonly ChipOption[] = [
+  {labelKey: "budget.under750", value: "Under $750k"},
+  {labelKey: "budget.mid", value: "$750k-$1.25M"},
+  {labelKey: "budget.upper", value: "$1.25M-$2M"},
+  {labelKey: "budget.luxury", value: "$2M+"},
+  {labelKey: "budget.setting", value: "Still setting range"},
+];
+
+const buyerTimelineOptions: readonly ChipOption[] = [
+  {labelKey: "timeline.now", value: "Now"},
+  {labelKey: "timeline.season", value: "This season"},
+  {labelKey: "timeline.sixToTwelve", value: "6-12 months"},
+  {labelKey: "timeline.comparing", value: "Just comparing"},
+];
+
+const sellerTimelineOptions: readonly ChipOption[] = [
+  {labelKey: "timeline.now", value: "Now"},
+  {labelKey: "timeline.afterSeason", value: "After season"},
+  {labelKey: "timeline.thisYear", value: "This year"},
+  {labelKey: "timeline.notSure", value: "Not sure"},
+];
 
 function createIdempotencyKey(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -51,10 +80,48 @@ function optionalFormValue(form: FormData, key: string): string | undefined {
   return value.length > 0 ? value : undefined;
 }
 
-export function LeadMicroform({defaultIntent = "buying"}: LeadMicroformProps) {
+function chipGroupId(name: string): string {
+  return `${name}-legend`;
+}
+
+type ChipGroupProps = Readonly<{
+  legend: string;
+  name: string;
+  options: readonly ChipOption[];
+  translate: (key: string) => string;
+}>;
+
+function ChipGroup({legend, name, options, translate}: ChipGroupProps) {
+  return (
+    <fieldset className="chip-fieldset" aria-labelledby={chipGroupId(name)}>
+      <legend id={chipGroupId(name)}>{legend}</legend>
+      <div className="chip-group">
+        {options.map((option) => (
+          <label key={option.value}>
+            <input name={name} required type="radio" value={option.value} />
+            <span>{translate(option.labelKey)}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+export function LeadMicroform({
+  defaultIntent = "buying",
+  prefillBuildingName,
+  prefillIntent,
+}: LeadMicroformProps) {
   const t = useTranslations("leadForm");
   const locale = useLocale();
-  const [intent, setIntent] = useState<LeadIntent>(defaultIntent);
+  const initialIntent = prefillIntent ?? defaultIntent;
+  const [intent, setIntent] = useState<LeadIntent>(initialIntent);
+  const [targetAreaOrBuilding, setTargetAreaOrBuilding] = useState(
+    initialIntent === "buying" ? prefillBuildingName ?? "" : "",
+  );
+  const [buildingUnit, setBuildingUnit] = useState(
+    initialIntent === "selling" ? prefillBuildingName ?? "" : "",
+  );
   const [state, setState] = useState<SubmitState>({kind: "idle"});
   const idempotencyKey = useMemo(() => createIdempotencyKey(), []);
 
@@ -134,11 +201,36 @@ export function LeadMicroform({defaultIntent = "buying"}: LeadMicroformProps) {
     setState({kind: "success"});
   }
 
+  if (state.kind === "success") {
+    return (
+      <section
+        className="lead-success-card"
+        aria-live="polite"
+        data-test-id="lead-success"
+      >
+        <p className="eyebrow">{t("successEyebrow")}</p>
+        <h2>{t("successTitle")}</h2>
+        <p>{t("successBody")}</p>
+        <ul className="trust-strip trust-strip-success">
+          {["reviewed", "sequence", "context", "founder"].map((key) => (
+            <li key={key}>{t(`trust.${key}`)}</li>
+          ))}
+        </ul>
+      </section>
+    );
+  }
+
   return (
     <form className="lead-form" onSubmit={onSubmit} data-test-id="lead-form">
+      <ol className="step-indicator" aria-label={t("stepsLabel")}>
+        <li>{t("stepContext")}</li>
+        <li>{t("stepSituation")}</li>
+        <li>{t("stepContact")}</li>
+      </ol>
+
       <fieldset className="form-step">
-        <legend>{t("intentLegend")}</legend>
-        <div className="intent-toggle">
+        <legend>{t("stepContext")}</legend>
+        <div className="segmented-control">
           <label>
             <input
               checked={intent === "buying"}
@@ -160,15 +252,14 @@ export function LeadMicroform({defaultIntent = "buying"}: LeadMicroformProps) {
             <span>{t("selling")}</span>
           </label>
         </div>
-      </fieldset>
-
-      <fieldset className="form-step">
-        <legend>{t("stepContext")}</legend>
         <div>
           <label htmlFor="country">{t("country")}</label>
           <input id="country" name="country" required autoComplete="country-name" />
         </div>
+      </fieldset>
 
+      <fieldset className="form-step">
+        <legend>{t("stepSituation")}</legend>
         {intent === "buying" ? (
           <>
             <div>
@@ -178,28 +269,24 @@ export function LeadMicroform({defaultIntent = "buying"}: LeadMicroformProps) {
               <input
                 id="targetAreaOrBuilding"
                 name="targetAreaOrBuilding"
+                onChange={(event) => setTargetAreaOrBuilding(event.target.value)}
                 required
+                value={targetAreaOrBuilding}
                 placeholder={t("targetAreaOrBuildingPlaceholder")}
               />
             </div>
-            <div>
-              <label htmlFor="budgetRange">{t("budgetRange")}</label>
-              <input
-                id="budgetRange"
-                name="budgetRange"
-                required
-                placeholder={t("budgetRangePlaceholder")}
-              />
-            </div>
-            <div>
-              <label htmlFor="buyerTimeline">{t("buyerTimeline")}</label>
-              <input
-                id="buyerTimeline"
-                name="buyerTimeline"
-                required
-                placeholder={t("buyerTimelinePlaceholder")}
-              />
-            </div>
+            <ChipGroup
+              legend={t("budgetRange")}
+              name="budgetRange"
+              options={budgetOptions}
+              translate={t}
+            />
+            <ChipGroup
+              legend={t("buyerTimeline")}
+              name="buyerTimeline"
+              options={buyerTimelineOptions}
+              translate={t}
+            />
             <div>
               <label htmlFor="financingPosture">{t("financingPosture")}</label>
               <select id="financingPosture" name="financingPosture" required>
@@ -228,7 +315,9 @@ export function LeadMicroform({defaultIntent = "buying"}: LeadMicroformProps) {
               <input
                 id="buildingUnit"
                 name="buildingUnit"
+                onChange={(event) => setBuildingUnit(event.target.value)}
                 required
+                value={buildingUnit}
                 placeholder={t("buildingUnitPlaceholder")}
               />
             </div>
@@ -239,15 +328,12 @@ export function LeadMicroform({defaultIntent = "buying"}: LeadMicroformProps) {
                 <option value="yes">{t("listedYes")}</option>
               </select>
             </div>
-            <div>
-              <label htmlFor="sellerTimeline">{t("sellerTimeline")}</label>
-              <input
-                id="sellerTimeline"
-                name="sellerTimeline"
-                required
-                placeholder={t("sellerTimelinePlaceholder")}
-              />
-            </div>
+            <ChipGroup
+              legend={t("sellerTimeline")}
+              name="sellerTimeline"
+              options={sellerTimelineOptions}
+              translate={t}
+            />
             <div>
               <label htmlFor="sellerPain">{t("sellerPain")}</label>
               <select id="sellerPain" name="sellerPain" required>
@@ -272,7 +358,7 @@ export function LeadMicroform({defaultIntent = "buying"}: LeadMicroformProps) {
       </fieldset>
 
       <fieldset className="form-step">
-        <legend>{t("stepCall")}</legend>
+        <legend>{t("stepContact")}</legend>
         <div>
           <label htmlFor="callUsefulnessText">{t("callUsefulness")}</label>
           <textarea
@@ -283,10 +369,6 @@ export function LeadMicroform({defaultIntent = "buying"}: LeadMicroformProps) {
             placeholder={t("callUsefulnessPlaceholder")}
           />
         </div>
-      </fieldset>
-
-      <fieldset className="form-step">
-        <legend>{t("stepContact")}</legend>
         <div>
           <label htmlFor="name">{t("name")}</label>
           <input id="name" name="name" required autoComplete="name" />
@@ -316,8 +398,13 @@ export function LeadMicroform({defaultIntent = "buying"}: LeadMicroformProps) {
         {state.kind === "submitting" ? t("submitting") : t("submit")}
       </button>
 
-      <p className="form-status" aria-live="polite">
-        {state.kind === "success" ? t("success") : null}
+      <ul className="trust-strip">
+        {["reviewed", "sequence", "context", "founder"].map((key) => (
+          <li key={key}>{t(`trust.${key}`)}</li>
+        ))}
+      </ul>
+
+      <p className="form-status" aria-live="polite" role="status">
         {state.kind === "error" ? state.message : null}
       </p>
     </form>

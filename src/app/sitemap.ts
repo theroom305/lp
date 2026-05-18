@@ -2,7 +2,7 @@ import type {MetadataRoute} from "next";
 
 import {absoluteUrl, localizedPath} from "@/lib/seo";
 
-const publicRoutes = ["home", "buy", "sell", "contact"] as const;
+const publicRoutes = ["home", "buy", "sell", "buildings", "contact"] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

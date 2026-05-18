@@ -1,15 +1,26 @@
 import type {Metadata} from "next";
-import {useLocale, useTranslations} from "next-intl";
+import {getTranslations} from "next-intl/server";
 
 import {LeadMicroform} from "@/components/marketplace/lead-microform";
 import {JsonLd} from "@/components/seo/json-ld";
+import {
+  featuredBuildings,
+  getCorridorBuildingBySlug,
+} from "@/content/building-registry";
 import type {Locale} from "@/i18n/routing";
 import {breadcrumbJsonLd, localizedPath, pageMetadata} from "@/lib/seo";
 import {PageShell} from "@/components/site/page-shell";
 
+type SearchValue = string | string[] | undefined;
+
 type BuyPageProps = Readonly<{
   params: Promise<{locale: Locale}>;
+  searchParams: Promise<Record<string, SearchValue>>;
 }>;
+
+function firstSearchValue(value: SearchValue): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
 
 export async function generateMetadata({
   params,
@@ -25,10 +36,14 @@ export async function generateMetadata({
   });
 }
 
-export default function BuyPage() {
-  const t = useTranslations("buy");
-  const locale = useLocale() as Locale;
-
+export default async function BuyPage({params, searchParams}: BuyPageProps) {
+  const {locale} = await params;
+  const t = await getTranslations("buy");
+  const query = await searchParams;
+  const buildingSlug = firstSearchValue(query.building);
+  const prefillBuilding = buildingSlug
+    ? getCorridorBuildingBySlug(buildingSlug)
+    : undefined;
   return (
     <PageShell>
       <JsonLd
@@ -42,8 +57,17 @@ export default function BuyPage() {
           <p className="eyebrow">{t("eyebrow")}</p>
           <h1 id="buy-heading">{t("title")}</h1>
           <p>{t("body")}</p>
+          <div className="funnel-mini-list" aria-label={t("miniListLabel")}>
+            {featuredBuildings.map((building) => (
+              <span key={building.slug}>{building.name}</span>
+            ))}
+          </div>
         </section>
-        <LeadMicroform defaultIntent="buying" />
+        <LeadMicroform
+          defaultIntent="buying"
+          prefillBuildingName={prefillBuilding?.name}
+          prefillIntent="buying"
+        />
       </main>
     </PageShell>
   );

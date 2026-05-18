@@ -1,19 +1,23 @@
+import Link from "next/link";
+
+import {BuildingTonalPlate} from "@/components/marketplace/building-tonal-plate";
+import {SourceDrawer, SourceStamp} from "@/components/atlas/source-provenance";
 import type {BuildingDossierData} from "@/content/atlas";
 import {dossierSectionOrder} from "@/content/atlas";
-import {CalibrationLog} from "@/components/atlas/calibration-log";
-import {MemoSplitCTA} from "@/components/atlas/memo-split-cta";
-import {
-  OwnerTakeoverCTA,
-  OwnerTakeoverIntakeForm,
-} from "@/components/atlas/owner-takeover";
-import {SourceDrawer, SourceStamp} from "@/components/atlas/source-provenance";
+import type {CorridorBuilding} from "@/content/building-registry";
 import {filterRenderablePublicFacts} from "@/server/claims/policy";
 
 type BuildingDossierProps = Readonly<{
+  corridorBuilding: CorridorBuilding;
+  ctaHref: string;
   dossier: BuildingDossierData;
 }>;
 
-export function BuildingDossier({dossier}: BuildingDossierProps) {
+export function BuildingDossier({
+  corridorBuilding,
+  ctaHref,
+  dossier,
+}: BuildingDossierProps) {
   const orderedSections = dossierSectionOrder.map((id) => {
     const section = dossier.sections.find((entry) => entry.id === id);
 
@@ -27,22 +31,43 @@ export function BuildingDossier({dossier}: BuildingDossierProps) {
   return (
     <main className="dossier-page" data-test-id="building-dossier">
       <header className="dossier-hero">
-        <p className="eyebrow">{dossier.building.city}</p>
+        <p className="eyebrow">{corridorBuilding.submarket}</p>
         <h1>{dossier.building.name}</h1>
         <SourceStamp
-          label={dossier.building.verificationState.replaceAll("_", " ")}
-          detail={dossier.building.stage.replaceAll("_", " ")}
+          label={corridorBuilding.verificationLabel}
+          detail={corridorBuilding.stageLabel}
         />
       </header>
 
       <div className="dossier-layout">
-        <nav className="dossier-anchor-nav" aria-label="Dossier sections">
-          {orderedSections.map((section) => (
-            <a href={`#${section.id}`} key={section.id}>
-              {section.label}
-            </a>
-          ))}
-        </nav>
+        <aside className="dossier-context-panel">
+          <BuildingTonalPlate building={corridorBuilding} variant="large" />
+          <dl className="building-meta-list">
+            <div>
+              <dt>City</dt>
+              <dd>{corridorBuilding.city}</dd>
+            </div>
+            <div>
+              <dt>Cadence frame</dt>
+              <dd>{corridorBuilding.cadenceLabel}</dd>
+            </div>
+            <div>
+              <dt>Brand tier</dt>
+              <dd>{corridorBuilding.brandTier}</dd>
+            </div>
+            <div>
+              <dt>Source posture</dt>
+              <dd>{corridorBuilding.verificationLabel}</dd>
+            </div>
+          </dl>
+          <Link
+            className="button-link button-link-primary"
+            href={ctaHref}
+            data-test-id="building-dossier-context-cta"
+          >
+            Use this building as my context
+          </Link>
+        </aside>
 
         <div className="dossier-sections">
           {orderedSections.map((section) => (
@@ -58,30 +83,9 @@ export function BuildingDossier({dossier}: BuildingDossierProps) {
                 <p>{section.placeholder}</p>
               </div>
 
-              {section.id === "operator-notes" ? (
-                <CalibrationLog
-                  variant="inline"
-                  buildingSlug={dossier.building.slug}
-                />
-              ) : null}
-
-              {section.id === "ownership-path" && dossier.building.isDelivered ? (
-                <>
-                  <OwnerTakeoverCTA buildingSlug={dossier.building.slug} />
-                  <OwnerTakeoverIntakeForm buildingSlug={dossier.building.slug} />
-                </>
-              ) : null}
-
               {section.id === "sources" ? (
                 <SourceDrawer
                   facts={filterRenderablePublicFacts(section.facts, "public_ui")}
-                />
-              ) : null}
-
-              {section.id === "memo-split" ? (
-                <MemoSplitCTA
-                  buildingSlug={dossier.building.slug}
-                  stage={dossier.building.stage}
                 />
               ) : null}
             </section>

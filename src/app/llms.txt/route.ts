@@ -12,6 +12,9 @@ export function GET(): Response {
     `- Home: ${absoluteUrl(localizedPath({key: "home", locale: "en"}))}`,
     `- Buy: ${absoluteUrl(localizedPath({key: "buy", locale: "en"}))}`,
     `- Sell: ${absoluteUrl(localizedPath({key: "sell", locale: "en"}))}`,
+    `- Building atlas: ${absoluteUrl(
+      localizedPath({key: "buildings", locale: "en"}),
+    )} - buildings we follow, presented as a working scaffold.`,
     `- Contact: ${absoluteUrl(localizedPath({key: "contact", locale: "en"}))}`,
   ];
 

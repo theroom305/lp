@@ -2,9 +2,17 @@ import type {Metadata} from "next";
 import Link from "next/link";
 import {useLocale, useTranslations} from "next-intl";
 
+import {BuildingShowroom} from "@/components/marketplace/building-showroom";
 import {JsonLd} from "@/components/seo/json-ld";
+import {HeroBitmap} from "@/components/site/hero-bitmap";
+import {corridorBuildings} from "@/content/building-registry";
 import type {Locale} from "@/i18n/routing";
-import {breadcrumbJsonLd, localizedPath, pageMetadata} from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  itemListJsonLd,
+  localizedPath,
+  pageMetadata,
+} from "@/lib/seo";
 import {PageShell} from "@/components/site/page-shell";
 
 type HomePageProps = Readonly<{
@@ -37,30 +45,18 @@ export default function HomePage() {
           {name: "Room 305", path: localizedPath({key: "home", locale})},
         ])}
       />
-      <section className="hero-surface" aria-labelledby="home-heading">
-        <div className="hero-media" aria-hidden="true" />
-        <div className="hero-copy">
-          <p className="eyebrow">{t("eyebrow")}</p>
-          <h1 id="home-heading">{t("title")}</h1>
-          <p>{t("intro")}</p>
-          <div className="hero-actions" aria-label="Choose your path">
-            <Link
-              className="button-link button-link-primary"
-              href={localizedPath({key: "buy", locale})}
-              data-test-id="hero-buy"
-            >
-              {t("primaryBuy")}
-            </Link>
-            <Link
-              className="button-link"
-              href={localizedPath({key: "sell", locale})}
-              data-test-id="hero-sell"
-            >
-              {t("primarySell")}
-            </Link>
-          </div>
-        </div>
-      </section>
+      <JsonLd
+        data={itemListJsonLd("Room 305 corridor building atlas", corridorBuildings)}
+      />
+      <HeroBitmap
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        intro={t("intro")}
+        buyHref={localizedPath({key: "buy", locale})}
+        buyLabel={t("primaryBuy")}
+        sellHref={localizedPath({key: "sell", locale})}
+        sellLabel={t("primarySell")}
+      />
 
       <section className="proof-band" aria-labelledby="proof-heading">
         <div>
@@ -76,6 +72,8 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      <BuildingShowroom />
 
       <section className="founder-band" aria-labelledby="founder-heading">
         <div>

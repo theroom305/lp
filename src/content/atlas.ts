@@ -129,8 +129,8 @@ export const v1Buildings: readonly BuildingRecord[] = [
     publicPageV1: true,
   },
   {
-    slug: "seven-park-hallandale",
-    name: "Seven Park",
+    slug: "seven-park-residences",
+    name: "Seven Park Residences",
     city: "Hallandale Beach",
     stage: "under_construction",
     verificationState: "verifying",
@@ -138,8 +138,8 @@ export const v1Buildings: readonly BuildingRecord[] = [
     publicPageV1: true,
   },
   {
-    slug: "the-elser",
-    name: "The Elser",
+    slug: "the-elser-miami",
+    name: "The Elser Hotel & Residences",
     city: "Downtown Miami",
     stage: "recently_delivered",
     verificationState: "verifying",
@@ -156,8 +156,8 @@ export const v1Buildings: readonly BuildingRecord[] = [
     publicPageV1: true,
   },
   {
-    slug: "e11even-residences",
-    name: "E11EVEN Residences",
+    slug: "e11even-hotel-residences",
+    name: "E11EVEN Hotel & Residences",
     city: "Downtown Miami",
     stage: "recently_delivered",
     verificationState: "verifying",

@@ -7,8 +7,6 @@ const hiddenFunnelRoutes = [
   "/about/",
   "/buyers",
   "/buyers/",
-  "/buildings",
-  "/buildings/",
   "/calibration",
   "/calibration/",
   "/new-developments",

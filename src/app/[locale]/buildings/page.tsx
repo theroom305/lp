@@ -2,11 +2,9 @@ import Link from "next/link";
 import type {Metadata} from "next";
 import {useLocale, useTranslations} from "next-intl";
 
-import {
-  getIndexableBuildings,
-  getPendingVerificationBuildings,
-} from "@/content/atlas";
+import {BuildingTonalPlate} from "@/components/marketplace/building-tonal-plate";
 import {JsonLd} from "@/components/seo/json-ld";
+import {corridorBuildings} from "@/content/building-registry";
 import type {Locale} from "@/i18n/routing";
 import {itemListJsonLd, localizedPath, pageMetadata} from "@/lib/seo";
 import {PageShell} from "@/components/site/page-shell";
@@ -21,24 +19,28 @@ export async function generateMetadata({
   const {locale} = await params;
 
   return pageMetadata({
-    title: "Building dossiers",
-    description: "Room 305 scaffold for source-gated building dossiers.",
+    title: "Buildings",
+    description:
+      "Room 305 corridor atlas for South Florida condo buildings currently followed.",
     key: "buildings",
     locale,
-    indexable: false,
+    indexable: true,
   });
+}
+
+function buildingContextHref(buildingSlug: string, locale: Locale): string {
+  const buyPath = localizedPath({key: "buy", locale});
+  return `${buyPath}?building=${encodeURIComponent(buildingSlug)}&intent=buy`;
 }
 
 export default function BuildingsPage() {
   const t = useTranslations("buildings");
   const locale = useLocale() as Locale;
-  const citableBuildings = getIndexableBuildings();
-  const pendingBuildings = getPendingVerificationBuildings();
 
   return (
     <PageShell>
       <JsonLd
-        data={itemListJsonLd("Room 305 building dossiers", citableBuildings)}
+        data={itemListJsonLd("Room 305 corridor building atlas", corridorBuildings)}
       />
       <main className="route-page atlas-index" aria-labelledby="buildings-heading">
         <p className="eyebrow">{t("eyebrow")}</p>
@@ -46,41 +48,48 @@ export default function BuildingsPage() {
         <p>{t("body")}</p>
 
         <div className="atlas-grid" data-test-id="buildings-index">
-          {citableBuildings.map((building) => (
-            <Link
-              className="atlas-card"
-              href={localizedPath({
-                key: "building",
-                locale,
-                slug: building.slug,
-              })}
+          {corridorBuildings.map((building) => (
+            <article
+              className="atlas-card building-index-card"
               key={building.slug}
               data-test-id={`building-card-${building.slug}`}
             >
-              <span className="atlas-card-meta">{building.city}</span>
-              <h2>{building.name}</h2>
-              <p>{building.stage.replaceAll("_", " ")}</p>
-            </Link>
+              <Link
+                className="building-index-primary"
+                href={localizedPath({
+                  key: "building",
+                  locale,
+                  slug: building.slug,
+                })}
+              >
+                <BuildingTonalPlate building={building} />
+                <span className="atlas-card-meta">{building.submarket}</span>
+                <h2>{building.name}</h2>
+                <dl className="building-meta-list">
+                  <div>
+                    <dt>{t("stageLabel")}</dt>
+                    <dd>{building.stageLabel}</dd>
+                  </div>
+                  <div>
+                    <dt>{t("cadenceLabel")}</dt>
+                    <dd>{building.cadenceLabel}</dd>
+                  </div>
+                  <div>
+                    <dt>{t("sourceLabel")}</dt>
+                    <dd>{building.verificationLabel}</dd>
+                  </div>
+                </dl>
+              </Link>
+              <Link
+                className="text-link"
+                href={buildingContextHref(building.slug, locale)}
+                data-test-id={`building-context-${building.slug}`}
+              >
+                {t("useContext")}
+              </Link>
+            </article>
           ))}
         </div>
-
-        <section className="atlas-subsection" aria-labelledby="verifying-buildings-heading">
-          <p className="eyebrow">Verification queue</p>
-          <h2 id="verifying-buildings-heading">Source review in progress</h2>
-          <div className="atlas-grid" data-test-id="buildings-verifying-index">
-            {pendingBuildings.map((building) => (
-              <div
-                className="atlas-card atlas-card-static"
-                key={building.slug}
-                data-test-id={`building-card-verifying-${building.slug}`}
-              >
-                <span className="atlas-card-meta">{building.city}</span>
-                <h3>{building.name}</h3>
-                <p>{building.stage.replaceAll("_", " ")}</p>
-              </div>
-            ))}
-          </div>
-        </section>
       </main>
     </PageShell>
   );

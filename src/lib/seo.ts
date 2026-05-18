@@ -30,6 +30,11 @@ type BreadcrumbItem = Readonly<{
   path: string;
 }>;
 
+type BuildingListItem = Readonly<{
+  slug: string;
+  name: string;
+}>;
+
 const localizedStaticPaths: Record<
   Exclude<RouteKey, "building">,
   Record<Locale, string>
@@ -222,7 +227,7 @@ export function buildingJsonLd(building: BuildingRecord) {
 
 export function itemListJsonLd(
   name: string,
-  buildings: readonly BuildingRecord[],
+  buildings: readonly BuildingListItem[],
 ) {
   return {
     "@context": "https://schema.org",

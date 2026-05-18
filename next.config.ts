@@ -21,6 +21,10 @@ const contentSecurityPolicy = `
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  images: {
+    formats: ["image/avif", "image/webp"],
+    qualities: [40, 70],
+  },
   poweredByHeader: false,
   async rewrites() {
     return {

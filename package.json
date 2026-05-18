@@ -4,8 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild": "pnpm sync:buildings",
     "build": "pnpm verify:claims && pnpm verify:claims:db && next build",
     "start": "next start",
+    "sync:buildings": "tsx scripts/sync-building-registry.ts",
+    "e2e": "playwright test",
+    "e2e:headed": "playwright test --headed",
+    "e2e:install": "playwright install chromium",
+    "e2e:ui": "playwright test --ui",
     "lint": "eslint",
     "verify:claims": "node scripts/verify-public-claims.mjs",
     "verify:claims:db": "node scripts/verify-disallowed-claims-db.mjs",
@@ -34,6 +40,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -42,6 +49,8 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.18",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "tsx": "^4.22.1",
+    "typescript": "^5",
+    "yaml": "^2.9.0"
   }
 }

@@ -39,15 +39,18 @@
     "closeBody": "Cuando la decisión baja a un edificio, una unidad o una pregunta de venta, el próximo paso debe sentirse más liviano. Revisamos el contexto antes de responder y mantenemos la llamada corta y útil."
   },
   "showroom": {
-    "eyebrow": "Edificios base",
-    "title": "Vista curada del corredor"
+    "eyebrow": "Atlas de edificios",
+    "title": "El corredor que seguimos, edificio por edificio.",
+    "body": "De Hallandale a Brickell, con bordes de residencias de marca cercanas. Estos son edificios que seguimos actualmente; las etiquetas de cadencia quedan metodológicas hasta cerrar la revisión de declaraciones.",
+    "useContext": "Usar como contexto"
   },
   "leadForm": {
+    "stepsLabel": "Pasos del intake concierge",
     "intentLegend": "Está comprando o vendiendo?",
     "buying": "Estoy comprando",
     "selling": "Estoy vendiendo",
     "stepContext": "Contexto del edificio",
-    "stepCall": "Llamada útil",
+    "stepSituation": "Situación",
     "stepContact": "Contacto",
     "country": "Dónde vive ahora",
     "targetAreaOrBuilding": "Zona o edificio",
@@ -56,6 +59,22 @@
     "budgetRangePlaceholder": "$700k-$1.2M, flexible, o definiendo rango",
     "buyerTimeline": "Cuándo quisiera avanzar?",
     "buyerTimelinePlaceholder": "Ahora, este verano, 6-12 meses, comparando",
+    "budget": {
+      "under750": "Menos de $750k",
+      "mid": "$750k-$1.25M",
+      "upper": "$1.25M-$2M",
+      "luxury": "$2M+",
+      "setting": "Definiendo rango"
+    },
+    "timeline": {
+      "now": "Ahora",
+      "season": "Esta temporada",
+      "sixToTwelve": "6-12 meses",
+      "comparing": "Comparando",
+      "afterSeason": "Después de temporada",
+      "thisYear": "Este año",
+      "notSure": "No sé"
+    },
     "financingPosture": "Cómo compraría probablemente?",
     "financing": {
       "cash": "Cash",
@@ -88,11 +107,20 @@
     "email": "Email",
     "whatsapp": "WhatsApp (opcional)",
     "whatsappPlaceholder": "+1 305...",
-    "submit": "Enviar contexto",
+    "submit": "Enviar para revisión",
     "submitting": "Enviando",
     "error": "No se pudo enviar el lead.",
-    "success": "Recibido. Revisaremos el contexto del edificio antes de responder. Si parece encajar, el próximo paso es una llamada corta.",
+    "successEyebrow": "Contexto recibido",
+    "successTitle": "Ya tenemos su contexto.",
+    "successBody": "Revisamos antes de responder. Si vemos encaje, espere una nota dentro de un día hábil con el contexto del edificio ya considerado.",
+    "success": "Recibido.",
     "privacyNote": "Revisamos esto antes de responder. Sin lista, sin presión.",
+    "trust": {
+      "reviewed": "Revisado antes de responder",
+      "sequence": "Sin secuencia automática de ventas",
+      "context": "Contexto del edificio primero",
+      "founder": "Fundador presente cuando hay encaje real"
+    },
     "triggers": {
       "buySelf": "Comprar para mí",
       "buyInvestment": "Comprar con contexto operativo",
@@ -104,12 +132,14 @@
   "buy": {
     "eyebrow": "Ruta comprador",
     "title": "Empiece con la pregunta del edificio.",
-    "body": "Cuéntenos dónde está mirando, cómo compraría y qué quiere evitar. Usamos eso para decidir si una llamada corta sería útil."
+    "body": "Cuéntenos dónde está mirando, cómo compraría y qué quiere evitar. Usamos eso para decidir si una llamada corta sería útil.",
+    "miniListLabel": "Edificios que seguimos actualmente"
   },
   "sell": {
     "eyebrow": "Ruta vendedor",
     "title": "Cuéntenos qué tiene y qué se siente trabado.",
-    "body": "La pregunta de venta cambia por edificio, tiempo, estado de ocupación y la historia de la unidad. Algunos detalles nos dejan prepararnos antes de responder."
+    "body": "La pregunta de venta cambia por edificio, tiempo, estado de ocupación y la historia de la unidad. Algunos detalles nos dejan prepararnos antes de responder.",
+    "miniListLabel": "Edificios con contexto operativo más profundo"
   },
   "buyers": {
     "eyebrow": "Ruta comprador",
@@ -118,8 +148,12 @@
   },
   "buildings": {
     "eyebrow": "Atlas de edificios",
-    "title": "Dossiers de edificios",
-    "body": "Páginas base para el primer grupo público de edificios. Las afirmaciones quedan como marcadores hasta aprobar fuentes."
+    "title": "El corredor que seguimos actualmente.",
+    "body": "El corredor que cubrimos, de Hallandale a Brickell. Estos son edificios que seguimos actualmente. Un subconjunto es donde operamos hoy; el resto son edificios que hemos estudiado y podemos conversar. Las etiquetas de cadencia se basan en fuentes secundarias hasta completar las búsquedas de declaraciones.",
+    "stageLabel": "Cronología",
+    "cadenceLabel": "Marco de cadencia",
+    "sourceLabel": "Postura de fuente",
+    "useContext": "Usar como contexto"
   },
   "newDevelopments": {
     "eyebrow": "Ruta de desarrollos",
