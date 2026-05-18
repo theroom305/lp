@@ -3,14 +3,21 @@ import {ZodError} from "zod";
 
 import {env} from "@/server/env";
 import {logger} from "@/server/logger";
-import {persistLeadSubmission} from "@/server/lead/repository";
+import {JsonBodyError, readJsonBody} from "@/server/http/request-body";
+import {generatePreCallBrief} from "@/server/lead/pre-call-brief";
+import {notifyLeadSubmission} from "@/server/lead/notification";
 import {
+  leadIdFromKey,
+  persistLeadSubmission,
+  updateLeadNotificationStatus,
+} from "@/server/lead/repository";
+import {
+  isFunnelLeadRequest,
   leadRequestSchema,
   scoreLead,
   type LeadApiError,
   type LeadApiResponse,
 } from "@/server/lead/schema";
-import {JsonBodyError, readJsonBody} from "@/server/http/request-body";
 import {checkRateLimit, rateLimitHeaders} from "@/server/rate-limit/check";
 
 export const runtime = "nodejs";
@@ -65,7 +72,23 @@ export async function POST(request: NextRequest): Promise<Response> {
 
     const payload = leadRequestSchema.parse(await readJsonBody(request, 12_000));
     const scored = scoreLead(payload);
-    const result = await persistLeadSubmission(payload, scored);
+    const leadId = leadIdFromKey(payload.idempotencyKey);
+    const preCallBriefMarkdown = generatePreCallBrief({
+      id: leadId,
+      payload,
+      score: scored,
+    });
+    const result = await persistLeadSubmission(payload, scored, {
+      preCallBriefMarkdown,
+      notificationStatus: "pending",
+    });
+    const notification = await notifyLeadSubmission({
+      leadId: result.leadId,
+      payload,
+      score: scored,
+      preCallBriefMarkdown,
+    });
+    await updateLeadNotificationStatus(result.leadId, notification.status);
 
     logger.info({
       event: "lead.submission.accepted",
@@ -74,8 +97,10 @@ export async function POST(request: NextRequest): Promise<Response> {
       tier: scored.tier,
       stage: scored.stage,
       trigger: payload.profile.trigger,
+      intent: isFunnelLeadRequest(payload) ? payload.intent : "legacy",
       locale: payload.context.locale,
       storage_mode: result.storageMode,
+      notification_status: notification.status,
     });
 
     const response: LeadApiResponse = {
@@ -93,6 +118,10 @@ export async function POST(request: NextRequest): Promise<Response> {
               kind: "calendar",
               url: env.NEXT_PUBLIC_CALENDAR_URL,
             },
+      preCallBrief: {
+        generated: true,
+        notification: notification.status,
+      },
     };
 
     return jsonResponse(response, {status: result.duplicate ? 200 : 201});

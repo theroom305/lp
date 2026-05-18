@@ -188,7 +188,7 @@ h3 {
 h1 {
   font-size: clamp(2.75rem, 7vw, 5.4rem);
   line-height: 0.96;
-  max-width: 10ch;
+  max-width: 13ch;
 }
 
 h2 {
@@ -219,9 +219,38 @@ p {
   max-width: min(100%, 34rem);
 }
 
+.hero-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.button-link {
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: inline-flex;
+  font-weight: 750;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+}
+
+.button-link-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
 .showroom,
 .split-band,
-.route-page {
+.route-page,
+.proof-band,
+.founder-band,
+.close-band,
+.funnel-page {
   padding: clamp(42px, 8vw, 96px) clamp(18px, 4vw, 56px);
 }
 
@@ -293,10 +322,70 @@ p {
   grid-template-columns: 1fr;
 }
 
+.proof-band,
+.founder-band,
+.close-band {
+  border-top: 1px solid var(--border);
+  display: grid;
+  gap: 28px;
+}
+
+.proof-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.proof-item {
+  border-top: 1px solid var(--border);
+  display: grid;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.proof-item p,
+.founder-copy p,
+.close-band p,
+.funnel-intro p {
+  color: var(--muted-foreground);
+  margin: 0;
+  max-width: 680px;
+}
+
+.founder-copy {
+  display: grid;
+  gap: 18px;
+  max-width: 760px;
+}
+
+.founder-copy blockquote {
+  border-left: 3px solid var(--accent);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  line-height: 1.15;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.close-band {
+  background: color-mix(in srgb, var(--secondary) 55%, var(--background));
+}
+
 .route-page {
   display: grid;
   gap: 22px;
   max-width: 920px;
+}
+
+.funnel-page {
+  align-items: start;
+  display: grid;
+  gap: clamp(28px, 5vw, 54px);
+}
+
+.funnel-intro {
+  display: grid;
+  gap: 18px;
 }
 
 .lead-form {
@@ -309,6 +398,27 @@ p {
   padding: clamp(18px, 4vw, 28px);
 }
 
+.form-step {
+  border: 0;
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+.form-step + .form-step {
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+
+.form-step legend {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.22rem;
+  font-weight: 650;
+  margin-bottom: 4px;
+  padding: 0;
+}
+
 .lead-form label {
   display: block;
   font-size: 0.82rem;
@@ -317,14 +427,53 @@ p {
 }
 
 .lead-form input,
-.lead-form select {
+.lead-form select,
+.lead-form textarea {
   background: var(--background);
   border: 1px solid var(--input);
   border-radius: 6px;
   color: var(--foreground);
   min-height: 48px;
-  padding: 0 12px;
+  padding: 10px 12px;
   width: 100%;
+}
+
+.lead-form textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.intent-toggle {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+.intent-toggle label {
+  margin: 0;
+}
+
+.intent-toggle input {
+  height: 1px;
+  opacity: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.intent-toggle span {
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: flex;
+  font-weight: 750;
+  min-height: 48px;
+  padding: 0 14px;
+}
+
+.intent-toggle input:checked + span {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
 }
 
 .lead-form button {
@@ -347,6 +496,32 @@ p {
   color: var(--muted-foreground);
   min-height: 1.5rem;
   margin: 0;
+}
+
+.form-note {
+  color: var(--muted-foreground);
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.contact-methods {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-methods a {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+}
+
+.contact-methods span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 750;
+  text-transform: uppercase;
 }
 
 .atlas-index {
@@ -629,6 +804,23 @@ p {
 
   .split-band {
     grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.7fr);
+  }
+
+  .proof-band,
+  .founder-band {
+    grid-template-columns: minmax(240px, 0.42fr) minmax(0, 1fr);
+  }
+
+  .funnel-page {
+    grid-template-columns: minmax(260px, 0.72fr) minmax(360px, 0.78fr);
+  }
+
+  .intent-toggle {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contact-methods {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .dossier-layout {

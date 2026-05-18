@@ -1,41 +1,115 @@
 {
   "nav": {
     "label": "Navegación principal",
-    "buildings": "Edificios",
-    "newDevelopments": "Desarrollos nuevos",
-    "owners": "Propietarios",
-    "notes": "Notas",
-    "about": "Método",
+    "buy": "Comprar",
+    "sell": "Vender",
     "contact": "Contacto"
   },
   "home": {
-    "eyebrow": "Superficie privada",
-    "title": "Quince edificios. Un solo criterio operativo.",
-    "intro": "Una superficie sobria de Room 305 para inteligencia de edificios, calificación de compradores y seguimiento liderado por el fundador. Texto provisional hasta cerrar las verificaciones.",
-    "profileEyebrow": "Microformulario",
-    "profileTitle": "Tres campos antes de cualquier llamada.",
-    "profileBody": "País, motivo y una línea abierta bastan para enrutar el lead sin convertir el primer contacto en un interrogatorio."
+    "eyebrow": "Guía para condominios en South Florida",
+    "title": "Comprar o vender con criterio operativo.",
+    "intro": "Room 305 ayuda a compradores y vendedores a mirar el edificio antes que el folleto. Nos enfocamos en condominios de South Florida donde reglas, uso, operación y salida necesitan una lectura clara.",
+    "primaryBuy": "Estoy comprando",
+    "primarySell": "Estoy vendiendo",
+    "proofEyebrow": "Cómo trabajamos",
+    "proofTitle": "Menos discurso. Más contexto del edificio.",
+    "proof": {
+      "building": {
+        "title": "Criterio por edificio",
+        "body": "Miramos reglas, uso del propietario y fricción práctica edificio por edificio."
+      },
+      "operator": {
+        "title": "Perspectiva operativa",
+        "body": "Pensamos más allá del cierre: preparación, entrega, ritmo y cómo se siente la propiedad después del primer mes."
+      },
+      "foreign": {
+        "title": "Comprador ausente o extranjero",
+        "body": "La distancia cambia la decisión. La primera llamada debe aclarar el próximo paso, no hacerlo más pesado."
+      },
+      "founder": {
+        "title": "Llamadas con fundador",
+        "body": "Si el encaje es real, habla con Isaac o el equipo de Room 305 antes de avanzar."
+      }
+    },
+    "founderEyebrow": "Nota del fundador",
+    "founderTitle": "Isaac lee el edificio antes que el discurso.",
+    "founderBody": "El trabajo de Isaac empieza con lo que el edificio permite, lo que el dueño quiere y lo que la operación tendría que sostener después de una compra o venta. La llamada útil no es un recorrido amplio. Es una conversación enfocada sobre la propiedad, las reglas y la realidad alrededor.",
+    "founderQuote": "Cuéntenos qué está tratando de decidir. Llevamos el contexto del edificio, y si no encaja, lo decimos temprano.",
+    "closeTitle": "No tiene que ordenar el edificio solo.",
+    "closeBody": "Cuando la decisión baja a un edificio, una unidad o una pregunta de venta, el próximo paso debe sentirse más liviano. Revisamos el contexto antes de responder y mantenemos la llamada corta y útil."
   },
   "showroom": {
     "eyebrow": "Edificios base",
     "title": "Vista curada del corredor"
   },
   "leadForm": {
+    "intentLegend": "Está comprando o vendiendo?",
+    "buying": "Estoy comprando",
+    "selling": "Estoy vendiendo",
+    "stepContext": "Contexto del edificio",
+    "stepCall": "Llamada útil",
+    "stepContact": "Contacto",
     "country": "Dónde vive ahora",
-    "trigger": "Cuál es el motivo",
-    "openQuestion": "Qué le preguntaría al fundador",
-    "placeholder": "Ej. Seven Park realmente permite renta corta?",
-    "submit": "Enrutar este lead",
-    "submitting": "Enrutando",
-    "error": "No se pudo enrutar el lead.",
-    "success": "Lead enrutado como {tier}. Próxima acción: {nextAction}.",
+    "targetAreaOrBuilding": "Zona o edificio",
+    "targetAreaOrBuildingPlaceholder": "Hallandale, Brickell, Beachwalk, Elser...",
+    "budgetRange": "Rango de presupuesto",
+    "budgetRangePlaceholder": "$700k-$1.2M, flexible, o definiendo rango",
+    "buyerTimeline": "Cuándo quisiera avanzar?",
+    "buyerTimelinePlaceholder": "Ahora, este verano, 6-12 meses, comparando",
+    "financingPosture": "Cómo compraría probablemente?",
+    "financing": {
+      "cash": "Cash",
+      "financing": "Financiación",
+      "unsure": "No sé"
+    },
+    "avoidance": "Qué quiere evitar?",
+    "avoidancePlaceholder": "Reglas malas, preparación débil, edificio incorrecto, ritmo mensual poco claro...",
+    "buildingUnit": "Edificio y unidad",
+    "buildingUnitPlaceholder": "Nombre del edificio, número de unidad o descripción cercana",
+    "currentlyListed": "Está publicado ahora?",
+    "listedYes": "Sí",
+    "listedNo": "No",
+    "sellerTimeline": "Cuándo le gustaría vender?",
+    "sellerTimelinePlaceholder": "Ahora, después de temporada, este año, no sé",
+    "sellerPain": "Cuál es el punto principal?",
+    "sellerPainOptions": {
+      "price": "Precio",
+      "tenant": "Inquilino",
+      "hoa": "HOA",
+      "broker": "Broker",
+      "uncertainty": "Incertidumbre",
+      "other": "Otro"
+    },
+    "expectedPrice": "Precio aproximado esperado",
+    "expectedPricePlaceholder": "$900k, necesito guía de mercado, o abierto",
+    "callUsefulness": "Qué haría útil esta llamada?",
+    "callUsefulnessPlaceholder": "Cuéntenos la decisión que está intentando tomar.",
+    "name": "Nombre",
+    "email": "Email",
+    "whatsapp": "WhatsApp (opcional)",
+    "whatsappPlaceholder": "+1 305...",
+    "submit": "Enviar contexto",
+    "submitting": "Enviando",
+    "error": "No se pudo enviar el lead.",
+    "success": "Recibido. Revisaremos el contexto del edificio antes de responder. Si parece encajar, el próximo paso es una llamada corta.",
+    "privacyNote": "Revisamos esto antes de responder. Sin lista, sin presión.",
     "triggers": {
       "buySelf": "Comprar para mí",
-      "buyInvestment": "Comprar como inversión",
+      "buyInvestment": "Comprar con contexto operativo",
       "sellUnit": "Vender una unidad",
       "operations": "Ya tengo una unidad y quiero mejor operación",
       "exploring": "Solo estoy explorando"
     }
+  },
+  "buy": {
+    "eyebrow": "Ruta comprador",
+    "title": "Empiece con la pregunta del edificio.",
+    "body": "Cuéntenos dónde está mirando, cómo compraría y qué quiere evitar. Usamos eso para decidir si una llamada corta sería útil."
+  },
+  "sell": {
+    "eyebrow": "Ruta vendedor",
+    "title": "Cuéntenos qué tiene y qué se siente trabado.",
+    "body": "La pregunta de venta cambia por edificio, tiempo, estado de ocupación y la historia de la unidad. Algunos detalles nos dejan prepararnos antes de responder."
   },
   "buyers": {
     "eyebrow": "Ruta comprador",
@@ -78,7 +152,12 @@
   },
   "contact": {
     "eyebrow": "Contacto",
-    "title": "Empiece con la señal útil más pequeña.",
-    "body": "El mismo contrato de lead alimenta esta página y el microformulario del marketplace."
+    "title": "Envíe la señal útil más pequeña.",
+    "body": "Use la ruta de comprador o vendedor si hay una pregunta sobre propiedad. Para lo demás, email, WhatsApp o calendario funcionan.",
+    "emailLabel": "Email",
+    "whatsappLabel": "WhatsApp",
+    "calendarLabel": "Calendario",
+    "buyCta": "Ruta comprador",
+    "sellCta": "Ruta vendedor"
   }
 }

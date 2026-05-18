@@ -19,15 +19,11 @@ export function PageShell({children}: PageShellProps) {
           Room 305
         </Link>
         <nav aria-label={t("label")}>
-          <Link href={localizedPath({key: "buildings", locale})}>
-            {t("buildings")}
+          <Link href={localizedPath({key: "buy", locale})}>{t("buy")}</Link>
+          <Link href={localizedPath({key: "sell", locale})}>{t("sell")}</Link>
+          <Link href={localizedPath({key: "contact", locale})}>
+            {t("contact")}
           </Link>
-          <Link href={localizedPath({key: "new-developments", locale})}>
-            {t("newDevelopments")}
-          </Link>
-          <Link href={localizedPath({key: "owners", locale})}>{t("owners")}</Link>
-          <Link href={localizedPath({key: "notes", locale})}>{t("notes")}</Link>
-          <Link href={localizedPath({key: "about", locale})}>{t("about")}</Link>
         </nav>
         {showSpanishToggle ? (
           <Link

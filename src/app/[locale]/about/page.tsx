@@ -25,6 +25,7 @@ export async function generateMetadata({
     description: "Room 305 method scaffold and founder context.",
     key: "about",
     locale,
+    indexable: false,
   });
 }
 

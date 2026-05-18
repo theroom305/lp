@@ -21,6 +21,7 @@ export async function generateMetadata({
     description: "Room 305 projected-vs-actual calibration scaffold.",
     key: "calibration",
     locale,
+    indexable: false,
   });
 }
 

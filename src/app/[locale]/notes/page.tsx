@@ -25,6 +25,7 @@ export async function generateMetadata({
     description: "Room 305 source-gated operator notes scaffold.",
     key: "notes",
     locale,
+    indexable: false,
   });
 }
 

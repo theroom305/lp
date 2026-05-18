@@ -8,6 +8,8 @@ export const siteUrl = "https://theroom305.com";
 
 type RouteKey =
   | "home"
+  | "buy"
+  | "sell"
   | "buildings"
   | "building"
   | "new-developments"
@@ -33,35 +35,43 @@ const localizedStaticPaths: Record<
   Record<Locale, string>
 > = {
   home: {
-    en: "/en",
+    en: "/",
     es: "/es",
   },
+  buy: {
+    en: "/buy",
+    es: "/es/comprar",
+  },
+  sell: {
+    en: "/sell",
+    es: "/es/vender",
+  },
   buildings: {
-    en: "/en/buildings",
+    en: "/buildings",
     es: "/es/edificios",
   },
   "new-developments": {
-    en: "/en/new-developments",
+    en: "/new-developments",
     es: "/es/desarrollos-nuevos",
   },
   owners: {
-    en: "/en/owners",
+    en: "/owners",
     es: "/es/propietarios",
   },
   about: {
-    en: "/en/about",
+    en: "/about",
     es: "/es/metodo",
   },
   contact: {
-    en: "/en/contact",
+    en: "/contact",
     es: "/es/contacto",
   },
   notes: {
-    en: "/en/notes",
+    en: "/notes",
     es: "/es/notas",
   },
   calibration: {
-    en: "/en/calibration",
+    en: "/calibration",
     es: "/es/calibracion",
   },
 };
@@ -92,7 +102,7 @@ export function localizedPath(input: RouteInput): string {
 
     return input.locale === "es"
       ? `/es/edificios/${input.slug}`
-      : `/en/buildings/${input.slug}`;
+      : `/buildings/${input.slug}`;
   }
 
   return localizedStaticPaths[input.key][input.locale];

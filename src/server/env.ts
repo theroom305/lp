@@ -1,5 +1,10 @@
 import {z} from "zod";
 
+const optionalEmail = z.preprocess(
+  (value) => (value === "" ? undefined : value),
+  z.string().email().optional(),
+);
+
 const envSchema = z.object({
   LEAD_STORAGE_MODE: z.enum(["dry-run", "postgres"]).default("dry-run"),
   DATABASE_URL: z.string().url().optional(),
@@ -7,7 +12,19 @@ const envSchema = z.object({
     .string()
     .url()
     .default("https://calendar.app.google/dJn7nyv4bsVxXwTB7"),
+  NEXT_PUBLIC_CONTACT_EMAIL: z.string().email().default("hello@theroom305.com"),
+  NEXT_PUBLIC_WHATSAPP_URL: z
+    .string()
+    .url()
+    .default("https://wa.me/15555555555"),
   RESEND_API_KEY: z.string().min(1).optional(),
+  RESEND_DOMAIN_VERIFIED: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((value) => value === "true"),
+  LEAD_NOTIFY_PRIMARY: optionalEmail,
+  LEAD_NOTIFY_SECONDARY: optionalEmail,
+  LEAD_NOTIFY_FROM: z.string().email().default("onboarding@resend.dev"),
   AUTH_SECRET: z.string().min(32),
   LEAD_NOTIFICATION_WEBHOOK_URL: z.string().url().optional(),
   SENTRY_DSN: z.string().url().optional(),
@@ -18,7 +35,13 @@ export const env = envSchema.parse({
   LEAD_STORAGE_MODE: process.env.LEAD_STORAGE_MODE,
   DATABASE_URL: process.env.DATABASE_URL,
   NEXT_PUBLIC_CALENDAR_URL: process.env.NEXT_PUBLIC_CALENDAR_URL,
+  NEXT_PUBLIC_CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
+  NEXT_PUBLIC_WHATSAPP_URL: process.env.NEXT_PUBLIC_WHATSAPP_URL,
   RESEND_API_KEY: process.env.RESEND_API_KEY,
+  RESEND_DOMAIN_VERIFIED: process.env.RESEND_DOMAIN_VERIFIED,
+  LEAD_NOTIFY_PRIMARY: process.env.LEAD_NOTIFY_PRIMARY,
+  LEAD_NOTIFY_SECONDARY: process.env.LEAD_NOTIFY_SECONDARY,
+  LEAD_NOTIFY_FROM: process.env.LEAD_NOTIFY_FROM,
   AUTH_SECRET: process.env.AUTH_SECRET,
   LEAD_NOTIFICATION_WEBHOOK_URL: process.env.LEAD_NOTIFICATION_WEBHOOK_URL,
   SENTRY_DSN: process.env.SENTRY_DSN,

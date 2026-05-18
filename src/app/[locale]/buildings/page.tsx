@@ -25,6 +25,7 @@ export async function generateMetadata({
     description: "Room 305 scaffold for source-gated building dossiers.",
     key: "buildings",
     locale,
+    indexable: false,
   });
 }
 

@@ -9,5 +9,5 @@ type BuyersPageProps = Readonly<{
 export default async function BuyersPage({params}: BuyersPageProps) {
   const {locale} = await params;
 
-  redirect(locale === "es" ? "/es/edificios" : "/en/buildings");
+  redirect(locale === "es" ? "/es/comprar" : "/buy");
 }

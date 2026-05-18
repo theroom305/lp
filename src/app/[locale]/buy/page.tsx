@@ -1,31 +1,32 @@
 import type {Metadata} from "next";
 import {useLocale, useTranslations} from "next-intl";
 
+import {LeadMicroform} from "@/components/marketplace/lead-microform";
 import {JsonLd} from "@/components/seo/json-ld";
 import type {Locale} from "@/i18n/routing";
 import {breadcrumbJsonLd, localizedPath, pageMetadata} from "@/lib/seo";
 import {PageShell} from "@/components/site/page-shell";
 
-type OwnersPageProps = Readonly<{
+type BuyPageProps = Readonly<{
   params: Promise<{locale: Locale}>;
 }>;
 
 export async function generateMetadata({
   params,
-}: OwnersPageProps): Promise<Metadata> {
+}: BuyPageProps): Promise<Metadata> {
   const {locale} = await params;
 
   return pageMetadata({
-    title: "Owners",
-    description: "Room 305 owner-path scaffold.",
-    key: "owners",
+    title: "Buy",
+    description:
+      "Start a Room 305 buyer call with area, building, timeline, and contact context.",
+    key: "buy",
     locale,
-    indexable: false,
   });
 }
 
-export default function OwnersPage() {
-  const t = useTranslations("owners");
+export default function BuyPage() {
+  const t = useTranslations("buy");
   const locale = useLocale() as Locale;
 
   return (
@@ -33,13 +34,16 @@ export default function OwnersPage() {
       <JsonLd
         data={breadcrumbJsonLd([
           {name: "Room 305", path: localizedPath({key: "home", locale})},
-          {name: "Owners", path: localizedPath({key: "owners", locale})},
+          {name: "Buy", path: localizedPath({key: "buy", locale})},
         ])}
       />
-      <main className="route-page" aria-labelledby="owners-heading">
-        <p className="eyebrow">{t("eyebrow")}</p>
-        <h1 id="owners-heading">{t("title")}</h1>
-        <p>{t("body")}</p>
+      <main className="funnel-page" aria-labelledby="buy-heading">
+        <section className="funnel-intro">
+          <p className="eyebrow">{t("eyebrow")}</p>
+          <h1 id="buy-heading">{t("title")}</h1>
+          <p>{t("body")}</p>
+        </section>
+        <LeadMicroform defaultIntent="buying" />
       </main>
     </PageShell>
   );

@@ -22,6 +22,7 @@ export async function generateMetadata({
     description: "Room 305 scaffold for source-gated new-development pages.",
     key: "new-developments",
     locale,
+    indexable: false,
   });
 }
 

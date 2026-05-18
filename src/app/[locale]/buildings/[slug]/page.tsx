@@ -3,14 +3,10 @@ import {notFound} from "next/navigation";
 
 import {BuildingDossier} from "@/components/atlas/building-dossier";
 import {JsonLd} from "@/components/seo/json-ld";
-import {
-  getDossierForBuilding,
-  isBuildingIndexable,
-} from "@/content/atlas";
+import {getDossierForBuilding} from "@/content/atlas";
 import type {Locale} from "@/i18n/routing";
 import {
   breadcrumbJsonLd,
-  buildingJsonLd,
   localizedPath,
   pageMetadata,
 } from "@/lib/seo";
@@ -39,7 +35,7 @@ export async function generateMetadata({
     key: "building",
     locale,
     slug,
-    indexable: isBuildingIndexable(dossier.building),
+    indexable: false,
   });
 }
 
@@ -52,7 +48,6 @@ export default async function BuildingPage({params}: BuildingPageProps) {
   }
 
   const publicFacts = await getPublicFactsForBuilding(slug, locale);
-  const isIndexable = isBuildingIndexable(dossier.building);
   const dossierWithFacts = {
     ...dossier,
     sections: dossier.sections.map((section) =>
@@ -62,7 +57,6 @@ export default async function BuildingPage({params}: BuildingPageProps) {
 
   return (
     <PageShell>
-      {isIndexable ? <JsonLd data={buildingJsonLd(dossier.building)} /> : null}
       <JsonLd
         data={breadcrumbJsonLd([
           {name: "Room 305", path: localizedPath({key: "home", locale})},

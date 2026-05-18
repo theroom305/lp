@@ -54,6 +54,14 @@ const nextConfig: NextConfig = {
           destination: "/es/contact",
         },
         {
+          source: "/es/comprar",
+          destination: "/es/buy",
+        },
+        {
+          source: "/es/vender",
+          destination: "/es/sell",
+        },
+        {
           source: "/es/calibracion",
           destination: "/es/calibration",
         },

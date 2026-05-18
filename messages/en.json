@@ -1,41 +1,115 @@
 {
   "nav": {
     "label": "Primary navigation",
-    "buildings": "Buildings",
-    "newDevelopments": "New Developments",
-    "owners": "Owners",
-    "notes": "Notes",
-    "about": "Method",
+    "buy": "Buy",
+    "sell": "Sell",
     "contact": "Contact"
   },
   "home": {
-    "eyebrow": "Private market scaffold",
-    "title": "Fifteen buildings. One operating lens.",
-    "intro": "A restrained Room 305 surface for building intelligence, buyer qualification, and founder-led follow-up. Placeholder copy only until compliance gates clear.",
-    "profileEyebrow": "Microform",
-    "profileTitle": "Three fields before any call.",
-    "profileBody": "Country, trigger, and one open line are enough to route the lead without turning the first touch into intake theater."
+    "eyebrow": "South Florida condo guidance",
+    "title": "Buy or sell with someone who thinks like an operator.",
+    "intro": "Room 305 helps buyers and sellers look at the building before the brochure. We focus on South Florida condos where ownership, rules, guest use, and exit path need a sharper read.",
+    "primaryBuy": "I'm buying",
+    "primarySell": "I'm selling",
+    "proofEyebrow": "How we work",
+    "proofTitle": "Less pitch. More building context.",
+    "proof": {
+      "building": {
+        "title": "Building-specific judgment",
+        "body": "We look at rules, owner use, and practical friction one building at a time."
+      },
+      "operator": {
+        "title": "Operator perspective",
+        "body": "We think beyond the closing table: setup, handoff, rhythm, and what ownership feels like after month one."
+      },
+      "foreign": {
+        "title": "Foreign and absentee fluency",
+        "body": "Distance changes the decision. The first call should make the next step clearer, not heavier."
+      },
+      "founder": {
+        "title": "Founder-led calls",
+        "body": "If the fit is real, you speak with Isaac or the Room 305 team before any next step."
+      }
+    },
+    "founderEyebrow": "Founder note",
+    "founderTitle": "Isaac reads the building before the pitch.",
+    "founderBody": "Isaac's work starts with what the building allows, what the owner wants, and what the operation would have to carry after a purchase or sale. The useful call is not a broad tour. It is a focused conversation about the property, the rules, and the reality around it.",
+    "founderQuote": "Tell us what you are trying to decide. We will bring the building context, and if it is not a fit, we will say that early.",
+    "closeTitle": "You do not have to sort the building alone.",
+    "closeBody": "When you narrow the decision to a building, a unit, or a sale question, the next step should feel lighter. We review the context before replying, then keep the call short and useful."
   },
   "showroom": {
     "eyebrow": "Building shells",
     "title": "Curated corridor preview"
   },
   "leadForm": {
+    "intentLegend": "Are you buying or selling?",
+    "buying": "I'm buying",
+    "selling": "I'm selling",
+    "stepContext": "Building context",
+    "stepCall": "Useful call",
+    "stepContact": "Contact",
     "country": "Where you live now",
-    "trigger": "What is the trigger",
-    "openQuestion": "What would you ask the founder",
-    "placeholder": "e.g. What is the verified rental-use path at Seven Park?",
-    "submit": "Route this lead",
-    "submitting": "Routing",
-    "error": "The lead could not be routed.",
-    "success": "Lead routed as {tier}. Next action: {nextAction}.",
+    "targetAreaOrBuilding": "Target area or building",
+    "targetAreaOrBuildingPlaceholder": "Hallandale, Brickell, Beachwalk, Elser...",
+    "budgetRange": "Budget range",
+    "budgetRangePlaceholder": "$700k-$1.2M, flexible, or still setting range",
+    "buyerTimeline": "When would you want to move?",
+    "buyerTimelinePlaceholder": "Now, this summer, 6-12 months, just comparing",
+    "financingPosture": "How would you likely buy?",
+    "financing": {
+      "cash": "Cash",
+      "financing": "Financing",
+      "unsure": "Unsure"
+    },
+    "avoidance": "What do you want to avoid?",
+    "avoidancePlaceholder": "Bad rules, weak setup, wrong building, unclear monthly rhythm...",
+    "buildingUnit": "Building and unit",
+    "buildingUnitPlaceholder": "Building name, unit number, or closest description",
+    "currentlyListed": "Is it currently listed?",
+    "listedYes": "Yes",
+    "listedNo": "No",
+    "sellerTimeline": "When would you like to sell?",
+    "sellerTimelinePlaceholder": "Now, after season, this year, not sure",
+    "sellerPain": "What is the main issue?",
+    "sellerPainOptions": {
+      "price": "Price",
+      "tenant": "Tenant",
+      "hoa": "HOA",
+      "broker": "Broker",
+      "uncertainty": "Uncertainty",
+      "other": "Other"
+    },
+    "expectedPrice": "Approximate expected price",
+    "expectedPricePlaceholder": "$900k, market guidance needed, or open",
+    "callUsefulness": "What would make this call useful?",
+    "callUsefulnessPlaceholder": "Tell us the decision you are trying to make.",
+    "name": "Name",
+    "email": "Email",
+    "whatsapp": "WhatsApp (optional)",
+    "whatsappPlaceholder": "+1 305...",
+    "submit": "Send context",
+    "submitting": "Sending",
+    "error": "The lead could not be sent.",
+    "success": "Received. We'll review the building context before replying. If this looks like a fit, the next step is a short call.",
+    "privacyNote": "We review this before replying. No list, no pressure.",
     "triggers": {
       "buySelf": "Buying for myself",
-      "buyInvestment": "Buying as investment",
+      "buyInvestment": "Buying with operating context",
       "sellUnit": "Selling a unit",
       "operations": "I already own and want better operations",
       "exploring": "Just exploring"
     }
+  },
+  "buy": {
+    "eyebrow": "Buyer path",
+    "title": "Start with the building question.",
+    "body": "Tell us where you are looking, how you would buy, and what you want to avoid. We will use that to decide whether a short call is useful."
+  },
+  "sell": {
+    "eyebrow": "Seller path",
+    "title": "Tell us what you own and what feels stuck.",
+    "body": "The sale question changes by building, timing, tenant status, and the story around the unit. A few details let us prepare before we reply."
   },
   "buyers": {
     "eyebrow": "Buyer route",
@@ -78,7 +152,12 @@
   },
   "contact": {
     "eyebrow": "Contact",
-    "title": "Start with the smallest useful signal.",
-    "body": "The same lead contract powers this page and the marketplace microform."
+    "title": "Send the smallest useful signal.",
+    "body": "Use the buyer or seller path if there is a property question. For everything else, email, WhatsApp, or calendar works.",
+    "emailLabel": "Email",
+    "whatsappLabel": "WhatsApp",
+    "calendarLabel": "Calendar",
+    "buyCta": "Buyer path",
+    "sellCta": "Seller path"
   }
 }
