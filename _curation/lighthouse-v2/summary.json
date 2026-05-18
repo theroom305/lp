@@ -1,0 +1,215 @@
+{
+  "summarizedAt": "2026-05-18T05:20:09.324Z",
+  "summary": [
+    {
+      "profile": "mobile",
+      "route": "root",
+      "runs": [
+        {
+          "lcp": 2225,
+          "cls": 0
+        },
+        {
+          "lcp": 1645,
+          "cls": 0
+        },
+        {
+          "lcp": 2242,
+          "cls": 0
+        }
+      ],
+      "medianLcp": 2225,
+      "medianCls": 0,
+      "pass": true
+    },
+    {
+      "profile": "mobile",
+      "route": "buy",
+      "runs": [
+        {
+          "lcp": 2137,
+          "cls": 0
+        },
+        {
+          "lcp": 2290,
+          "cls": 0
+        },
+        {
+          "lcp": 2258,
+          "cls": 0
+        }
+      ],
+      "medianLcp": 2258,
+      "medianCls": 0,
+      "pass": true
+    },
+    {
+      "profile": "mobile",
+      "route": "sell",
+      "runs": [
+        {
+          "lcp": 2238,
+          "cls": 0
+        },
+        {
+          "lcp": 2136,
+          "cls": 0
+        },
+        {
+          "lcp": 1685,
+          "cls": 0
+        }
+      ],
+      "medianLcp": 2136,
+      "medianCls": 0,
+      "pass": true
+    },
+    {
+      "profile": "mobile",
+      "route": "buildings",
+      "runs": [
+        {
+          "lcp": 1550,
+          "cls": 0
+        },
+        {
+          "lcp": 1536,
+          "cls": 0
+        },
+        {
+          "lcp": 1711,
+          "cls": 0
+        }
+      ],
+      "medianLcp": 1550,
+      "medianCls": 0,
+      "pass": true
+    },
+    {
+      "profile": "mobile",
+      "route": "beachwalk",
+      "runs": [
+        {
+          "lcp": 2208,
+          "cls": 0
+        },
+        {
+          "lcp": 1609,
+          "cls": 0
+        },
+        {
+          "lcp": 2344,
+          "cls": 0
+        }
+      ],
+      "medianLcp": 2208,
+      "medianCls": 0,
+      "pass": true
+    },
+    {
+      "profile": "desktop",
+      "route": "root",
+      "runs": [
+        {
+          "lcp": 504,
+          "cls": 0
+        },
+        {
+          "lcp": 444,
+          "cls": 0
+        },
+        {
+          "lcp": 573,
+          "cls": 0
+        }
+      ],
+      "medianLcp": 504,
+      "medianCls": 0,
+      "pass": true
+    },
+    {
+      "profile": "desktop",
+      "route": "buy",
+      "runs": [
+        {
+          "lcp": 532,
+          "cls": 0
+        },
+        {
+          "lcp": 514,
+          "cls": 0
+        },
+        {
+          "lcp": 518,
+          "cls": 0
+        }
+      ],
+      "medianLcp": 518,
+      "medianCls": 0,
+      "pass": true
+    },
+    {
+      "profile": "desktop",
+      "route": "sell",
+      "runs": [
+        {
+          "lcp": 511,
+          "cls": 0
+        },
+        {
+          "lcp": 513,
+          "cls": 0
+        },
+        {
+          "lcp": 507,
+          "cls": 0
+        }
+      ],
+      "medianLcp": 511,
+      "medianCls": 0,
+      "pass": true
+    },
+    {
+      "profile": "desktop",
+      "route": "buildings",
+      "runs": [
+        {
+          "lcp": 546,
+          "cls": 0
+        },
+        {
+          "lcp": 375,
+          "cls": 0
+        },
+        {
+          "lcp": 543,
+          "cls": 0
+        }
+      ],
+      "medianLcp": 543,
+      "medianCls": 0,
+      "pass": true
+    },
+    {
+      "profile": "desktop",
+      "route": "beachwalk",
+      "runs": [
+        {
+          "lcp": 524,
+          "cls": 0
+        },
+        {
+          "lcp": 527,
+          "cls": 0
+        },
+        {
+          "lcp": 538,
+          "cls": 0
+        }
+      ],
+      "medianLcp": 527,
+      "medianCls": 0,
+      "pass": true
+    }
+  ]
+}

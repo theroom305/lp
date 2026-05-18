@@ -16,6 +16,8 @@ export function GET(): Response {
       localizedPath({key: "buildings", locale: "en"}),
     )} - buildings we follow, presented as a working scaffold.`,
     `- Contact: ${absoluteUrl(localizedPath({key: "contact", locale: "en"}))}`,
+    "",
+    "Atmospheric imagery on this site uses licensed editorial photography or generative mood studies; it depicts light, material, and time-of-day, not specific properties or building portraits.",
   ];
 
   return new Response(`${lines.join("\n")}\n`, {

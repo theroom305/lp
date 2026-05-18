@@ -1,6 +1,15 @@
 import {expect, test} from "@playwright/test";
 
+import {ambientAssets} from "../src/content/ambient-assets";
+import {corridorBuildings} from "../src/content/building-registry";
+
 const publicPaths = ["/", "/buy", "/sell", "/buildings", "/contact"] as const;
+const allowedAssetIntents = new Set([
+  "ambient",
+  "material",
+  "arrival",
+  "lifestyle-context",
+]);
 
 async function expectNoHorizontalOverflow(page: import("@playwright/test").Page) {
   const viewport = page.viewportSize();
@@ -106,5 +115,92 @@ test.describe("building atlas", () => {
     await expect(page.getByText("operating_units_room305")).toHaveCount(0);
     await expect(page.getByText("bankruptcy")).toHaveCount(0);
     await expectNoHorizontalOverflow(page);
+  });
+
+  test("desktop building-card heading keeps usable width", async ({page}) => {
+    await page.setViewportSize({width: 1440, height: 900});
+    await page.goto("/");
+
+    const firstHeading = page.locator(".building-card h3").first();
+    await expect(firstHeading).toBeVisible();
+
+    const width = await firstHeading.evaluate(
+      (element) => (element as HTMLElement).clientWidth,
+    );
+
+    expect(width).toBeGreaterThan(120);
+  });
+});
+
+test.describe("ambient assets", () => {
+  test("manifest keeps source contracts and claim-safety boundaries", () => {
+    const forbiddenTerms = corridorBuildings.flatMap((building) => [
+      building.slug,
+      building.name,
+    ]);
+    const placements = new Set<string>();
+
+    expect(ambientAssets.length).toBeGreaterThanOrEqual(3);
+    expect(ambientAssets.length).toBeLessThanOrEqual(4);
+
+    for (const asset of ambientAssets) {
+      expect(allowedAssetIntents.has(asset.intent)).toBe(true);
+      expect(placements.has(asset.placement)).toBe(false);
+      placements.add(asset.placement);
+
+      if (asset.source === "generated-atmospheric") {
+        expect(asset.promptDigest).toBeTruthy();
+        expect(asset.attribution).toBeNull();
+      } else {
+        expect(asset.promptDigest).toBeNull();
+        expect(asset.attribution).toBeTruthy();
+      }
+
+      const checkedText = [
+        asset.alt,
+        asset.srcAvif,
+        asset.srcWebp,
+        asset.promptDigest ?? "",
+        asset.attribution?.photographer ?? "",
+        asset.attribution?.sourceUrl ?? "",
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      for (const term of forbiddenTerms) {
+        expect(checkedText).not.toContain(term.toLowerCase());
+      }
+    }
+
+    expect(placements.has("buy-intro")).toBe(true);
+    expect(placements.has("sell-intro")).toBe(true);
+    expect(placements.has("slug-shared-backdrop")).toBe(true);
+  });
+
+  test("ambient images stay lazy-loaded around above-fold routes", async ({
+    page,
+  }) => {
+    const routes = ["/", "/buy"] as const;
+    const viewports = [
+      {width: 1440, height: 900},
+      {width: 390, height: 844},
+    ] as const;
+
+    for (const viewport of viewports) {
+      await page.setViewportSize(viewport);
+
+      for (const route of routes) {
+        await page.goto(route);
+
+        const eagerImages = await page.locator('img[loading="eager"]').count();
+        const nonLazyAmbient = await page
+          .locator('.ambient-strip img:not([loading="lazy"])')
+          .count();
+
+        expect(eagerImages).toBeLessThanOrEqual(1);
+        expect(nonLazyAmbient).toBe(0);
+        await expectNoHorizontalOverflow(page);
+      }
+    }
   });
 });

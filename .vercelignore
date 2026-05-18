@@ -1,0 +1,7 @@
+.git
+.next
+.venv-curation
+_curation
+node_modules
+playwright-report
+test-results

@@ -5,6 +5,7 @@ import {notFound} from "next/navigation";
 import {BuildingDossier} from "@/components/atlas/building-dossier";
 import {BuildingTonalPlate} from "@/components/marketplace/building-tonal-plate";
 import {JsonLd} from "@/components/seo/json-ld";
+import {AmbientStrip} from "@/components/site/ambient-strip";
 import {
   getCorridorBuildingBySlug,
   isFullDossierSlug,
@@ -88,6 +89,7 @@ export default async function BuildingPage({params}: BuildingPageProps) {
     return (
       <PageShell>
         {breadcrumb}
+        <AmbientStrip placement="slug-shared-backdrop" variant="backdrop" />
         <BuildingDossier
           corridorBuilding={building}
           ctaHref={buildingContextHref(slug, locale)}

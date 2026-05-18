@@ -132,13 +132,13 @@ function stageLabelForYear(year: number | null): string {
 function cadenceLabelForStatus(status: string): string {
   switch (status) {
     case "legal_7_night_min":
-      return "Weekly rental cadence (verifying)";
+      return "Weekly cadence · verifying";
     case "legal_no_minimum":
-      return "Short-stay cadence (verifying)";
+      return "Short-stay cadence · verifying";
     case "legal_30_night_min":
-      return "Monthly-floor cadence (verifying)";
+      return "Monthly cadence · verifying";
     case "residential_only":
-      return "Long-stay residential cadence (verifying)";
+      return "Residential cadence · verifying";
     case "unverified":
       return "Cadence under declaration review";
     default:

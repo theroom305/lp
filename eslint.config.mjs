@@ -13,6 +13,7 @@ const eslintConfig = [
   {
     ignores: [
       "node_modules/**",
+      ".venv-curation/**",
       ".next/**",
       ".vercel/**",
       "out/**",

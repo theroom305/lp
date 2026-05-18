@@ -1,0 +1,26 @@
+{
+  "scoredAt": "2026-05-18T04:31:36.535Z",
+  "scored": [
+    {
+      "id": "threshold-brass-light",
+      "placement": "buy-intro",
+      "source": "pexels",
+      "composite": 4.66,
+      "passes": true
+    },
+    {
+      "id": "ceramic-linen-light",
+      "placement": "sell-intro",
+      "source": "pexels",
+      "composite": 4.66,
+      "passes": true
+    },
+    {
+      "id": "coastal-pool-stillness",
+      "placement": "slug-shared-backdrop",
+      "source": "pexels",
+      "composite": 4.58,
+      "passes": true
+    }
+  ]
+}

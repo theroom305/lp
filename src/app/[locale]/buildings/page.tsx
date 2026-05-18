@@ -43,9 +43,11 @@ export default function BuildingsPage() {
         data={itemListJsonLd("Room 305 corridor building atlas", corridorBuildings)}
       />
       <main className="route-page atlas-index" aria-labelledby="buildings-heading">
-        <p className="eyebrow">{t("eyebrow")}</p>
-        <h1 id="buildings-heading">{t("title")}</h1>
-        <p>{t("body")}</p>
+        <header className="buildings-header">
+          <p className="eyebrow">{t("eyebrow")}</p>
+          <h1 id="buildings-heading">{t("title")}</h1>
+          <p>{t("body")}</p>
+        </header>
 
         <div className="atlas-grid" data-test-id="buildings-index">
           {corridorBuildings.map((building) => (

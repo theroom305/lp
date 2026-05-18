@@ -1,0 +1,39 @@
+{
+  "createdAt": "2026-05-18T04:32:00Z",
+  "strategy": "Zero-touch auto-exemplars: v6.1 hero, tonal-plate aesthetic, and strongest generated calibration images.",
+  "exemplars": [
+    {
+      "id": "v6-1-hero",
+      "type": "approved-hero",
+      "path": "public/hero/room305-hero.webp",
+      "reason": "Dan-approved by virtue of v6.1 ship; carries warm hospitality photography spine."
+    },
+    {
+      "id": "tonal-plate-aesthetic",
+      "type": "code-aesthetic",
+      "path": "src/components/marketplace/building-tonal-plate.tsx",
+      "reason": "Encodes the duotone palette, abstract corridor composition, and restrained building-atlas visual language."
+    },
+    {
+      "id": "generated-01",
+      "type": "generated-atmospheric",
+      "path": "_curation/calibration/generated/generated-01.png",
+      "composite": 4.72,
+      "reason": "Warm balcony, palm shadow, brass/water signal, no people or text."
+    },
+    {
+      "id": "generated-04",
+      "type": "generated-atmospheric",
+      "path": "_curation/calibration/generated/generated-04.png",
+      "composite": 4.82,
+      "reason": "Strongest material-honesty frame: brass pull, plaster, palm shadow, no property claim."
+    },
+    {
+      "id": "generated-10",
+      "type": "generated-atmospheric",
+      "path": "_curation/calibration/generated/generated-10.png",
+      "composite": 4.64,
+      "reason": "Warm lifestyle-context still life; useful calibration reference but real Pexels ceramic image shipped instead."
+    }
+  ]
+}

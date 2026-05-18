@@ -83,6 +83,7 @@ export default function HomePage() {
         <div className="founder-copy">
           <p>{t("founderBody")}</p>
           <blockquote>{t("founderQuote")}</blockquote>
+          <p className="founder-signature">{t("founderSignature")}</p>
         </div>
       </section>
 

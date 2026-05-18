@@ -3,6 +3,7 @@ import {getTranslations} from "next-intl/server";
 
 import {LeadMicroform} from "@/components/marketplace/lead-microform";
 import {JsonLd} from "@/components/seo/json-ld";
+import {AmbientStrip} from "@/components/site/ambient-strip";
 import {
   corridorBuildings,
   getCorridorBuildingBySlug,
@@ -66,6 +67,7 @@ export default async function SellPage({params, searchParams}: SellPageProps) {
               <span key={building.slug}>{building.name}</span>
             ))}
           </div>
+          <AmbientStrip placement="sell-intro" variant="side" />
         </section>
         <LeadMicroform
           defaultIntent="selling"

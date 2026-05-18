@@ -1,0 +1,13 @@
+{
+  "id": "image-gen-capability-probe",
+  "intent": "ambient",
+  "startedAt": "2026-05-18T03:40:21Z",
+  "completedAt": "2026-05-18T03:41:14Z",
+  "latencySeconds": 53,
+  "sourcePath": "/home/molduser/.codex/generated_images/019e3898-0064-7181-b78b-14dbe5e82c26/ig_06520b275976bd94016a0a8a2764c0819ab25f3a94496c7a9b.png",
+  "curationPath": "_curation/probe/image-gen-capability-probe.png",
+  "width": 1672,
+  "height": 941,
+  "promptDigest": "810e619c3e19",
+  "prompt": "Photorealistic editorial atmosphere for a discreet coastal hospitality brand: warm early evening light across a shaded balcony edge, palm shadows falling on pale stone and linen, hint of water reflection beyond, no people, no text, no signage, no logos, no recognizable buildings, natural materials, restrained deep green and aged brass accents, off-white walls, calm composition with negative space, 16:9 landscape, high-end magazine realism, not CGI, not glossy, not saturated."
+}

@@ -1,0 +1,90 @@
+{
+  "selectedAt": "2026-05-18T04:20:00Z",
+  "sourcePolicy": "Real licensed photography first; generated atmospheric remains backup only.",
+  "picks": [
+    {
+      "id": "threshold-brass-light",
+      "intent": "arrival",
+      "placement": "buy-intro",
+      "source": "pexels",
+      "inputPath": "_curation/calibration/real/buy-intro-pexels-brass-door.jpg",
+      "outputBase": "threshold-brass-light",
+      "width": 1400,
+      "height": 1000,
+      "position": "south",
+      "alt": "Warm light crossing brass door pulls on a pale private threshold.",
+      "sourceUrl": "https://www.pexels.com/photo/brass-handle-on-doors-9882313/",
+      "attribution": {
+        "photographer": "Kulbir",
+        "sourceUrl": "https://www.pexels.com/photo/brass-handle-on-doors-9882313/",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "retrievedAt": "2026-05-18"
+      },
+      "promptDigest": null,
+      "qualityScores": {
+        "light": 4.7,
+        "composition": 4.6,
+        "material": 4.8,
+        "palette": 4.7,
+        "mood": 4.5,
+        "composite": 4.66
+      }
+    },
+    {
+      "id": "ceramic-linen-light",
+      "intent": "lifestyle-context",
+      "placement": "sell-intro",
+      "source": "pexels",
+      "inputPath": "_curation/calibration/real/sell-intro-pexels-ceramic-cups.jpg",
+      "outputBase": "ceramic-linen-light",
+      "width": 1400,
+      "height": 1000,
+      "position": "south",
+      "alt": "Soft daylight over handmade ceramic vessels on a quiet neutral surface.",
+      "sourceUrl": "https://www.pexels.com/photo/minimalist-ceramic-cups-in-soft-sunlight-29904627/",
+      "attribution": {
+        "photographer": "Farhad Ibrahimzade",
+        "sourceUrl": "https://www.pexels.com/photo/minimalist-ceramic-cups-in-soft-sunlight-29904627/",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "retrievedAt": "2026-05-18"
+      },
+      "promptDigest": null,
+      "qualityScores": {
+        "light": 4.6,
+        "composition": 4.7,
+        "material": 4.8,
+        "palette": 4.6,
+        "mood": 4.6,
+        "composite": 4.66
+      }
+    },
+    {
+      "id": "coastal-pool-stillness",
+      "intent": "ambient",
+      "placement": "slug-shared-backdrop",
+      "source": "pexels",
+      "inputPath": "_curation/calibration/real/slug-backdrop-pexels-coastal-pool.jpg",
+      "outputBase": "coastal-pool-stillness",
+      "width": 1600,
+      "height": 900,
+      "position": "center",
+      "alt": "Quiet pool water and lounge chairs facing a soft coastal horizon at dusk.",
+      "sourceUrl": "https://www.pexels.com/photo/swimming-pool-on-sea-shore-at-sunset-17648794/",
+      "attribution": {
+        "photographer": "Matteo Milan",
+        "sourceUrl": "https://www.pexels.com/photo/swimming-pool-on-sea-shore-at-sunset-17648794/",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "retrievedAt": "2026-05-18"
+      },
+      "promptDigest": null,
+      "qualityScores": {
+        "light": 4.7,
+        "composition": 4.5,
+        "material": 4.5,
+        "palette": 4.5,
+        "mood": 4.7,
+        "composite": 4.58
+      }
+    }
+  ]
+}

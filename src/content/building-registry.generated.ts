@@ -11,7 +11,7 @@ export const corridorBuildings = [
     "year": 2017,
     "stageLabel": "Delivered 2017",
     "brandTier": "luxury",
-    "cadenceLabel": "Short-stay cadence (verifying)",
+    "cadenceLabel": "Short-stay cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "sand-dusk",
     "isFullDossier": false
@@ -24,7 +24,7 @@ export const corridorBuildings = [
     "year": 2015,
     "stageLabel": "Delivered 2015",
     "brandTier": "luxury",
-    "cadenceLabel": "Weekly rental cadence (verifying)",
+    "cadenceLabel": "Weekly cadence · verifying",
     "verificationLabel": "Operator-known",
     "tone": "sand-dusk",
     "isFullDossier": true
@@ -37,7 +37,7 @@ export const corridorBuildings = [
     "year": 2024,
     "stageLabel": "Delivered 2024",
     "brandTier": "luxury",
-    "cadenceLabel": "Short-stay cadence (verifying)",
+    "cadenceLabel": "Short-stay cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "brass-forest",
     "isFullDossier": false
@@ -50,7 +50,7 @@ export const corridorBuildings = [
     "year": 2022,
     "stageLabel": "Delivered 2022",
     "brandTier": "luxury",
-    "cadenceLabel": "Short-stay cadence (verifying)",
+    "cadenceLabel": "Short-stay cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "brass-forest",
     "isFullDossier": true
@@ -63,7 +63,7 @@ export const corridorBuildings = [
     "year": 2017,
     "stageLabel": "Delivered 2017",
     "brandTier": "boutique",
-    "cadenceLabel": "Short-stay cadence (verifying)",
+    "cadenceLabel": "Short-stay cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "sand-dusk",
     "isFullDossier": true
@@ -76,7 +76,7 @@ export const corridorBuildings = [
     "year": 2024,
     "stageLabel": "Delivered 2024",
     "brandTier": "luxury",
-    "cadenceLabel": "Monthly-floor cadence (verifying)",
+    "cadenceLabel": "Monthly cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "brass-forest",
     "isFullDossier": false
@@ -102,7 +102,7 @@ export const corridorBuildings = [
     "year": 2027,
     "stageLabel": "Delivering 2027",
     "brandTier": "luxury",
-    "cadenceLabel": "Monthly-floor cadence (verifying)",
+    "cadenceLabel": "Monthly cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "brass-forest",
     "isFullDossier": false
@@ -115,7 +115,7 @@ export const corridorBuildings = [
     "year": 2026,
     "stageLabel": "Delivering 2026",
     "brandTier": "luxury",
-    "cadenceLabel": "Monthly-floor cadence (verifying)",
+    "cadenceLabel": "Monthly cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "olive-pearl",
     "isFullDossier": false
@@ -128,7 +128,7 @@ export const corridorBuildings = [
     "year": 2026,
     "stageLabel": "Delivering 2026",
     "brandTier": "luxury",
-    "cadenceLabel": "Short-stay cadence (verifying)",
+    "cadenceLabel": "Short-stay cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "brass-forest",
     "isFullDossier": true
@@ -141,7 +141,7 @@ export const corridorBuildings = [
     "year": 2025,
     "stageLabel": "Delivered 2025",
     "brandTier": "luxury",
-    "cadenceLabel": "Short-stay cadence (verifying)",
+    "cadenceLabel": "Short-stay cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "brass-forest",
     "isFullDossier": true
@@ -167,7 +167,7 @@ export const corridorBuildings = [
     "year": 2027,
     "stageLabel": "Delivering 2027",
     "brandTier": "luxury",
-    "cadenceLabel": "Short-stay cadence (verifying)",
+    "cadenceLabel": "Short-stay cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "sand-dusk",
     "isFullDossier": true
@@ -180,7 +180,7 @@ export const corridorBuildings = [
     "year": 2027,
     "stageLabel": "Delivering 2027",
     "brandTier": "boutique",
-    "cadenceLabel": "Monthly-floor cadence (verifying)",
+    "cadenceLabel": "Monthly cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "sand-dusk",
     "isFullDossier": false
@@ -193,7 +193,7 @@ export const corridorBuildings = [
     "year": 2028,
     "stageLabel": "Delivering 2028",
     "brandTier": "luxury",
-    "cadenceLabel": "Short-stay cadence (verifying)",
+    "cadenceLabel": "Short-stay cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "sand-dusk",
     "isFullDossier": false
@@ -206,7 +206,7 @@ export const corridorBuildings = [
     "year": 2019,
     "stageLabel": "Delivered 2019",
     "brandTier": "ultra luxury",
-    "cadenceLabel": "Long-stay residential cadence (verifying)",
+    "cadenceLabel": "Residential cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "coral-sand",
     "isFullDossier": false
@@ -219,7 +219,7 @@ export const corridorBuildings = [
     "year": 2027,
     "stageLabel": "Delivering 2027",
     "brandTier": "ultra luxury",
-    "cadenceLabel": "Long-stay residential cadence (verifying)",
+    "cadenceLabel": "Residential cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "pearl-champagne",
     "isFullDossier": false
@@ -232,7 +232,7 @@ export const corridorBuildings = [
     "year": 2017,
     "stageLabel": "Delivered 2017",
     "brandTier": "ultra luxury",
-    "cadenceLabel": "Long-stay residential cadence (verifying)",
+    "cadenceLabel": "Residential cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "pearl-champagne",
     "isFullDossier": false
@@ -245,7 +245,7 @@ export const corridorBuildings = [
     "year": 2024,
     "stageLabel": "Delivered 2024",
     "brandTier": "ultra luxury",
-    "cadenceLabel": "Long-stay residential cadence (verifying)",
+    "cadenceLabel": "Residential cadence · verifying",
     "verificationLabel": "Secondary source",
     "tone": "coral-sand",
     "isFullDossier": false
