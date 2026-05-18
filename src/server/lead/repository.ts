@@ -4,9 +4,11 @@ import {getSql} from "@/server/db/client";
 import {env} from "@/server/env";
 import {
   isFunnelLeadRequest,
+  isV7LeadRequest,
   type LeadRequest,
   type LeadScore,
 } from "@/server/lead/schema";
+import type {LeadClassification} from "@/server/lead/scoring";
 
 type PersistLeadResult = Readonly<{
   leadId: string;
@@ -17,6 +19,7 @@ type PersistLeadResult = Readonly<{
 type PersistLeadOptions = Readonly<{
   preCallBriefMarkdown?: string;
   notificationStatus?: string;
+  classification?: LeadClassification;
 }>;
 
 export function leadIdFromKey(idempotencyKey: string): string {
@@ -25,6 +28,44 @@ export function leadIdFromKey(idempotencyKey: string): string {
 }
 
 function normalizedLeadColumns(payload: LeadRequest) {
+  if (isV7LeadRequest(payload)) {
+    return {
+      intent:
+        payload.customerState === "buying"
+          ? "buying"
+          : payload.customerState === "selling"
+            ? "selling"
+            : "owning",
+      country: payload.countryOfResidence,
+      contactName: payload.contact.name,
+      contactEmail: payload.contact.email,
+      contactWhatsapp: payload.contact.whatsapp ?? payload.contact.phone ?? null,
+      targetAreaOrBuilding:
+        payload.customerState === "selling" ? null : payload.buildingOrArea,
+      budgetRange: payload.budgetBand ?? null,
+      buyerTimeline:
+        payload.customerState === "buying" ? payload.timeline : null,
+      financingPosture: null,
+      buyerAvoidance: payload.mainConcern ?? null,
+      buildingUnit:
+        payload.customerState === "selling" || payload.customerState === "i-own"
+          ? payload.buildingOrArea
+          : null,
+      currentlyListed: null,
+      sellerTimeline:
+        payload.customerState === "selling" ? payload.timeline : null,
+      sellerPain: payload.customerState === "selling" ? payload.mainConcern : null,
+      expectedPrice: null,
+      callUsefulnessText: payload.mainConcern ?? null,
+      customerState: payload.customerState,
+      useMix: payload.useMix,
+      holdHorizon: payload.holdHorizon ?? null,
+      advisorInvolved: payload.advisorInvolved,
+      advisorName: payload.advisorName ?? null,
+      mainConcern: payload.mainConcern ?? null,
+    };
+  }
+
   if (!isFunnelLeadRequest(payload)) {
     return {
       intent: null,
@@ -43,6 +84,12 @@ function normalizedLeadColumns(payload: LeadRequest) {
       sellerPain: null,
       expectedPrice: null,
       callUsefulnessText: payload.profile.openQuestion ?? null,
+      customerState: null,
+      useMix: null,
+      holdHorizon: null,
+      advisorInvolved: false,
+      advisorName: null,
+      mainConcern: null,
     };
   }
 
@@ -66,6 +113,12 @@ function normalizedLeadColumns(payload: LeadRequest) {
     sellerPain: payload.intent === "selling" ? payload.seller.pain : null,
     expectedPrice: payload.intent === "selling" ? payload.seller.expectedPrice : null,
     callUsefulnessText: payload.callUsefulnessText,
+    customerState: payload.intent,
+    useMix: null,
+    holdHorizon: null,
+    advisorInvolved: false,
+    advisorName: null,
+    mainConcern: payload.callUsefulnessText,
   };
 }
 
@@ -115,7 +168,16 @@ export async function persistLeadSubmission(
       expected_price,
       call_usefulness_text,
       pre_call_brief_markdown,
-      notification_status
+      notification_status,
+      customer_state,
+      use_mix,
+      hold_horizon,
+      advisor_involved,
+      advisor_name,
+      main_concern,
+      lead_tier,
+      atlas_match,
+      matched_building_slug
     )
     values (
       ${leadId},
@@ -141,13 +203,20 @@ export async function persistLeadSubmission(
       ${normalized.expectedPrice},
       ${normalized.callUsefulnessText},
       ${options.preCallBriefMarkdown ?? null},
-      ${options.notificationStatus ?? null}
+      ${options.notificationStatus ?? null},
+      ${normalized.customerState},
+      ${normalized.useMix},
+      ${normalized.holdHorizon},
+      ${normalized.advisorInvolved},
+      ${normalized.advisorName},
+      ${normalized.mainConcern},
+      ${options.classification?.tier ?? null},
+      ${options.classification?.atlasMatch ?? false},
+      ${options.classification?.matchedBuildingSlug ?? null}
     )
     on conflict (idempotency_key)
     do update set
       duplicate_count = lead_submissions.duplicate_count + 1,
-      pre_call_brief_markdown = excluded.pre_call_brief_markdown,
-      notification_status = excluded.notification_status,
       updated_at = now()
     returning id, duplicate_count
   `;

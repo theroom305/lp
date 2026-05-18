@@ -1,5 +1,6 @@
 import {
   isFunnelLeadRequest,
+  isV7LeadRequest,
   type LeadRequest,
   type LeadScore,
 } from "@/server/lead/schema";
@@ -32,6 +33,15 @@ function quoteForMarkdown(value: string): string {
 }
 
 function suggestedTalkingPoints(payload: LeadRequest): string[] {
+  if (isV7LeadRequest(payload)) {
+    return [
+      `Start with the path: ${payload.customerState}.`,
+      `Use the building or area they named: ${payload.buildingOrArea}.`,
+      `Frame use mix and timing together: ${payload.useMix}; ${payload.timeline}.`,
+      "Keep the first reply short and avoid claims that need source verification.",
+    ];
+  }
+
   if (!isFunnelLeadRequest(payload)) {
     return [
       "Clarify whether this is a buy, sell, or ownership-operation question.",
@@ -58,6 +68,16 @@ function suggestedTalkingPoints(payload: LeadRequest): string[] {
 }
 
 function intentSummary(payload: LeadRequest): string {
+  if (isV7LeadRequest(payload)) {
+    return [
+      `Path: ${payload.customerState}.`,
+      `Building/area: ${payload.buildingOrArea}.`,
+      `Use mix: ${payload.useMix}.`,
+      `Timeline: ${payload.timeline}.`,
+      `Budget: ${payload.budgetBand ?? "not provided"}.`,
+    ].join(" ");
+  }
+
   if (!isFunnelLeadRequest(payload)) {
     return `Legacy lead trigger: ${payload.profile.trigger}.`;
   }
@@ -82,6 +102,10 @@ function intentSummary(payload: LeadRequest): string {
 }
 
 function painOrGoal(payload: LeadRequest): string {
+  if (isV7LeadRequest(payload)) {
+    return fallback(payload.mainConcern ?? undefined, "No stated concern yet.");
+  }
+
   if (!isFunnelLeadRequest(payload)) {
     return fallback(payload.profile.openQuestion, "No stated question yet.");
   }
@@ -94,6 +118,10 @@ function painOrGoal(payload: LeadRequest): string {
 }
 
 function callUsefulness(payload: LeadRequest): string {
+  if (isV7LeadRequest(payload)) {
+    return payload.mainConcern ?? "";
+  }
+
   if (isFunnelLeadRequest(payload)) {
     return payload.callUsefulnessText;
   }
@@ -109,6 +137,9 @@ export function generatePreCallBrief(
   const email = contact?.email ?? "Not provided";
   const name = contact?.name ?? "Not provided";
   const whatsapp = contact?.whatsapp ?? contact?.phone ?? "Not provided";
+  const country = isV7LeadRequest(payload)
+    ? payload.countryOfResidence
+    : payload.profile.country;
   const talkingPoints = suggestedTalkingPoints(payload)
     .map((point) => `- ${point}`)
     .join("\n");
@@ -123,7 +154,7 @@ Stage: ${score.stage}
 
 Name: ${fallback(name)}
 Email: ${fallback(email)}
-Country: ${fallback(payload.profile.country)}
+Country: ${fallback(country)}
 WhatsApp: ${fallback(whatsapp)}
 
 This lead came through the public funnel and should be treated as a short-context call, not a broad intake. The first response should confirm the decision they are trying to make, then keep the next step narrow enough that the person feels guided instead of processed.

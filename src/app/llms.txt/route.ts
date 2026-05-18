@@ -11,6 +11,7 @@ export function GET(): Response {
     "Current public surface:",
     `- Home: ${absoluteUrl(localizedPath({key: "home", locale: "en"}))}`,
     `- Buy: ${absoluteUrl(localizedPath({key: "buy", locale: "en"}))}`,
+    `- Own: ${absoluteUrl(localizedPath({key: "own", locale: "en"}))}`,
     `- Sell: ${absoluteUrl(localizedPath({key: "sell", locale: "en"}))}`,
     `- Building atlas: ${absoluteUrl(
       localizedPath({key: "buildings", locale: "en"}),

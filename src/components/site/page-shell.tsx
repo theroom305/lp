@@ -10,7 +10,6 @@ type PageShellProps = Readonly<{
 export function PageShell({children}: PageShellProps) {
   const t = useTranslations("nav");
   const locale = useLocale() as Locale;
-  const showSpanishToggle = false;
 
   return (
     <div className="site-shell">
@@ -20,21 +19,20 @@ export function PageShell({children}: PageShellProps) {
         </Link>
         <nav aria-label={t("label")}>
           <Link href={localizedPath({key: "buy", locale})}>{t("buy")}</Link>
+          <Link href={localizedPath({key: "own", locale})}>{t("own")}</Link>
           <Link href={localizedPath({key: "sell", locale})}>{t("sell")}</Link>
           <Link href={localizedPath({key: "contact", locale})}>
             {t("contact")}
           </Link>
         </nav>
-        {showSpanishToggle ? (
-          <Link
-            href={locale === "es" ? "/en" : "/es"}
-            hrefLang={locale === "es" ? "en" : "es"}
-            className="language-switch"
-            data-test-id="language-switch"
-          >
-            {locale === "es" ? "EN" : "ES"}
-          </Link>
-        ) : null}
+        <Link
+          href={locale === "es" ? "/en" : "/es"}
+          hrefLang={locale === "es" ? "en" : "es"}
+          className="language-switch"
+          data-test-id="language-switch"
+        >
+          {locale === "es" ? "EN" : "ES"}
+        </Link>
       </header>
       {children}
     </div>

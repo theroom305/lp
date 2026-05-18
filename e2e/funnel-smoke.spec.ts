@@ -2,8 +2,10 @@ import {expect, test} from "@playwright/test";
 
 import {ambientAssets} from "../src/content/ambient-assets";
 import {corridorBuildings} from "../src/content/building-registry";
+import {classifyLead} from "../src/server/lead/scoring";
+import type {V7LeadRequest} from "../src/server/lead/schema";
 
-const publicPaths = ["/", "/buy", "/sell", "/buildings", "/contact"] as const;
+const publicPaths = ["/", "/buy", "/own", "/sell", "/buildings", "/contact"] as const;
 const allowedAssetIntents = new Set([
   "ambient",
   "material",
@@ -43,9 +45,14 @@ test.describe("lead microform", () => {
         contentType: "application/json",
         body: JSON.stringify({
           status: "accepted",
-          lead: {id: "e2e-lead", tier: "a"},
-          preCallBrief: {generated: true},
-          notification: {mode: "dry-run"},
+          lead: {
+            id: "e2e-lead",
+            tier: "high",
+            stage: "qualified",
+            duplicate: false,
+          },
+          nextAction: {kind: "calendar", url: "https://calendar.example"},
+          preCallBrief: {generated: true, notification: "dry-run"},
         }),
       });
     });
@@ -53,52 +60,177 @@ test.describe("lead microform", () => {
 
   test("buyer can submit context", async ({page}) => {
     await page.goto("/buy");
-    await page.getByLabel("Where you live now").fill("Colombia");
+    await page.getByLabel("Building or area in South Florida").fill("Beachwalk");
+    await page.getByLabel("Where do you live now?").fill("Colombia");
+    await page.getByLabel("Mixed: personal + rental income").check();
+    await page.getByLabel("2 to 5 years").check();
+    await page.getByLabel("3 to 12 months").check();
+    await page.getByLabel("$500K – $1M").check();
     await page
-      .getByLabel("Target area or building")
-      .fill("Beachwalk or Hallandale");
-    await page.getByLabel("$750k-$1.25M").check();
-    await page.getByLabel("This season").check();
-    await page.getByLabel("How would you likely buy?").selectOption("cash");
-    await page.getByLabel("What do you want to avoid?").fill("Bad rules.");
-    await page
-      .getByLabel("What would make this call useful?")
+      .getByLabel("Anything specific on your mind?")
       .fill("I want to know which buildings are realistic.");
-    await page.getByLabel("Name").fill("E2E Buyer");
+    await page.getByLabel("Your name").fill("E2E Buyer");
     await page.getByLabel("Email").fill("buyer@example.com");
     await page.getByRole("button", {name: "Send for review"}).click();
 
-    await expect(page.getByText("We have your context.")).toBeVisible();
+    await expect(page.getByRole("heading", {name: "Got it."})).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+  });
+
+  test("owner can submit context from /own", async ({page}) => {
+    await page.goto("/own");
+    await page.getByLabel("Building or area in South Florida").fill("Beachwalk");
+    await page.getByLabel("Where do you live now?").fill("Mexico");
+    await page.getByLabel("Mostly rental income").check();
+    await page.getByLabel("Opportunistic exit").check();
+    await page.getByLabel("Within 3 months").check();
+    await page.getByLabel("$1M – $2M").check();
+    await page
+      .getByLabel("Anything specific on your mind?")
+      .fill("Current setup is taking too much time.");
+    await page.getByLabel("Your name").fill("E2E Owner");
+    await page.getByLabel("Email").fill("owner@example.com");
+    await page.getByRole("button", {name: "Send for review"}).click();
+
+    await expect(page.getByRole("heading", {name: "Got it."})).toBeVisible();
     await expectNoHorizontalOverflow(page);
   });
 
   test("seller can submit context", async ({page}) => {
     await page.goto("/sell");
-    await page.getByLabel("Where you live now").fill("Mexico");
-    await page.getByLabel("Building and unit").fill("Beachwalk 305");
-    await page.getByLabel("Is it currently listed?").selectOption("no");
-    await page.getByLabel("After season").check();
-    await page.getByLabel("What is the main issue?").selectOption("uncertainty");
-    await page.getByLabel("Approximate expected price").fill("$900k");
+    await page.getByLabel("Building or area in South Florida").fill("Beachwalk 305");
+    await page.getByLabel("Where do you live now?").fill("Mexico");
+    await page.getByLabel("Mixed: personal + rental income").check();
+    await page.getByLabel("Under 2 years").check();
+    await page.getByLabel("Within 3 months").check();
+    await page.getByLabel("$1M – $2M").check();
     await page
-      .getByLabel("What would make this call useful?")
-      .fill("I want to understand timing and pricing.");
-    await page.getByLabel("Name").fill("E2E Seller");
+      .getByLabel("Anything specific on your mind?")
+      .fill("I want to understand timing.");
+    await page.getByLabel("Your name").fill("E2E Seller");
     await page.getByLabel("Email").fill("seller@example.com");
     await page.getByRole("button", {name: "Send for review"}).click();
 
-    await expect(page.getByText("We have your context.")).toBeVisible();
+    await expect(page.getByRole("heading", {name: "Got it."})).toBeVisible();
     await expectNoHorizontalOverflow(page);
   });
 
   test("building context deep link prefills buyer intake", async ({page}) => {
     await page.goto("/buy?building=beachwalk-resort&intent=buy");
 
-    await expect(page.getByLabel("Target area or building")).toHaveValue(
+    await expect(page.getByLabel("Building or area in South Florida")).toHaveValue(
       "Beachwalk Resort",
     );
-    await expect(page.getByLabel("I'm buying")).toBeChecked();
     await expectNoHorizontalOverflow(page);
+  });
+
+  test("home path selector routes building context to owner lane", async ({page}) => {
+    await page.goto("/");
+    await page.locator('[data-test-id="home-building-input"]').fill("Beachwalk");
+    await page.locator('[data-test-id="hero-own"]').click();
+
+    await expect(page).toHaveURL(/\/own\?buildingName=Beachwalk/);
+    await expect(page.getByLabel("Building or area in South Florida")).toHaveValue(
+      "Beachwalk",
+    );
+  });
+
+  test("Spanish buyer lane submits with locked v7 labels", async ({page}) => {
+    await page.goto("/es/comprar");
+    await page.getByLabel("Edificio o zona en el sur de Florida").fill("Beachwalk");
+    await page.getByLabel("¿Dónde vive actualmente?").fill("Colombia");
+    await page.getByLabel("Mixto: personal + ingresos por alquiler").check();
+    await page.getByLabel("2 a 5 años").check();
+    await page.getByLabel("3 a 12 meses").check();
+    await page.getByLabel("$500K – $1M").check();
+    await page
+      .getByLabel("¿Algo específico en mente?")
+      .fill("Quiero entender las reglas del edificio.");
+    await page.getByLabel("Su nombre", {exact: true}).fill("Comprador E2E");
+    await page.getByLabel("Correo electrónico").fill("comprador@example.com");
+    await page.getByRole("button", {name: "Enviar para revisión"}).click();
+
+    await expect(page.getByRole("heading", {name: "Recibido."})).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+  });
+});
+
+test.describe("v7 deterministic classification", () => {
+  function request(overrides: Partial<V7LeadRequest> = {}): V7LeadRequest {
+    return {
+      idempotencyKey: `e2e-${crypto.randomUUID()}`,
+      customerState: "buying",
+      buildingOrArea: "Beachwalk Resort",
+      countryOfResidence: "co",
+      useMix: "mixed",
+      holdHorizon: "2-5y",
+      timeline: "3-12mo",
+      budgetBand: "500k-1m",
+      advisorInvolved: false,
+      advisorName: null,
+      mainConcern: "Need building context.",
+      contact: {
+        name: "Classification Fixture",
+        email: "fixture@example.com",
+      },
+      context: {
+        locale: "en",
+        sourceUrl: "https://theroom305.com/buy",
+      },
+      consent: {
+        marketing: false,
+      },
+      ...overrides,
+    };
+  }
+
+  test("classifies owner in operator-known building as high", () => {
+    expect(
+      classifyLead(
+        request({
+          customerState: "i-own",
+          useMix: "rental-led",
+          timeline: "lt-3mo",
+          budgetBand: null,
+        }),
+      ).tier,
+    ).toBe("high");
+  });
+
+  test("classifies rental-led near-term with advisor as high", () => {
+    expect(
+      classifyLead(
+        request({
+          buildingOrArea: "Brickell",
+          advisorInvolved: true,
+          budgetBand: null,
+        }),
+      ).tier,
+    ).toBe("high");
+  });
+
+  test("classifies personal exploring lead as soft", () => {
+    expect(
+      classifyLead(
+        request({
+          useMix: "personal-led",
+          holdHorizon: null,
+          timeline: "exploring",
+          budgetBand: null,
+        }),
+      ).tier,
+    ).toBe("soft");
+  });
+
+  test("deflects obvious out-of-corridor stated buildings", () => {
+    expect(
+      classifyLead(
+        request({
+          buildingOrArea: "Manhattan condo",
+          budgetBand: "2m-plus",
+        }),
+      ).tier,
+    ).toBe("deflect");
   });
 });
 

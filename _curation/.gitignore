@@ -16,3 +16,5 @@ lighthouse/*.json
 !lighthouse/summary.json
 lighthouse-v2/*.json
 !lighthouse-v2/summary.json
+lighthouse-v7/*.json
+!lighthouse-v7/summary.json

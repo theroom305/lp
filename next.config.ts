@@ -2,14 +2,17 @@ import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
 const isDevelopment = process.env.NODE_ENV === "development";
+const allowsVercelLive = process.env.VERCEL_ENV === "preview";
+const vercelLiveSource = allowsVercelLive ? " https://vercel.live" : "";
 
 const contentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""};
+  script-src 'self' 'unsafe-inline' https://plausible.io${vercelLiveSource}${isDevelopment ? " 'unsafe-eval'" : ""};
   style-src 'self' 'unsafe-inline';
-  img-src 'self' data: blob:;
+  img-src 'self' data: blob:${vercelLiveSource};
   font-src 'self';
-  connect-src 'self' https:;
+  connect-src 'self' https: https://plausible.io${vercelLiveSource};
+  frame-src 'self'${vercelLiveSource};
   frame-ancestors 'none';
   base-uri 'self';
   form-action 'self';
@@ -44,6 +47,10 @@ const nextConfig: NextConfig = {
         {
           source: "/es/propietarios",
           destination: "/es/owners",
+        },
+        {
+          source: "/es/ya-tengo-propiedad",
+          destination: "/es/own",
         },
         {
           source: "/es/notas",

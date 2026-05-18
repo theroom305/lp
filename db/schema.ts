@@ -1,6 +1,7 @@
 import {sql} from "drizzle-orm";
 import {
   bigint,
+  bigserial,
   boolean,
   check,
   index,
@@ -945,6 +946,15 @@ export const leadSubmissions = pgTable(
     callUsefulnessText: text("call_usefulness_text"),
     preCallBriefMarkdown: text("pre_call_brief_markdown"),
     notificationStatus: text("notification_status"),
+    customerState: text("customer_state"),
+    useMix: text("use_mix"),
+    holdHorizon: text("hold_horizon"),
+    advisorInvolved: boolean("advisor_involved").default(false),
+    advisorName: text("advisor_name"),
+    mainConcern: text("main_concern"),
+    leadTier: text("lead_tier"),
+    atlasMatch: boolean("atlas_match").default(false),
+    matchedBuildingSlug: text("matched_building_slug"),
     duplicateCount: integer("duplicate_count").notNull().default(0),
     deletedAt: timestamp("deleted_at", {withTimezone: true}),
     ...timestamps,
@@ -953,5 +963,25 @@ export const leadSubmissions = pgTable(
     uniqueIndex("lead_submissions_idempotency_key_idx").on(
       table.idempotencyKey,
     ),
+  ],
+);
+
+export const leadEvents = pgTable(
+  "lead_events",
+  {
+    id: bigserial("id", {mode: "number"}).primaryKey(),
+    leadSubmissionId: text("lead_submission_id").references(
+      () => leadSubmissions.id,
+      {onDelete: "cascade"},
+    ),
+    eventType: text("event_type").notNull(),
+    payload: jsonb("payload").$type<JsonRecord>(),
+    createdAt: timestamp("created_at", {withTimezone: true})
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    index("idx_lead_events_lead_id").on(table.leadSubmissionId),
+    index("idx_lead_events_type_created").on(table.eventType, table.createdAt),
   ],
 );

@@ -14,6 +14,7 @@ const englishRewriteRoots = [
   "/contact",
   "/new-developments",
   "/notes",
+  "/own",
   "/owners",
   "/sell",
 ] as const;

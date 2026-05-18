@@ -8,7 +8,15 @@ export const leadTriggerSchema = z.enum([
   "better_operations",
 ]);
 
-export const leadTierSchema = z.enum(["a", "b", "c"]);
+export const leadTierSchema = z.enum([
+  "a",
+  "b",
+  "c",
+  "high",
+  "qualified",
+  "soft",
+  "deflect",
+]);
 
 export const leadStageSchema = z.enum([
   "new",
@@ -19,6 +27,39 @@ export const leadStageSchema = z.enum([
 ]);
 
 export const leadIntentSchema = z.enum(["buying", "selling"]);
+
+export const customerStateSchema = z.enum(["buying", "i-own", "selling"]);
+export const useMixSchema = z.enum([
+  "personal-led",
+  "mixed",
+  "rental-led",
+  "unsure",
+]);
+export const holdHorizonSchema = z.enum([
+  "under-2y",
+  "2-5y",
+  "5-plus",
+  "opportunistic",
+]);
+export const v7TimelineSchema = z.enum([
+  "lt-3mo",
+  "3-12mo",
+  "12-24mo",
+  "exploring",
+]);
+export const budgetBandSchema = z.enum([
+  "under-500k",
+  "500k-1m",
+  "1m-2m",
+  "2m-plus",
+]);
+
+export const v7LeadTierSchema = z.enum([
+  "high",
+  "qualified",
+  "soft",
+  "deflect",
+]);
 
 const cleanText = (min: number, max: number) =>
   z.string().trim().min(min).max(max);
@@ -139,6 +180,37 @@ export const funnelLeadRequestSchema = z.discriminatedUnion("intent", [
   sellingLeadRequestSchema,
 ]);
 
+export const v7LeadRequestSchema = z
+  .object({
+    idempotencyKey: z.string().min(16).max(120),
+    customerState: customerStateSchema,
+    buildingOrArea: cleanText(2, 200),
+    countryOfResidence: cleanText(2, 80),
+    useMix: useMixSchema,
+    holdHorizon: holdHorizonSchema.nullable().optional(),
+    timeline: v7TimelineSchema,
+    budgetBand: budgetBandSchema.nullable().optional(),
+    advisorInvolved: z.boolean().default(false),
+    advisorName: z.string().trim().max(80).nullable().optional(),
+    mainConcern: z.string().trim().max(200).nullable().optional(),
+    contact: requiredContactSchema,
+    context: contextSchema,
+    consent: consentSchema,
+  })
+  .strict()
+  .superRefine((value, context) => {
+    if (
+      (value.useMix === "mixed" || value.useMix === "rental-led") &&
+      !value.holdHorizon
+    ) {
+      context.addIssue({
+        code: "custom",
+        message: "Hold horizon is required for mixed or rental-led ownership.",
+        path: ["holdHorizon"],
+      });
+    }
+  });
+
 export const legacyLeadRequestSchema = z
   .object({
     idempotencyKey: z.string().min(16).max(120),
@@ -150,16 +222,24 @@ export const legacyLeadRequestSchema = z
   .strict();
 
 export const leadRequestSchema = z.union([
+  v7LeadRequestSchema,
   funnelLeadRequestSchema,
   legacyLeadRequestSchema,
 ]);
 
 export type LeadRequest = z.infer<typeof leadRequestSchema>;
+export type V7LeadRequest = z.infer<typeof v7LeadRequestSchema>;
 export type FunnelLeadRequest = z.infer<typeof funnelLeadRequestSchema>;
 export type LeadTrigger = z.infer<typeof leadTriggerSchema>;
 export type LeadTier = z.infer<typeof leadTierSchema>;
+export type V7LeadTier = z.infer<typeof v7LeadTierSchema>;
 export type LeadStage = z.infer<typeof leadStageSchema>;
 export type LeadIntent = z.infer<typeof leadIntentSchema>;
+export type CustomerState = z.infer<typeof customerStateSchema>;
+export type UseMix = z.infer<typeof useMixSchema>;
+export type HoldHorizon = z.infer<typeof holdHorizonSchema>;
+export type V7Timeline = z.infer<typeof v7TimelineSchema>;
+export type BudgetBand = z.infer<typeof budgetBandSchema>;
 
 export type LeadScore = Readonly<{
   tier: LeadTier;
@@ -234,6 +314,10 @@ export function isFunnelLeadRequest(
   return "intent" in payload;
 }
 
+export function isV7LeadRequest(payload: LeadRequest): payload is V7LeadRequest {
+  return "customerState" in payload;
+}
+
 function normalizedCountry(country: string): string {
   return country.trim().toLowerCase();
 }
@@ -241,6 +325,39 @@ function normalizedCountry(country: string): string {
 export function scoreLead(payload: LeadRequest): LeadScore {
   const reasons: string[] = [];
   let points = 0;
+
+  if (isV7LeadRequest(payload)) {
+    if (payload.useMix === "mixed" || payload.useMix === "rental-led") {
+      points += 30;
+      reasons.push("v7_rental_or_mixed_use");
+    }
+
+    if (payload.timeline === "lt-3mo" || payload.timeline === "3-12mo") {
+      points += 25;
+      reasons.push("v7_near_term_timeline");
+    }
+
+    if (
+      payload.budgetBand === "500k-1m" ||
+      payload.budgetBand === "1m-2m" ||
+      payload.budgetBand === "2m-plus"
+    ) {
+      points += 20;
+      reasons.push("v7_budget_context");
+    }
+
+    if (payload.advisorInvolved) {
+      points += 15;
+      reasons.push("v7_advisor_involved");
+    }
+
+    return {
+      tier: points >= 60 ? "a" : points >= 35 ? "b" : "c",
+      stage: points >= 35 ? "qualified" : "nurture",
+      points,
+      reasons: reasons.length > 0 ? reasons : ["v7_context_only"],
+    };
+  }
 
   if (highIntentTriggers.has(payload.profile.trigger)) {
     points += 30;

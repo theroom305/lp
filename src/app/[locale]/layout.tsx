@@ -2,10 +2,12 @@ import type {Metadata} from "next";
 import {hasLocale, NextIntlClientProvider} from "next-intl";
 import {getMessages} from "next-intl/server";
 import {notFound} from "next/navigation";
+import Script from "next/script";
 
 import "../globals.css";
 import {routing, type Locale} from "@/i18n/routing";
 import {organizationJsonLd} from "@/lib/seo";
+import {env} from "@/server/env";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://theroom305.com"),
@@ -38,6 +40,14 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body>
         <NextIntlClientProvider locale={locale as Locale} messages={messages}>
+          {env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ? (
+            <Script
+              defer
+              data-domain={env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN}
+              src="https://plausible.io/js/script.js"
+              strategy="afterInteractive"
+            />
+          ) : null}
           {children}
           <script
             type="application/ld+json"

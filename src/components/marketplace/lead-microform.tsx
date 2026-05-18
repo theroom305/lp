@@ -3,12 +3,15 @@
 import {useLocale, useTranslations} from "next-intl";
 import {type FormEvent, useMemo, useState} from "react";
 
-type LeadIntent = "buying" | "selling";
+import {corridorBuildings} from "@/content/building-registry";
+import {trackEvent} from "@/lib/analytics";
+
+type CustomerState = "buying" | "i-own" | "selling";
+type UseMix = "personal-led" | "mixed" | "rental-led" | "unsure";
 
 type LeadMicroformProps = Readonly<{
-  defaultIntent?: LeadIntent;
+  defaultCustomerState?: CustomerState;
   prefillBuildingName?: string;
-  prefillIntent?: LeadIntent;
 }>;
 
 type SubmitState =
@@ -27,41 +30,29 @@ type SubmitState =
     };
 
 type ChipOption = Readonly<{
-  labelKey: string;
+  label: string;
   value: string;
 }>;
 
-const financingOptions = ["cash", "financing", "unsure"] as const;
-const sellerPainOptions = [
-  "price",
-  "tenant",
-  "hoa",
-  "broker",
-  "uncertainty",
-  "other",
+const useMixOptions = [
+  "personal-led",
+  "mixed",
+  "rental-led",
+  "unsure",
 ] as const;
-
-const budgetOptions: readonly ChipOption[] = [
-  {labelKey: "budget.under750", value: "Under $750k"},
-  {labelKey: "budget.mid", value: "$750k-$1.25M"},
-  {labelKey: "budget.upper", value: "$1.25M-$2M"},
-  {labelKey: "budget.luxury", value: "$2M+"},
-  {labelKey: "budget.setting", value: "Still setting range"},
-];
-
-const buyerTimelineOptions: readonly ChipOption[] = [
-  {labelKey: "timeline.now", value: "Now"},
-  {labelKey: "timeline.season", value: "This season"},
-  {labelKey: "timeline.sixToTwelve", value: "6-12 months"},
-  {labelKey: "timeline.comparing", value: "Just comparing"},
-];
-
-const sellerTimelineOptions: readonly ChipOption[] = [
-  {labelKey: "timeline.now", value: "Now"},
-  {labelKey: "timeline.afterSeason", value: "After season"},
-  {labelKey: "timeline.thisYear", value: "This year"},
-  {labelKey: "timeline.notSure", value: "Not sure"},
-];
+const holdHorizonOptions = [
+  "under-2y",
+  "2-5y",
+  "5-plus",
+  "opportunistic",
+] as const;
+const timelineOptions = ["lt-3mo", "3-12mo", "12-24mo", "exploring"] as const;
+const budgetBandOptions = [
+  "under-500k",
+  "500k-1m",
+  "1m-2m",
+  "2m-plus",
+] as const;
 
 function createIdempotencyKey(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -75,31 +66,68 @@ function formValue(form: FormData, key: string): string {
   return String(form.get(key) ?? "").trim();
 }
 
-function optionalFormValue(form: FormData, key: string): string | undefined {
+function optionalFormValue(form: FormData, key: string): string | null {
   const value = formValue(form, key);
-  return value.length > 0 ? value : undefined;
+  return value.length > 0 ? value : null;
 }
 
 function chipGroupId(name: string): string {
   return `${name}-legend`;
 }
 
+function normalize(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function hasAtlasMatch(value: string): boolean {
+  const normalized = normalize(value);
+
+  if (normalized.length === 0) {
+    return false;
+  }
+
+  return corridorBuildings.some((building) => {
+    const candidates = [
+      building.slug,
+      building.name,
+      building.city,
+      building.submarket,
+    ].map(normalize);
+
+    return candidates.some(
+      (candidate) => normalized.includes(candidate) || candidate.includes(normalized),
+    );
+  });
+}
+
 type ChipGroupProps = Readonly<{
   legend: string;
   name: string;
   options: readonly ChipOption[];
-  translate: (key: string) => string;
+  required?: boolean;
+  onChange?: (value: string) => void;
 }>;
 
-function ChipGroup({legend, name, options, translate}: ChipGroupProps) {
+function ChipGroup({legend, name, options, required, onChange}: ChipGroupProps) {
   return (
     <fieldset className="chip-fieldset" aria-labelledby={chipGroupId(name)}>
       <legend id={chipGroupId(name)}>{legend}</legend>
       <div className="chip-group">
         {options.map((option) => (
           <label key={option.value}>
-            <input name={name} required type="radio" value={option.value} />
-            <span>{translate(option.labelKey)}</span>
+            <input
+              name={name}
+              required={required}
+              type="radio"
+              value={option.value}
+              onChange={() => onChange?.(option.value)}
+            />
+            <span>{option.label}</span>
           </label>
         ))}
       </div>
@@ -107,33 +135,69 @@ function ChipGroup({legend, name, options, translate}: ChipGroupProps) {
   );
 }
 
+function pathForCustomerState(customerState: CustomerState): "buying" | "own" | "selling" {
+  if (customerState === "i-own") {
+    return "own";
+  }
+
+  return customerState;
+}
+
 export function LeadMicroform({
-  defaultIntent = "buying",
+  defaultCustomerState = "buying",
   prefillBuildingName,
-  prefillIntent,
 }: LeadMicroformProps) {
   const t = useTranslations("leadForm");
-  const locale = useLocale();
-  const initialIntent = prefillIntent ?? defaultIntent;
-  const [intent, setIntent] = useState<LeadIntent>(initialIntent);
-  const [targetAreaOrBuilding, setTargetAreaOrBuilding] = useState(
-    initialIntent === "buying" ? prefillBuildingName ?? "" : "",
-  );
-  const [buildingUnit, setBuildingUnit] = useState(
-    initialIntent === "selling" ? prefillBuildingName ?? "" : "",
-  );
+  const locale = useLocale() as "en" | "es";
+  const [useMix, setUseMix] = useState<UseMix>("unsure");
   const [state, setState] = useState<SubmitState>({kind: "idle"});
+  const [started, setStarted] = useState(false);
   const idempotencyKey = useMemo(() => createIdempotencyKey(), []);
+  const path = pathForCustomerState(defaultCustomerState);
+  const showHoldHorizon = useMix === "mixed" || useMix === "rental-led";
+
+  function markStarted() {
+    if (started) {
+      return;
+    }
+
+    setStarted(true);
+    trackEvent("form_started", {path, locale});
+  }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setState({kind: "submitting"});
 
     const form = new FormData(event.currentTarget);
-    const currentIntent = formValue(form, "intent") as LeadIntent;
-    const callUsefulnessText = formValue(form, "callUsefulnessText");
-    const whatsapp = optionalFormValue(form, "whatsapp");
-    const country = formValue(form, "country");
+    const buildingOrArea = formValue(form, "buildingOrArea");
+    const advisorInvolved = form.get("advisorInvolved") === "on";
+    const submittedUseMix = formValue(form, "useMix") as UseMix;
+
+    trackEvent("form_step_completed", {
+      path,
+      step_index: 1,
+      step_name: "Context",
+      locale,
+    });
+    trackEvent("form_step_completed", {
+      path,
+      step_index: 2,
+      step_name: "Situation",
+      locale,
+    });
+    trackEvent("form_step_completed", {
+      path,
+      step_index: 3,
+      step_name: "Contact",
+      locale,
+    });
+    trackEvent("form_submitted", {
+      path,
+      locale,
+      has_advisor: advisorInvolved,
+      has_concern: Boolean(optionalFormValue(form, "mainConcern")),
+    });
 
     const response = await fetch("/api/lead", {
       method: "POST",
@@ -142,38 +206,23 @@ export function LeadMicroform({
       },
       body: JSON.stringify({
         idempotencyKey,
-        intent: currentIntent,
-        profile: {
-          country,
-          trigger: currentIntent === "buying" ? "buy_investment" : "sell_unit",
-          openQuestion: callUsefulnessText,
-        },
-        buyer:
-          currentIntent === "buying"
-            ? {
-                targetAreaOrBuilding: formValue(form, "targetAreaOrBuilding"),
-                budgetRange: formValue(form, "budgetRange"),
-                timeline: formValue(form, "buyerTimeline"),
-                financingPosture: formValue(form, "financingPosture"),
-                avoidance: formValue(form, "avoidance"),
-              }
-            : null,
-        seller:
-          currentIntent === "selling"
-            ? {
-                buildingUnit: formValue(form, "buildingUnit"),
-                currentlyListed: formValue(form, "currentlyListed") === "yes",
-                timeline: formValue(form, "sellerTimeline"),
-                pain: formValue(form, "sellerPain"),
-                expectedPrice: formValue(form, "expectedPrice"),
-              }
-            : null,
-        callUsefulnessText,
+        customerState: defaultCustomerState,
+        buildingOrArea,
+        countryOfResidence: formValue(form, "countryOfResidence"),
+        useMix: submittedUseMix,
+        holdHorizon: showHoldHorizon
+          ? optionalFormValue(form, "holdHorizon")
+          : null,
+        timeline: formValue(form, "timeline"),
+        budgetBand: optionalFormValue(form, "budgetBand"),
+        advisorInvolved,
+        advisorName: advisorInvolved ? optionalFormValue(form, "advisorName") : null,
+        mainConcern: optionalFormValue(form, "mainConcern"),
         contact: {
           name: formValue(form, "name"),
           email: formValue(form, "email"),
-          phone: whatsapp,
-          whatsapp,
+          phone: optionalFormValue(form, "whatsapp") ?? undefined,
+          whatsapp: optionalFormValue(form, "whatsapp") ?? undefined,
         },
         context: {
           locale,
@@ -188,6 +237,8 @@ export function LeadMicroform({
 
     const body = (await response.json()) as {
       error?: {message: string};
+      lead?: {tier: string};
+      preCallBrief?: {notification: "dry-run" | "sent" | "skipped"};
     };
 
     if (!response.ok || body.error) {
@@ -196,6 +247,21 @@ export function LeadMicroform({
         message: body.error?.message ?? t("error"),
       });
       return;
+    }
+
+    if (body.lead?.tier) {
+      trackEvent("lead_classified", {
+        tier: body.lead.tier,
+        locale,
+        has_atlas_match: hasAtlasMatch(buildingOrArea),
+      });
+    }
+
+    if (body.preCallBrief?.notification) {
+      trackEvent("notification_sent", {
+        mode: body.preCallBrief.notification === "sent" ? "live" : "dry-run",
+        tier: body.lead?.tier ?? "unknown",
+      });
     }
 
     setState({kind: "success"});
@@ -208,20 +274,20 @@ export function LeadMicroform({
         aria-live="polite"
         data-test-id="lead-success"
       >
-        <p className="eyebrow">{t("successEyebrow")}</p>
-        <h2>{t("successTitle")}</h2>
+        <h2>{t("successHeading")}</h2>
         <p>{t("successBody")}</p>
-        <ul className="trust-strip trust-strip-success">
-          {["reviewed", "sequence", "context", "founder"].map((key) => (
-            <li key={key}>{t(`trust.${key}`)}</li>
-          ))}
-        </ul>
       </section>
     );
   }
 
   return (
-    <form className="lead-form" onSubmit={onSubmit} data-test-id="lead-form">
+    <form
+      className="lead-form"
+      onFocus={markStarted}
+      onSubmit={onSubmit}
+      data-test-id="lead-form"
+    >
+      <input type="hidden" name="customerState" value={defaultCustomerState} />
       <ol className="step-indicator" aria-label={t("stepsLabel")}>
         <li>{t("stepContext")}</li>
         <li>{t("stepSituation")}</li>
@@ -230,145 +296,103 @@ export function LeadMicroform({
 
       <fieldset className="form-step">
         <legend>{t("stepContext")}</legend>
-        <div className="segmented-control">
-          <label>
-            <input
-              checked={intent === "buying"}
-              name="intent"
-              onChange={() => setIntent("buying")}
-              type="radio"
-              value="buying"
-            />
-            <span>{t("buying")}</span>
-          </label>
-          <label>
-            <input
-              checked={intent === "selling"}
-              name="intent"
-              onChange={() => setIntent("selling")}
-              type="radio"
-              value="selling"
-            />
-            <span>{t("selling")}</span>
-          </label>
+        <div>
+          <label htmlFor="buildingOrArea">{t("buildingOrArea")}</label>
+          <input
+            id="buildingOrArea"
+            name="buildingOrArea"
+            required
+            defaultValue={prefillBuildingName ?? ""}
+            placeholder={t("buildingOrAreaPlaceholder")}
+            onBlur={(event) => {
+              if (event.currentTarget.value.trim().length > 0) {
+                trackEvent("building_entered", {
+                  has_atlas_match: hasAtlasMatch(event.currentTarget.value),
+                  locale,
+                });
+              }
+            }}
+          />
         </div>
         <div>
-          <label htmlFor="country">{t("country")}</label>
-          <input id="country" name="country" required autoComplete="country-name" />
+          <label htmlFor="countryOfResidence">{t("countryOfResidence")}</label>
+          <input
+            id="countryOfResidence"
+            name="countryOfResidence"
+            required
+            autoComplete="country-name"
+          />
         </div>
       </fieldset>
 
       <fieldset className="form-step">
         <legend>{t("stepSituation")}</legend>
-        {intent === "buying" ? (
-          <>
-            <div>
-              <label htmlFor="targetAreaOrBuilding">
-                {t("targetAreaOrBuilding")}
-              </label>
-              <input
-                id="targetAreaOrBuilding"
-                name="targetAreaOrBuilding"
-                onChange={(event) => setTargetAreaOrBuilding(event.target.value)}
-                required
-                value={targetAreaOrBuilding}
-                placeholder={t("targetAreaOrBuildingPlaceholder")}
-              />
-            </div>
-            <ChipGroup
-              legend={t("budgetRange")}
-              name="budgetRange"
-              options={budgetOptions}
-              translate={t}
-            />
-            <ChipGroup
-              legend={t("buyerTimeline")}
-              name="buyerTimeline"
-              options={buyerTimelineOptions}
-              translate={t}
-            />
-            <div>
-              <label htmlFor="financingPosture">{t("financingPosture")}</label>
-              <select id="financingPosture" name="financingPosture" required>
-                {financingOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {t(`financing.${option}`)}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="avoidance">{t("avoidance")}</label>
-              <textarea
-                id="avoidance"
-                name="avoidance"
-                maxLength={500}
-                required
-                placeholder={t("avoidancePlaceholder")}
-              />
-            </div>
-          </>
-        ) : (
-          <>
-            <div>
-              <label htmlFor="buildingUnit">{t("buildingUnit")}</label>
-              <input
-                id="buildingUnit"
-                name="buildingUnit"
-                onChange={(event) => setBuildingUnit(event.target.value)}
-                required
-                value={buildingUnit}
-                placeholder={t("buildingUnitPlaceholder")}
-              />
-            </div>
-            <div>
-              <label htmlFor="currentlyListed">{t("currentlyListed")}</label>
-              <select id="currentlyListed" name="currentlyListed" required>
-                <option value="no">{t("listedNo")}</option>
-                <option value="yes">{t("listedYes")}</option>
-              </select>
-            </div>
-            <ChipGroup
-              legend={t("sellerTimeline")}
-              name="sellerTimeline"
-              options={sellerTimelineOptions}
-              translate={t}
-            />
-            <div>
-              <label htmlFor="sellerPain">{t("sellerPain")}</label>
-              <select id="sellerPain" name="sellerPain" required>
-                {sellerPainOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {t(`sellerPainOptions.${option}`)}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="expectedPrice">{t("expectedPrice")}</label>
-              <input
-                id="expectedPrice"
-                name="expectedPrice"
-                required
-                placeholder={t("expectedPricePlaceholder")}
-              />
-            </div>
-          </>
-        )}
+        <ChipGroup
+          legend={t("useMixLabel")}
+          name="useMix"
+          required
+          options={useMixOptions.map((option) => ({
+            value: option,
+            label: t(`useMix.${option}`),
+          }))}
+          onChange={(value) => setUseMix(value as UseMix)}
+        />
+        {showHoldHorizon ? (
+          <ChipGroup
+            legend={t("holdHorizonLabel")}
+            name="holdHorizon"
+            required
+            options={holdHorizonOptions.map((option) => ({
+              value: option,
+              label: t(`holdHorizon.${option}`),
+            }))}
+          />
+        ) : null}
+        <ChipGroup
+          legend={t("timelineLabel")}
+          name="timeline"
+          required
+          options={timelineOptions.map((option) => ({
+            value: option,
+            label: t(`timeline.${option}`),
+          }))}
+        />
+        <ChipGroup
+          legend={t("budgetBandLabel")}
+          name="budgetBand"
+          options={budgetBandOptions.map((option) => ({
+            value: option,
+            label: t(`budgetBand.${option}`),
+          }))}
+        />
+        <div className="checkbox-row">
+          <label htmlFor="advisorInvolved">
+            <input id="advisorInvolved" name="advisorInvolved" type="checkbox" />
+            <span>{t("advisorInvolved")}</span>
+          </label>
+        </div>
+        <div>
+          <label htmlFor="advisorName">{t("advisorName")}</label>
+          <input
+            id="advisorName"
+            name="advisorName"
+            maxLength={80}
+            placeholder={t("advisorNamePlaceholder")}
+          />
+        </div>
+        <div>
+          <label htmlFor="mainConcern">{t("mainConcern")}</label>
+          <textarea
+            id="mainConcern"
+            name="mainConcern"
+            maxLength={200}
+            placeholder={t("mainConcernHelper")}
+          />
+        </div>
       </fieldset>
 
       <fieldset className="form-step">
         <legend>{t("stepContact")}</legend>
-        <div>
-          <label htmlFor="callUsefulnessText">{t("callUsefulness")}</label>
-          <textarea
-            id="callUsefulnessText"
-            name="callUsefulnessText"
-            maxLength={700}
-            required
-            placeholder={t("callUsefulnessPlaceholder")}
-          />
-        </div>
         <div>
           <label htmlFor="name">{t("name")}</label>
           <input id="name" name="name" required autoComplete="name" />
@@ -379,16 +403,9 @@ export function LeadMicroform({
         </div>
         <div>
           <label htmlFor="whatsapp">{t("whatsapp")}</label>
-          <input
-            id="whatsapp"
-            name="whatsapp"
-            autoComplete="tel"
-            placeholder={t("whatsappPlaceholder")}
-          />
+          <input id="whatsapp" name="whatsapp" autoComplete="tel" />
         </div>
       </fieldset>
-
-      <p className="form-note">{t("privacyNote")}</p>
 
       <button
         type="submit"
@@ -397,12 +414,6 @@ export function LeadMicroform({
       >
         {state.kind === "submitting" ? t("submitting") : t("submit")}
       </button>
-
-      <ul className="trust-strip">
-        {["reviewed", "sequence", "context", "founder"].map((key) => (
-          <li key={key}>{t(`trust.${key}`)}</li>
-        ))}
-      </ul>
 
       <p className="form-status" aria-live="polite" role="status">
         {state.kind === "error" ? state.message : null}

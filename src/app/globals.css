@@ -81,6 +81,18 @@ a {
   text-decoration: none;
 }
 
+.sr-only {
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
 button,
 input,
 select,
@@ -820,6 +832,12 @@ p {
   width: 100%;
 }
 
+.home-funnel-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+}
+
 .hero-bitmap-media {
   background: var(--primary);
   min-height: clamp(250px, 42vh, 430px);
@@ -848,6 +866,62 @@ p {
   inset: 0;
   pointer-events: none;
   position: absolute;
+}
+
+.home-funnel-copy {
+  align-self: center;
+  display: grid;
+  gap: 18px;
+  max-width: 100%;
+  min-width: 0;
+  padding: clamp(28px, 7vw, 80px);
+  width: 100%;
+}
+
+.home-funnel-copy h1 {
+  max-width: 14ch;
+}
+
+.home-funnel-copy > p {
+  color: var(--muted-foreground);
+  font-size: clamp(1rem, 2.4vw, 1.16rem);
+  margin: 0;
+  max-width: 620px;
+}
+
+.path-selector {
+  display: grid;
+  gap: 12px;
+  max-width: 620px;
+}
+
+.path-selector input {
+  background: var(--background);
+  border: 1px solid var(--input);
+  border-radius: 6px;
+  color: var(--foreground);
+  min-height: 52px;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.path-selector-actions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+.path-selector-actions button {
+  cursor: pointer;
+}
+
+.home-trust-line {
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+.atlas-home-link {
+  width: fit-content;
 }
 
 .showroom-heading p:last-child {
@@ -1149,6 +1223,46 @@ p {
   padding: 0;
 }
 
+.checkbox-row label {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  margin: 0;
+}
+
+.checkbox-row input {
+  accent-color: var(--primary);
+  flex: 0 0 auto;
+  height: 18px;
+  min-height: 18px;
+  padding: 0;
+  width: 18px;
+}
+
+.remote-ownership-list {
+  counter-reset: remote-step;
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  max-width: 760px;
+  padding: 0;
+}
+
+.remote-ownership-list li {
+  border-top: 1px solid var(--border);
+  color: var(--muted-foreground);
+  line-height: 1.5;
+  padding-top: 12px;
+}
+
+.remote-ownership-list li::before {
+  color: var(--accent);
+  content: counter(remote-step, decimal-leading-zero) " ";
+  counter-increment: remote-step;
+  font-weight: 800;
+}
+
 .trust-strip {
   color: var(--muted-foreground);
   display: grid;
@@ -1241,6 +1355,11 @@ p {
     min-height: min(760px, calc(100vh - 70px));
   }
 
+  .home-funnel-hero {
+    grid-template-columns: minmax(0, 0.96fr) minmax(420px, 1.04fr);
+    min-height: min(760px, calc(100vh - 70px));
+  }
+
   .hero-media {
     min-height: min(760px, calc(100vh - 70px));
   }
@@ -1269,6 +1388,10 @@ p {
   .intent-toggle,
   .segmented-control {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .path-selector-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .chip-group {

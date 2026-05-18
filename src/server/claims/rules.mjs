@@ -108,6 +108,62 @@ export const disallowedClaimRules = Object.freeze([
     reason: "Rental-use claims need source-specific verification before publication.",
     gateToClear: "building_source_packet_approved",
   },
+  {
+    id: "v7_yield_return_promise",
+    pattern: /\d+\s*%\s*(yield|return|appreciation|IRR|ROI)/i,
+    scopes: ["all_public_surfaces"],
+    reason: "Yield, return, appreciation, IRR, and ROI percentages are not public claims.",
+    gateToClear: "guesty_data_signed_off",
+  },
+  {
+    id: "v7_guaranteed_rental_outcome",
+    pattern: /(guaranteed|guarantee[ds]?)\s+(rental|income|return|yield|STR|occupancy)/i,
+    scopes: ["all_public_surfaces"],
+    reason: "Guaranteed rental, income, yield, STR, or occupancy claims are prohibited.",
+    gateToClear: "never_public",
+  },
+  {
+    id: "v7_room305_brokerage_claim",
+    pattern: /\bRoom\s*305\s+(is|are)\s+(a|the)?\s*(broker|brokerage|licensed)/i,
+    scopes: ["all_public_surfaces"],
+    reason: "Room 305 LLC must not be presented as a broker, brokerage, or licensed entity.",
+    gateToClear: "stage_0_brokerage_license",
+  },
+  {
+    id: "v7_public_rate_claim",
+    pattern: /\$\s?\d+(\.\d+)?\s*(per\s+night|per\s+month|monthly|nightly|\/night|\/month)/i,
+    scopes: ["all_public_surfaces"],
+    reason: "Specific nightly or monthly rates require approved private source packets.",
+    gateToClear: "guesty_data_signed_off",
+  },
+  {
+    id: "v7_property_management_company_claim",
+    pattern: /\b(property|condo|building)\s+management\s+(services|company|firm)\b/i,
+    scopes: ["all_public_surfaces"],
+    reason: "Property-management company or services language is gated.",
+    gateToClear: "management_authority_review",
+  },
+  {
+    id: "v7_best_miami_superlative",
+    pattern: /\bbest\s+(condo|investment|broker|firm)\s+in\s+Miami\b/i,
+    scopes: ["all_public_surfaces"],
+    reason: "Best-in-Miami superlatives are unsubstantiated public claims.",
+    gateToClear: "never_public",
+  },
+  {
+    id: "v7_turnkey_investment_claim",
+    pattern: /\bturnkey\s+(rental|STR|income|investment)\b/i,
+    scopes: ["all_public_surfaces"],
+    reason: "Turnkey rental or investment claims overstate the current public proof.",
+    gateToClear: "building_source_packet_approved",
+  },
+  {
+    id: "v7_exclusive_investment_claim",
+    pattern: /\bexclusive\s+(investment|opportunity|listing)\b/i,
+    scopes: ["all_public_surfaces"],
+    reason: "Exclusive investment or listing language is out of scope for the public LP.",
+    gateToClear: "stage_0_brokerage_license",
+  },
 ]);
 
 /**

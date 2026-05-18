@@ -2,42 +2,37 @@
   "nav": {
     "label": "Primary navigation",
     "buy": "Buy",
+    "own": "Own",
     "sell": "Sell",
     "contact": "Contact"
   },
   "home": {
-    "eyebrow": "South Florida condo guidance",
-    "title": "Buy or sell with someone who thinks like an operator.",
-    "intro": "Room 305 helps buyers and sellers look at the building before the brochure. We focus on South Florida condos where ownership, rules, guest use, and exit path need a sharper read.",
-    "primaryBuy": "I'm buying",
-    "primarySell": "I'm selling",
-    "proofEyebrow": "How we work",
-    "proofTitle": "Less pitch. More building context.",
-    "proof": {
-      "building": {
-        "title": "Building-specific judgment",
-        "body": "We look at rules, owner use, and practical friction one building at a time."
-      },
-      "operator": {
-        "title": "Operator perspective",
-        "body": "We think beyond the closing table: setup, handoff, rhythm, and what ownership feels like after month one."
-      },
-      "foreign": {
-        "title": "Foreign and absentee fluency",
-        "body": "Distance changes the decision. The first call should make the next step clearer, not heavier."
-      },
-      "founder": {
-        "title": "Founder-led calls",
-        "body": "If the fit is real, you speak with Isaac or the Room 305 team before any next step."
-      }
+    "hero": "Own Miami without being there. Use it, rent it, and know when to sell.",
+    "subcopy": "Room 305 helps foreign and absentee owners choose the right South Florida condo, operate it with discipline, and prepare what comes next.",
+    "paths": {
+      "buying": "I'm buying",
+      "own": "I own here",
+      "selling": "I may sell"
     },
-    "founderEyebrow": "Founder note",
-    "founderTitle": "Isaac reads the building before the pitch.",
-    "founderBody": "Isaac's work starts with what the building allows, what the owner wants, and what the operation would have to carry after a purchase or sale. The useful call is not a broad tour. It is a focused conversation about the property, the rules, and the reality around it.",
-    "founderQuote": "Tell us what you are trying to decide. We will bring the building context, and if it is not a fit, we will say that early.",
-    "founderSignature": "Room 305 operating standard",
-    "closeTitle": "You do not have to sort the building alone.",
-    "closeBody": "When you narrow the decision to a building, a unit, or a sale question, the next step should feel lighter. We review the context before replying, then keep the call short and useful."
+    "buildingInputPlaceholder": "Building or area in South Florida",
+    "trustLine": "We track 19 South Florida buildings and work from what each building actually says, not market averages.",
+    "atlasLink": "Browse the 19 buildings we track →",
+    "proofEyebrow": "Room 305",
+    "proofTitle": "Founder-led follow-up, with building context in view.",
+    "proof": {
+      "item1": "19 buildings tracked across the Hallandale → Brickell corridor",
+      "item2": "Operator-known: Beachwalk Resort",
+      "item3": "Founder-led follow-up · EN/ES"
+    },
+    "remoteEyebrow": "Remote ownership",
+    "remoteOwnership": {
+      "heading": "How remote ownership works with us",
+      "step1": "Before purchase — building rules, ownership fit, real numbers",
+      "step2": "First 30 days — setup, handoff, vendor rhythm",
+      "step3": "Month 3 — operating review with the owner",
+      "step4": "Quarterly — owner report, next-decision flags"
+    },
+    "footerCta": "Founder-led calls in English and Spanish. We reply within one business day with building context already in view."
   },
   "showroom": {
     "eyebrow": "Building atlas",
@@ -47,88 +42,53 @@
   },
   "leadForm": {
     "stepsLabel": "Concierge intake steps",
-    "intentLegend": "Are you buying or selling?",
-    "buying": "I'm buying",
-    "selling": "I'm selling",
-    "stepContext": "Building context",
+    "stepContext": "Context",
     "stepSituation": "Situation",
     "stepContact": "Contact",
-    "country": "Where you live now",
-    "targetAreaOrBuilding": "Target area or building",
-    "targetAreaOrBuildingPlaceholder": "Hallandale, Brickell, Beachwalk, Elser...",
-    "budgetRange": "Budget range",
-    "budgetRangePlaceholder": "$700k-$1.2M, flexible, or still setting range",
-    "buyerTimeline": "When would you want to move?",
-    "buyerTimelinePlaceholder": "Now, this summer, 6-12 months, just comparing",
-    "budget": {
-      "under750": "Under $750k",
-      "mid": "$750k-$1.25M",
-      "upper": "$1.25M-$2M",
-      "luxury": "$2M+",
-      "setting": "Still setting range"
+    "buildingOrArea": "Building or area in South Florida",
+    "buildingOrAreaPlaceholder": "Building or area in South Florida",
+    "countryOfResidence": "Where do you live now?",
+    "useMixLabel": "What's the use mix?",
+    "useMix": {
+      "personal-led": "Mostly personal use",
+      "mixed": "Mixed: personal + rental income",
+      "rental-led": "Mostly rental income",
+      "unsure": "Not sure yet"
     },
+    "holdHorizonLabel": "How long would you hold?",
+    "holdHorizon": {
+      "under-2y": "Under 2 years",
+      "2-5y": "2 to 5 years",
+      "5-plus": "5+ years",
+      "opportunistic": "Opportunistic exit"
+    },
+    "timelineLabel": "When does timing matter?",
     "timeline": {
-      "now": "Now",
-      "season": "This season",
-      "sixToTwelve": "6-12 months",
-      "comparing": "Just comparing",
-      "afterSeason": "After season",
-      "thisYear": "This year",
-      "notSure": "Not sure"
+      "lt-3mo": "Within 3 months",
+      "3-12mo": "3 to 12 months",
+      "12-24mo": "12 to 24 months",
+      "exploring": "Just exploring"
     },
-    "financingPosture": "How would you likely buy?",
-    "financing": {
-      "cash": "Cash",
-      "financing": "Financing",
-      "unsure": "Unsure"
+    "budgetBandLabel": "Approximate budget",
+    "budgetBand": {
+      "under-500k": "Under $500K",
+      "500k-1m": "$500K – $1M",
+      "1m-2m": "$1M – $2M",
+      "2m-plus": "$2M+"
     },
-    "avoidance": "What do you want to avoid?",
-    "avoidancePlaceholder": "Bad rules, weak setup, wrong building, unclear monthly rhythm...",
-    "buildingUnit": "Building and unit",
-    "buildingUnitPlaceholder": "Building name, unit number, or closest description",
-    "currentlyListed": "Is it currently listed?",
-    "listedYes": "Yes",
-    "listedNo": "No",
-    "sellerTimeline": "When would you like to sell?",
-    "sellerTimelinePlaceholder": "Now, after season, this year, not sure",
-    "sellerPain": "What is the main issue?",
-    "sellerPainOptions": {
-      "price": "Price",
-      "tenant": "Tenant",
-      "hoa": "HOA",
-      "broker": "Broker",
-      "uncertainty": "Uncertainty",
-      "other": "Other"
-    },
-    "expectedPrice": "Approximate expected price",
-    "expectedPricePlaceholder": "$900k, market guidance needed, or open",
-    "callUsefulness": "What would make this call useful?",
-    "callUsefulnessPlaceholder": "Tell us the decision you are trying to make.",
-    "name": "Name",
+    "advisorInvolved": "Working with an attorney or advisor on this?",
+    "advisorName": "Their name (optional)",
+    "advisorNamePlaceholder": "Their name (optional)",
+    "mainConcern": "Anything specific on your mind?",
+    "mainConcernHelper": "One line is plenty. Optional.",
+    "name": "Your name",
     "email": "Email",
-    "whatsapp": "WhatsApp (optional)",
-    "whatsappPlaceholder": "+1 305...",
+    "whatsapp": "WhatsApp (optional, faster reply)",
     "submit": "Send for review",
     "submitting": "Sending",
     "error": "The lead could not be sent.",
-    "successEyebrow": "Context received",
-    "successTitle": "We have your context.",
-    "successBody": "We review before replying. Expect a note within one business day if there is a fit, with the building context already in view.",
-    "success": "Received.",
-    "privacyNote": "We review this before replying. No list, no pressure.",
-    "trust": {
-      "reviewed": "Reviewed before reply",
-      "sequence": "No automated sales sequence",
-      "context": "Building context first",
-      "founder": "Founder-led when fit is real"
-    },
-    "triggers": {
-      "buySelf": "Buying for myself",
-      "buyInvestment": "Buying with operating context",
-      "sellUnit": "Selling a unit",
-      "operations": "I already own and want better operations",
-      "exploring": "Just exploring"
-    }
+    "successHeading": "Got it.",
+    "successBody": "We review before replying. Expect a note within one business day if there's a fit, with the building context already in view."
   },
   "buy": {
     "eyebrow": "Buyer path",
@@ -140,6 +100,12 @@
     "eyebrow": "Seller path",
     "title": "Tell us what you own and what feels stuck.",
     "body": "The sale question changes by building, timing, tenant status, and the story around the unit. A few details let us prepare before we reply.",
+    "miniListLabel": "Buildings with deeper operator context"
+  },
+  "own": {
+    "eyebrow": "Owner path",
+    "title": "Tell us what you own and what is changing.",
+    "body": "Share the building, use mix, timing, and what is making you rethink the current rhythm. We will review before replying.",
     "miniListLabel": "Buildings with deeper operator context"
   },
   "buyers": {

@@ -1,0 +1,122 @@
+[
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "beachwalk-resort:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 599,
+    "clsMedian": 0,
+    "tbtMsMedian": 5,
+    "nextStaticBytesMedian": 128426
+  },
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "beachwalk-resort:mobile",
+    "runs": 3,
+    "performanceMedian": 98,
+    "lcpMsMedian": 2279,
+    "clsMedian": 0,
+    "tbtMsMedian": 89,
+    "nextStaticBytesMedian": 131351
+  },
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "buildings:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 424,
+    "clsMedian": 0,
+    "tbtMsMedian": 6,
+    "nextStaticBytesMedian": 130603
+  },
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "buildings:mobile",
+    "runs": 3,
+    "performanceMedian": 96,
+    "lcpMsMedian": 1394,
+    "clsMedian": 0,
+    "tbtMsMedian": 229,
+    "nextStaticBytesMedian": 131846
+  },
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "buy:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 411,
+    "clsMedian": 0,
+    "tbtMsMedian": 5,
+    "nextStaticBytesMedian": 128688
+  },
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "buy:mobile",
+    "runs": 3,
+    "performanceMedian": 99,
+    "lcpMsMedian": 1687,
+    "clsMedian": 0,
+    "tbtMsMedian": 133,
+    "nextStaticBytesMedian": 134641
+  },
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "home:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 447,
+    "clsMedian": 0,
+    "tbtMsMedian": 2,
+    "nextStaticBytesMedian": 130331
+  },
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "home:mobile",
+    "runs": 3,
+    "performanceMedian": 98,
+    "lcpMsMedian": 1988,
+    "clsMedian": 0,
+    "tbtMsMedian": 145,
+    "nextStaticBytesMedian": 137314
+  },
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "own:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 417,
+    "clsMedian": 0,
+    "tbtMsMedian": 3,
+    "nextStaticBytesMedian": 128352
+  },
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "own:mobile",
+    "runs": 3,
+    "performanceMedian": 99,
+    "lcpMsMedian": 1689,
+    "clsMedian": 0,
+    "tbtMsMedian": 137,
+    "nextStaticBytesMedian": 134640
+  },
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "sell:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 451,
+    "clsMedian": 0,
+    "tbtMsMedian": 1,
+    "nextStaticBytesMedian": 128419
+  },
+  {
+    "previewUrl": "https://room305-dzqxi8k4y-danacosta139-9809s-projects.vercel.app",
+    "key": "sell:mobile",
+    "runs": 3,
+    "performanceMedian": 99,
+    "lcpMsMedian": 1686,
+    "clsMedian": 0,
+    "tbtMsMedian": 82,
+    "nextStaticBytesMedian": 134575
+  }
+]

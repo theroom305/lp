@@ -9,6 +9,7 @@ export const siteUrl = "https://theroom305.com";
 type RouteKey =
   | "home"
   | "buy"
+  | "own"
   | "sell"
   | "buildings"
   | "building"
@@ -46,6 +47,10 @@ const localizedStaticPaths: Record<
   buy: {
     en: "/buy",
     es: "/es/comprar",
+  },
+  own: {
+    en: "/own",
+    es: "/es/ya-tengo-propiedad",
   },
   sell: {
     en: "/sell",

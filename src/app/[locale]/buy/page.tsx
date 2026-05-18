@@ -42,9 +42,11 @@ export default async function BuyPage({params, searchParams}: BuyPageProps) {
   const t = await getTranslations("buy");
   const query = await searchParams;
   const buildingSlug = firstSearchValue(query.building);
+  const buildingName = firstSearchValue(query.buildingName);
   const prefillBuilding = buildingSlug
     ? getCorridorBuildingBySlug(buildingSlug)
     : undefined;
+  const prefillBuildingName = prefillBuilding?.name ?? buildingName;
   return (
     <PageShell>
       <JsonLd
@@ -66,9 +68,8 @@ export default async function BuyPage({params, searchParams}: BuyPageProps) {
           <AmbientStrip placement="buy-intro" variant="side" />
         </section>
         <LeadMicroform
-          defaultIntent="buying"
-          prefillBuildingName={prefillBuilding?.name}
-          prefillIntent="buying"
+          defaultCustomerState="buying"
+          prefillBuildingName={prefillBuildingName}
         />
       </main>
     </PageShell>

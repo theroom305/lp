@@ -4,15 +4,23 @@ import {ZodError} from "zod";
 import {env} from "@/server/env";
 import {logger} from "@/server/logger";
 import {JsonBodyError, readJsonBody} from "@/server/http/request-body";
+import {writeLeadEvent} from "@/server/lead/events";
 import {generatePreCallBrief} from "@/server/lead/pre-call-brief";
 import {notifyLeadSubmission} from "@/server/lead/notification";
+import {generateLeadPacket} from "@/server/lead/packet";
 import {
   leadIdFromKey,
   persistLeadSubmission,
   updateLeadNotificationStatus,
 } from "@/server/lead/repository";
 import {
+  classifyLead,
+  leadScoreFromClassification,
+  type LeadClassification,
+} from "@/server/lead/scoring";
+import {
   isFunnelLeadRequest,
+  isV7LeadRequest,
   leadRequestSchema,
   scoreLead,
   type LeadApiError,
@@ -71,24 +79,100 @@ export async function POST(request: NextRequest): Promise<Response> {
     }
 
     const payload = leadRequestSchema.parse(await readJsonBody(request, 12_000));
-    const scored = scoreLead(payload);
     const leadId = leadIdFromKey(payload.idempotencyKey);
-    const preCallBriefMarkdown = generatePreCallBrief({
-      id: leadId,
-      payload,
-      score: scored,
-    });
+    let classification: LeadClassification | null = null;
+    const scored = isV7LeadRequest(payload)
+      ? (() => {
+          classification = classifyLead(payload);
+          return leadScoreFromClassification(payload, classification);
+        })()
+      : scoreLead(payload);
+    const preCallBriefMarkdown =
+      isV7LeadRequest(payload) && classification
+        ? generateLeadPacket({
+            id: leadId,
+            payload,
+            classification,
+          })
+        : generatePreCallBrief({
+            id: leadId,
+            payload,
+            score: scored,
+          });
     const result = await persistLeadSubmission(payload, scored, {
       preCallBriefMarkdown,
       notificationStatus: "pending",
+      classification: classification ?? undefined,
     });
-    const notification = await notifyLeadSubmission({
-      leadId: result.leadId,
-      payload,
-      score: scored,
-      preCallBriefMarkdown,
-    });
-    await updateLeadNotificationStatus(result.leadId, notification.status);
+    let notificationStatus: "dry-run" | "sent" | "skipped" = "skipped";
+
+    if (classification && !result.duplicate) {
+      await writeLeadEvent({
+        leadId: result.leadId,
+        eventType: "classified",
+        payload: {
+          tier: classification.tier,
+          reason_codes: classification.reasonCodes,
+          atlas_match: classification.atlasMatch,
+          matched_building_slug: classification.matchedBuildingSlug,
+        },
+      });
+    }
+
+    if (!result.duplicate) {
+      try {
+        const notification = await notifyLeadSubmission({
+          leadId: result.leadId,
+          payload,
+          score: scored,
+          preCallBriefMarkdown,
+        });
+        notificationStatus = notification.status;
+        await updateLeadNotificationStatus(result.leadId, notification.status);
+
+        if (classification) {
+          await writeLeadEvent({
+            leadId: result.leadId,
+            eventType: "notification_sent",
+            payload: {
+              mode: notification.status === "sent" ? "live" : "dry-run",
+              tier: classification.tier,
+              reason_codes: notification.reasonCodes,
+            },
+          });
+        }
+      } catch (notificationError) {
+        await updateLeadNotificationStatus(result.leadId, "failed");
+
+        if (classification) {
+          await writeLeadEvent({
+            leadId: result.leadId,
+            eventType: "notification_failed",
+            payload: {
+              mode: "live",
+              reason_code:
+                notificationError instanceof Error
+                  ? notificationError.message
+                  : "unknown",
+            },
+          });
+        }
+
+        throw notificationError;
+      }
+    } else {
+      notificationStatus = "skipped";
+
+      if (classification) {
+        await writeLeadEvent({
+          leadId: result.leadId,
+          eventType: "duplicate_submission",
+          payload: {
+            tier: classification.tier,
+          },
+        });
+      }
+    }
 
     logger.info({
       event: "lead.submission.accepted",
@@ -96,11 +180,15 @@ export async function POST(request: NextRequest): Promise<Response> {
       idempotency_key: payload.idempotencyKey,
       tier: scored.tier,
       stage: scored.stage,
-      trigger: payload.profile.trigger,
-      intent: isFunnelLeadRequest(payload) ? payload.intent : "legacy",
+      trigger: isV7LeadRequest(payload) ? "v7" : payload.profile.trigger,
+      intent: isV7LeadRequest(payload)
+        ? payload.customerState
+        : isFunnelLeadRequest(payload)
+          ? payload.intent
+          : "legacy",
       locale: payload.context.locale,
       storage_mode: result.storageMode,
-      notification_status: notification.status,
+      notification_status: notificationStatus,
     });
 
     const response: LeadApiResponse = {
@@ -112,7 +200,9 @@ export async function POST(request: NextRequest): Promise<Response> {
         duplicate: result.duplicate,
       },
       nextAction:
-        scored.tier === "c"
+        scored.tier === "c" ||
+        scored.tier === "soft" ||
+        scored.tier === "deflect"
           ? {kind: "nurture"}
           : {
               kind: "calendar",
@@ -120,7 +210,7 @@ export async function POST(request: NextRequest): Promise<Response> {
             },
       preCallBrief: {
         generated: true,
-        notification: notification.status,
+        notification: notificationStatus,
       },
     };
 
