@@ -1,10 +1,14 @@
 #!/usr/bin/env node
 import {readFileSync} from "node:fs";
 
-const baselinePath =
-  process.argv[2] ?? "_curation/lighthouse-v7-1-preview/summary.json";
-const candidatePath =
-  process.argv[3] ?? "_curation/lighthouse-v7-2-1-preview/summary.json";
+const baselinePath = process.argv[2];
+const candidatePath = process.argv[3];
+
+if (!baselinePath || !candidatePath) {
+  throw new Error(
+    "Usage: pnpm lighthouse:strict-compare <baseline-summary> <candidate-summary>",
+  );
+}
 
 function readSummary(path) {
   const rows = JSON.parse(readFileSync(path, "utf8"));

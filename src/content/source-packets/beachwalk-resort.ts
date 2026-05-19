@@ -1,4 +1,4 @@
-import type {BuildingSourcePacket} from "./types";
+import {INTERNAL_REVIEWER_SENTINEL, type BuildingSourcePacket} from "./types";
 
 const observedDate = "2026-05-19";
 
@@ -6,7 +6,7 @@ export const beachwalkResortSourcePacket = {
   buildingId: "beachwalk-resort",
   packetVersion: "1.0.0",
   lastReviewedAt: observedDate,
-  reviewer: "internal-v7.2.1-no-public-render",
+  reviewer: INTERNAL_REVIEWER_SENTINEL,
   claims: [
     {
       buildingId: "beachwalk-resort",

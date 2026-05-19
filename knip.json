@@ -1,0 +1,17 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "drizzle": false,
+  "ignoreFiles": [
+    "drizzle.config.ts",
+    "src/server/agent-infra/enforcement.ts",
+    "src/server/sources/sanitize-external-document.ts"
+  ],
+  "ignoreDependencies": [
+    "eslint-config-next",
+    "lighthouse"
+  ],
+  "rules": {
+    "exports": "warn",
+    "types": "warn"
+  }
+}

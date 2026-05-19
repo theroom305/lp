@@ -3,6 +3,8 @@ import {resolve} from "node:path";
 
 import {parse} from "yaml";
 
+import type {DossierType} from "../src/content/building-registry";
+
 const registryPath = resolve(
   process.cwd(),
   "../shared-brain/products/room305aioperator/market/buildings/registry.yml",
@@ -46,7 +48,6 @@ const proofDossierSlugs = new Set(["beachwalk-resort"]);
 
 type SourceRecord = Record<string, unknown>;
 
-
 type PublicBuilding = Readonly<{
   slug: string;
   name: string;
@@ -58,7 +59,7 @@ type PublicBuilding = Readonly<{
   cadenceLabel: string;
   verificationLabel: string;
   tone: string;
-  dossierType: "proof" | "full" | null;
+  dossierType: DossierType;
 }>;
 
 function validateCommittedProjection(): void {

@@ -184,7 +184,7 @@ textarea:focus-visible {
 }
 
 .eyebrow {
-  color: var(--accent);
+  color: var(--primary);
   font-size: 0.78rem;
   font-weight: 750;
   letter-spacing: 0;

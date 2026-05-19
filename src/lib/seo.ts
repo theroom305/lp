@@ -3,6 +3,7 @@ import type {Metadata} from "next";
 import type {BuildingRecord} from "@/content/atlas";
 import {isBuildingIndexable} from "@/content/atlas";
 import type {Locale} from "@/i18n/routing";
+import type {BuildingSourcePacket} from "@/content/source-packets/types";
 
 export const siteUrl = "https://theroom305.com";
 
@@ -261,5 +262,27 @@ export function notesArticleJsonLd(locale: Locale) {
     inLanguage: locale,
     publisher: organizationJsonLd,
     mainEntityOfPage: absoluteUrl(localizedPath({key: "notes", locale})),
+  };
+}
+
+export function proofDossierArticleJsonLd({
+  locale,
+  slug,
+  name,
+  packet,
+}: Readonly<{
+  locale: Locale;
+  slug: string;
+  name: string;
+  packet: BuildingSourcePacket;
+}>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: `${name} Building Fit Review`,
+    inLanguage: locale,
+    mainEntityOfPage: absoluteUrl(localizedPath({key: "building", locale, slug})),
+    dateModified: packet.lastReviewedAt,
+    publisher: organizationJsonLd,
   };
 }

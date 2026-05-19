@@ -3,6 +3,7 @@ import {expect, test} from "@playwright/test";
 import {ambientAssets} from "../src/content/ambient-assets";
 import {corridorBuildings} from "../src/content/building-registry";
 import {featuredBuildingSlugs} from "../src/content/featured-buildings";
+import {INTERNAL_REVIEWER_SENTINEL} from "../src/content/source-packets/types";
 import {
   buildingsForSubmarket,
   submarketFilterIds,
@@ -566,7 +567,7 @@ test.describe("v7.2 Beachwalk proof dossier", () => {
         footer.getByText(/^(Reviewer|Revisor|Revisado por)$/),
       ).toHaveCount(0);
       await expect(footer).not.toContainText("CC + Codex");
-      await expect(footer).not.toContainText("internal-v7.2.1");
+      await expect(footer).not.toContainText(INTERNAL_REVIEWER_SENTINEL);
     }
   });
 

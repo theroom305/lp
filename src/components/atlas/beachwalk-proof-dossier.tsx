@@ -529,7 +529,7 @@ export function BeachwalkProofDossier({
             <dt>{t.lastReviewed}</dt>
             <dd>{packet.lastReviewedAt}</dd>
           </div>
-          {packet.humanReviewer && packet.humanReviewer.length > 0 ? (
+          {packet.humanReviewer ? (
             <div>
               <dt>{t.reviewer}</dt>
               <dd>{packet.humanReviewer}</dd>

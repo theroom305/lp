@@ -1,5 +1,7 @@
 import {corridorBuildings} from "./building-registry.generated";
 
+export type DossierType = "proof" | "full" | null;
+
 export type CorridorBuilding = Readonly<{
   slug: string;
   name: string;
@@ -16,7 +18,7 @@ export type CorridorBuilding = Readonly<{
     | "olive-pearl"
     | "pearl-champagne"
     | "coral-sand";
-  dossierType: "proof" | "full" | null;
+  dossierType: DossierType;
 }>;
 
 export {corridorBuildings};
@@ -31,6 +33,6 @@ export function getCorridorBuildingName(slug: string): string | undefined {
   return getCorridorBuildingBySlug(slug)?.name;
 }
 
-export function getDossierType(slug: string): "proof" | "full" | null {
+export function getDossierType(slug: string): DossierType {
   return getCorridorBuildingBySlug(slug)?.dossierType ?? null;
 }

@@ -1,0 +1,134 @@
+[
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "home:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 593,
+    "clsMedian": 0,
+    "tbtMsMedian": 8,
+    "nextStaticBytesMedian": 193657,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "home:mobile",
+    "runs": 3,
+    "performanceMedian": 96,
+    "lcpMsMedian": 2288,
+    "clsMedian": 0,
+    "tbtMsMedian": 187,
+    "nextStaticBytesMedian": 193655,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "buy:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 468,
+    "clsMedian": 0,
+    "tbtMsMedian": 1,
+    "nextStaticBytesMedian": 189141,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "buy:mobile",
+    "runs": 3,
+    "performanceMedian": 99,
+    "lcpMsMedian": 1914,
+    "clsMedian": 0,
+    "tbtMsMedian": 95,
+    "nextStaticBytesMedian": 189218,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "sell:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 453,
+    "clsMedian": 0,
+    "tbtMsMedian": 3,
+    "nextStaticBytesMedian": 189188,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "sell:mobile",
+    "runs": 3,
+    "performanceMedian": 97,
+    "lcpMsMedian": 1991,
+    "clsMedian": 0,
+    "tbtMsMedian": 154,
+    "nextStaticBytesMedian": 189204,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "own:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 505,
+    "clsMedian": 0,
+    "tbtMsMedian": 8,
+    "nextStaticBytesMedian": 189244,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "own:mobile",
+    "runs": 3,
+    "performanceMedian": 98,
+    "lcpMsMedian": 1918,
+    "clsMedian": 0,
+    "tbtMsMedian": 142,
+    "nextStaticBytesMedian": 189213,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "buildings:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 523,
+    "clsMedian": 0,
+    "tbtMsMedian": 3,
+    "nextStaticBytesMedian": 186879,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "buildings:mobile",
+    "runs": 3,
+    "performanceMedian": 96,
+    "lcpMsMedian": 1830,
+    "clsMedian": 0,
+    "tbtMsMedian": 216,
+    "nextStaticBytesMedian": 186883,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "beachwalk-resort:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 525,
+    "clsMedian": 0,
+    "tbtMsMedian": 6,
+    "nextStaticBytesMedian": 185291,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-lp.vercel.app",
+    "key": "beachwalk-resort:mobile",
+    "runs": 3,
+    "performanceMedian": 98,
+    "lcpMsMedian": 1986,
+    "clsMedian": 0,
+    "tbtMsMedian": 141,
+    "nextStaticBytesMedian": 185324,
+    "thresholdPass": true
+  }
+]

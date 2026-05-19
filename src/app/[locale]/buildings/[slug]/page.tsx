@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type {Metadata} from "next";
-import {getMessages} from "next-intl/server";
+import {getTranslations} from "next-intl/server";
 import {notFound} from "next/navigation";
 
 import {BeachwalkProofDossier} from "@/components/atlas/beachwalk-proof-dossier";
@@ -13,14 +13,13 @@ import {
   getDossierType,
   getCorridorBuildingBySlug,
 } from "@/content/building-registry";
-import type {BuildingSourcePacket} from "@/content/source-packets/types";
 import {getDossierForBuilding} from "@/content/atlas";
 import {locales, type Locale} from "@/i18n/routing";
 import {
-  absoluteUrl,
   breadcrumbJsonLd,
   localizedPath,
   pageMetadata,
+  proofDossierArticleJsonLd,
 } from "@/lib/seo";
 import {getPublicClaims, getSourcePacket} from "@/lib/source-packets";
 import {getPublicFactsForBuilding} from "@/server/claims/public-facts";
@@ -41,42 +40,6 @@ export function generateStaticParams(): Array<{locale: Locale; slug: string}> {
 function buildingContextHref(buildingSlug: string, locale: Locale): string {
   const buyPath = localizedPath({key: "buy", locale});
   return `${buyPath}?building=${encodeURIComponent(buildingSlug)}&intent=buy`;
-}
-
-function beachwalkArticleJsonLd(
-  locale: Locale,
-  packet: BuildingSourcePacket,
-) {
-  const path = localizedPath({
-    key: "building",
-    locale,
-    slug: "beachwalk-resort",
-  });
-
-  return {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: "Beachwalk Resort Building Fit Review",
-    inLanguage: locale,
-    mainEntityOfPage: absoluteUrl(path),
-    dateModified: packet.lastReviewedAt,
-    publisher: {
-      "@type": "Organization",
-      name: "Room 305",
-      url: "https://theroom305.com",
-    },
-  };
-}
-
-function extractBeachwalkMemo(messages: Record<string, unknown>): string {
-  const beachwalk = messages.beachwalk;
-
-  if (!beachwalk || typeof beachwalk !== "object" || Array.isArray(beachwalk)) {
-    return "";
-  }
-
-  const memo = (beachwalk as Record<string, unknown>).memo;
-  return typeof memo === "string" ? memo : "";
 }
 
 export async function generateMetadata({
@@ -132,17 +95,25 @@ export default async function BuildingPage({params}: BuildingPageProps) {
       notFound();
     }
 
-    const messages = (await getMessages({locale})) as Record<string, unknown>;
+    const t = await getTranslations("beachwalk");
+    const memo = t("memo");
 
     return (
       <PageShell>
         {breadcrumb}
-        <JsonLd data={beachwalkArticleJsonLd(locale, packet)} />
+        <JsonLd
+          data={proofDossierArticleJsonLd({
+            locale,
+            slug,
+            name: building.name,
+            packet,
+          })}
+        />
         <AmbientStrip placement="slug-shared-backdrop" variant="backdrop" />
         <BeachwalkProofDossier
           building={building}
           locale={locale}
-          memo={extractBeachwalkMemo(messages)}
+          memo={memo}
           packet={packet}
           publicClaims={getPublicClaims(slug)}
         />

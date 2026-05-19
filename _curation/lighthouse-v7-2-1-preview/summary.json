@@ -1,0 +1,134 @@
+[
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "home:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 529,
+    "clsMedian": 0,
+    "tbtMsMedian": 3,
+    "nextStaticBytesMedian": 193682,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "home:mobile",
+    "runs": 3,
+    "performanceMedian": 96,
+    "lcpMsMedian": 2285,
+    "clsMedian": 0,
+    "tbtMsMedian": 161,
+    "nextStaticBytesMedian": 193671,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "buy:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 468,
+    "clsMedian": 0,
+    "tbtMsMedian": 3,
+    "nextStaticBytesMedian": 189180,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "buy:mobile",
+    "runs": 3,
+    "performanceMedian": 98,
+    "lcpMsMedian": 1988,
+    "clsMedian": 0,
+    "tbtMsMedian": 150,
+    "nextStaticBytesMedian": 189155,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "sell:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 473,
+    "clsMedian": 0,
+    "tbtMsMedian": 1,
+    "nextStaticBytesMedian": 189217,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "sell:mobile",
+    "runs": 3,
+    "performanceMedian": 98,
+    "lcpMsMedian": 1687,
+    "clsMedian": 0,
+    "tbtMsMedian": 142,
+    "nextStaticBytesMedian": 188645,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "own:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 487,
+    "clsMedian": 0,
+    "tbtMsMedian": 6,
+    "nextStaticBytesMedian": 189198,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "own:mobile",
+    "runs": 3,
+    "performanceMedian": 99,
+    "lcpMsMedian": 1914,
+    "clsMedian": 0,
+    "tbtMsMedian": 124,
+    "nextStaticBytesMedian": 189183,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "buildings:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 473,
+    "clsMedian": 0,
+    "tbtMsMedian": 1,
+    "nextStaticBytesMedian": 186902,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "buildings:mobile",
+    "runs": 3,
+    "performanceMedian": 96,
+    "lcpMsMedian": 1839,
+    "clsMedian": 0,
+    "tbtMsMedian": 207,
+    "nextStaticBytesMedian": 186928,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "beachwalk-resort:desktop",
+    "runs": 3,
+    "performanceMedian": 100,
+    "lcpMsMedian": 497,
+    "clsMedian": 0,
+    "tbtMsMedian": 2,
+    "nextStaticBytesMedian": 185298,
+    "thresholdPass": true
+  },
+  {
+    "previewUrl": "https://room305-9q1e4nouv-danacosta139-9809s-projects.vercel.app",
+    "key": "beachwalk-resort:mobile",
+    "runs": 3,
+    "performanceMedian": 98,
+    "lcpMsMedian": 1990,
+    "clsMedian": 0,
+    "tbtMsMedian": 91,
+    "nextStaticBytesMedian": 185301,
+    "thresholdPass": true
+  }
+]
