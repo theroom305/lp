@@ -9,11 +9,13 @@ import {BuildingTonalPlate} from "@/components/marketplace/building-tonal-plate"
 import {JsonLd} from "@/components/seo/json-ld";
 import {AmbientStrip} from "@/components/site/ambient-strip";
 import {
+  corridorBuildings,
+  getDossierType,
   getCorridorBuildingBySlug,
-  isFullDossierSlug,
 } from "@/content/building-registry";
+import type {BuildingSourcePacket} from "@/content/source-packets/types";
 import {getDossierForBuilding} from "@/content/atlas";
-import type {Locale} from "@/i18n/routing";
+import {locales, type Locale} from "@/i18n/routing";
 import {
   absoluteUrl,
   breadcrumbJsonLd,
@@ -24,18 +26,27 @@ import {getPublicClaims, getSourcePacket} from "@/lib/source-packets";
 import {getPublicFactsForBuilding} from "@/server/claims/public-facts";
 import {PageShell} from "@/components/site/page-shell";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 type BuildingPageProps = Readonly<{
   params: Promise<{locale: Locale; slug: string}>;
 }>;
+
+export function generateStaticParams(): Array<{locale: Locale; slug: string}> {
+  return locales.flatMap((locale) =>
+    corridorBuildings.map((building) => ({locale, slug: building.slug})),
+  );
+}
 
 function buildingContextHref(buildingSlug: string, locale: Locale): string {
   const buyPath = localizedPath({key: "buy", locale});
   return `${buyPath}?building=${encodeURIComponent(buildingSlug)}&intent=buy`;
 }
 
-function beachwalkArticleJsonLd(locale: Locale) {
+function beachwalkArticleJsonLd(
+  locale: Locale,
+  packet: BuildingSourcePacket,
+) {
   const path = localizedPath({
     key: "building",
     locale,
@@ -48,7 +59,7 @@ function beachwalkArticleJsonLd(locale: Locale) {
     headline: "Beachwalk Resort Building Fit Review",
     inLanguage: locale,
     mainEntityOfPage: absoluteUrl(path),
-    dateModified: "2026-05-19",
+    dateModified: packet.lastReviewedAt,
     publisher: {
       "@type": "Organization",
       name: "Room 305",
@@ -112,7 +123,9 @@ export default async function BuildingPage({params}: BuildingPageProps) {
     />
   );
 
-  if (slug === "beachwalk-resort") {
+  const dossierType = getDossierType(slug);
+
+  if (dossierType === "proof") {
     const packet = getSourcePacket(slug);
 
     if (!packet) {
@@ -124,7 +137,7 @@ export default async function BuildingPage({params}: BuildingPageProps) {
     return (
       <PageShell>
         {breadcrumb}
-        <JsonLd data={beachwalkArticleJsonLd(locale)} />
+        <JsonLd data={beachwalkArticleJsonLd(locale, packet)} />
         <AmbientStrip placement="slug-shared-backdrop" variant="backdrop" />
         <BeachwalkProofDossier
           building={building}
@@ -137,7 +150,7 @@ export default async function BuildingPage({params}: BuildingPageProps) {
     );
   }
 
-  if (isFullDossierSlug(slug)) {
+  if (dossierType === "full") {
     const dossier = getDossierForBuilding(slug);
 
     if (!dossier) {

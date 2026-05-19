@@ -529,10 +529,12 @@ export function BeachwalkProofDossier({
             <dt>{t.lastReviewed}</dt>
             <dd>{packet.lastReviewedAt}</dd>
           </div>
-          <div>
-            <dt>{t.reviewer}</dt>
-            <dd>{packet.reviewer}</dd>
-          </div>
+          {packet.humanReviewer && packet.humanReviewer.length > 0 ? (
+            <div>
+              <dt>{t.reviewer}</dt>
+              <dd>{packet.humanReviewer}</dd>
+            </div>
+          ) : null}
         </dl>
         <p>{t.sourceUpdateNote}</p>
         <details className="source-claim-list" open>

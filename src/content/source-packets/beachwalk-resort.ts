@@ -6,7 +6,7 @@ export const beachwalkResortSourcePacket = {
   buildingId: "beachwalk-resort",
   packetVersion: "1.0.0",
   lastReviewedAt: observedDate,
-  reviewer: "CC + Codex",
+  reviewer: "internal-v7.2.1-no-public-render",
   claims: [
     {
       buildingId: "beachwalk-resort",

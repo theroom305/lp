@@ -14,7 +14,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Short-stay rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "sand-dusk",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "beachwalk-resort",
@@ -27,7 +27,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Weekly rules pending",
     "verificationLabel": "Where we operate today",
     "tone": "sand-dusk",
-    "isFullDossier": true
+    "dossierType": "proof"
   },
   {
     "slug": "gale-residences-miami",
@@ -40,7 +40,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Short-stay rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "brass-forest",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "the-elser-miami",
@@ -53,7 +53,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Short-stay rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "brass-forest",
-    "isFullDossier": true
+    "dossierType": "full"
   },
   {
     "slug": "costa-hollywood",
@@ -66,7 +66,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Short-stay rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "sand-dusk",
-    "isFullDossier": true
+    "dossierType": "full"
   },
   {
     "slug": "natiivo-miami",
@@ -79,7 +79,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Monthly rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "brass-forest",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "w-pompano-beach",
@@ -92,7 +92,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Rental rules under review",
     "verificationLabel": "Declaration review pending",
     "tone": "sand-dusk",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "standard-residences-brickell",
@@ -105,7 +105,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Monthly rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "brass-forest",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "standard-residences-midtown",
@@ -118,7 +118,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Monthly rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "olive-pearl",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "e11even-hotel-residences",
@@ -131,7 +131,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Short-stay rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "brass-forest",
-    "isFullDossier": true
+    "dossierType": "full"
   },
   {
     "slug": "the-crosby",
@@ -144,7 +144,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Short-stay rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "brass-forest",
-    "isFullDossier": true
+    "dossierType": "full"
   },
   {
     "slug": "eden-aventura",
@@ -157,7 +157,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Rental rules under review",
     "verificationLabel": "Declaration review pending",
     "tone": "pearl-champagne",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "seven-park-residences",
@@ -170,7 +170,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Short-stay rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "sand-dusk",
-    "isFullDossier": true
+    "dossierType": "full"
   },
   {
     "slug": "hollywood-moon-residences",
@@ -183,7 +183,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Monthly rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "sand-dusk",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "gaia-hollywood",
@@ -196,7 +196,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Short-stay rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "sand-dusk",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "ritz-carlton-residences-miami-beach",
@@ -209,7 +209,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Residential rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "coral-sand",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "bentley-residences-sunny-isles",
@@ -222,7 +222,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Residential rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "pearl-champagne",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "porsche-design-tower",
@@ -235,7 +235,7 @@ export const corridorBuildings = [
     "cadenceLabel": "Residential rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "pearl-champagne",
-    "isFullDossier": false
+    "dossierType": null
   },
   {
     "slug": "five-park-miami-beach",
@@ -248,6 +248,6 @@ export const corridorBuildings = [
     "cadenceLabel": "Residential rules pending",
     "verificationLabel": "Secondary source reviewed",
     "tone": "coral-sand",
-    "isFullDossier": false
+    "dossierType": null
   }
 ] as const satisfies readonly CorridorBuilding[];

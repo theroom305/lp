@@ -554,6 +554,22 @@ test.describe("v7.2 Beachwalk proof dossier", () => {
     ).toHaveCount(0);
   });
 
+  test("hides reviewer row until a human reviewer is approved", async ({page}) => {
+    for (const path of [
+      "/buildings/beachwalk-resort",
+      "/es/edificios/beachwalk-resort",
+    ] as const) {
+      await page.goto(path);
+      const footer = page.locator('[data-test-id="beachwalk-section-source-footer"]');
+
+      await expect(
+        footer.getByText(/^(Reviewer|Revisor|Revisado por)$/),
+      ).toHaveCount(0);
+      await expect(footer).not.toContainText("CC + Codex");
+      await expect(footer).not.toContainText("internal-v7.2.1");
+    }
+  });
+
   test("Building Fit Review sample and CTA are public-safe", async ({page}) => {
     await page.goto("/buildings/beachwalk-resort");
 

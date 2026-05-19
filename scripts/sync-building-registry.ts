@@ -35,13 +35,14 @@ const expectedSlugs = [
 ] as const;
 
 const fullDossierSlugs = new Set([
-  "beachwalk-resort",
   "seven-park-residences",
   "the-elser-miami",
   "the-crosby",
   "e11even-hotel-residences",
   "costa-hollywood",
 ]);
+
+const proofDossierSlugs = new Set(["beachwalk-resort"]);
 
 type SourceRecord = Record<string, unknown>;
 
@@ -57,7 +58,7 @@ type PublicBuilding = Readonly<{
   cadenceLabel: string;
   verificationLabel: string;
   tone: string;
-  isFullDossier: boolean;
+  dossierType: "proof" | "full" | null;
 }>;
 
 function validateCommittedProjection(): void {
@@ -221,7 +222,11 @@ function toPublicBuilding(record: SourceRecord): PublicBuilding {
     cadenceLabel: cadenceLabelForStatus(requireString(record, "str_status")),
     verificationLabel: verificationLabelFor(record),
     tone: toneFor(record),
-    isFullDossier: fullDossierSlugs.has(slug),
+    dossierType: proofDossierSlugs.has(slug)
+      ? "proof"
+      : fullDossierSlugs.has(slug)
+        ? "full"
+        : null,
   };
 }
 

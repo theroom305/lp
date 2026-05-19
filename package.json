@@ -14,6 +14,8 @@
     "ambient:score": "tsx scripts/score-image-quality.ts",
     "ambient:calibration-gallery": "tsx scripts/generate-calibration-gallery.ts",
     "ambient:final-review": "tsx scripts/generate-final-review.ts",
+    "lighthouse:collect": "node scripts/lighthouse-collect.mjs",
+    "lighthouse:strict-compare": "node scripts/lighthouse-strict-compare.mjs",
     "e2e": "playwright test",
     "e2e:headed": "playwright test --headed",
     "e2e:install": "playwright install chromium",

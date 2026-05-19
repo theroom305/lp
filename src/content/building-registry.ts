@@ -16,7 +16,7 @@ export type CorridorBuilding = Readonly<{
     | "olive-pearl"
     | "pearl-champagne"
     | "coral-sand";
-  isFullDossier: boolean;
+  dossierType: "proof" | "full" | null;
 }>;
 
 export {corridorBuildings};
@@ -31,6 +31,6 @@ export function getCorridorBuildingName(slug: string): string | undefined {
   return getCorridorBuildingBySlug(slug)?.name;
 }
 
-export function isFullDossierSlug(slug: string): boolean {
-  return getCorridorBuildingBySlug(slug)?.isFullDossier ?? false;
+export function getDossierType(slug: string): "proof" | "full" | null {
+  return getCorridorBuildingBySlug(slug)?.dossierType ?? null;
 }

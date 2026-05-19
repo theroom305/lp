@@ -33,5 +33,6 @@ export type BuildingSourcePacket = Readonly<{
   packetVersion: string;
   lastReviewedAt: string;
   reviewer: string;
+  humanReviewer?: string;
   claims: readonly SourceClaim[];
 }>;
