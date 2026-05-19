@@ -1,0 +1,225 @@
+import type {BuildingSourcePacket} from "./types";
+
+const observedDate = "2026-05-19";
+
+export const beachwalkResortSourcePacket = {
+  buildingId: "beachwalk-resort",
+  packetVersion: "1.0.0",
+  lastReviewedAt: observedDate,
+  reviewer: "CC + Codex",
+  claims: [
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "address",
+      publicText:
+        "Beachwalk Resort is tracked at 2600-02 E Hallandale Beach Boulevard in Hallandale Beach.",
+      sourceType: "secondary-marketing",
+      sourceUrl: "https://www.condoinvestments.com/property/beachwalk/",
+      sourceDocReference: "Condo Investments Beachwalk profile",
+      observedDate,
+      validThroughDate: "2027-05-19",
+      freshnessState: "fresh",
+      confidence: "high",
+      reviewer: "Codex",
+      visibility: "public",
+      lastVerifiedBy: "Codex",
+      whatCouldChange:
+        "Static address fact; update only if the public building identity changes.",
+    },
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "delivery-year",
+      publicText:
+        "Public building profiles list Beachwalk as completed in 2015.",
+      sourceType: "secondary-marketing",
+      sourceUrl: "https://www.condoinvestments.com/property/beachwalk/",
+      sourceDocReference: "Condo Investments Beachwalk profile",
+      observedDate,
+      validThroughDate: "2027-05-19",
+      freshnessState: "fresh",
+      confidence: "high",
+      reviewer: "Codex",
+      visibility: "public",
+      lastVerifiedBy: "Codex",
+      whatCouldChange:
+        "Static completion-year fact; reconcile if a primary record gives a different delivery date.",
+    },
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "unit-count",
+      publicText:
+        "Public project summaries list Beachwalk as a 300-unit building.",
+      sourceType: "secondary-marketing",
+      sourceUrl: "https://www.condoinvestments.com/property/beachwalk/",
+      sourceDocReference: "Condo Investments Beachwalk profile",
+      observedDate,
+      validThroughDate: "2027-05-19",
+      freshnessState: "fresh",
+      confidence: "high",
+      reviewer: "Codex",
+      visibility: "public",
+      lastVerifiedBy: "Codex",
+      whatCouldChange:
+        "Static project summary; confirm against county and condominium records before relying on the count in a transaction memo.",
+    },
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "developer",
+      publicText:
+        "Condo Investments lists The Related Group as Beachwalk's developer.",
+      sourceType: "secondary-marketing",
+      sourceUrl: "https://www.condoinvestments.com/property/beachwalk/",
+      sourceDocReference: "Condo Investments Beachwalk profile",
+      observedDate,
+      validThroughDate: "2027-05-19",
+      freshnessState: "fresh",
+      confidence: "high",
+      reviewer: "Codex",
+      visibility: "public",
+      lastVerifiedBy: "Codex",
+      whatCouldChange:
+        "Static developer attribution; confirm with recorded project documents when preparing a buyer-specific packet.",
+    },
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "architect",
+      publicText:
+        "Architect attribution remains source-limited; one public profile names Cohen, Freedman, Encinosa & Associates Architects, while Room 305 keeps this as a verify-before-use detail.",
+      sourceType: "secondary-marketing",
+      sourceUrl: "https://www.condoinvestments.com/property/beachwalk/",
+      sourceDocReference: "Condo Investments Beachwalk profile",
+      observedDate,
+      validThroughDate: "2027-05-19",
+      freshnessState: "fresh",
+      confidence: "medium",
+      reviewer: "Codex",
+      visibility: "public",
+      lastVerifiedBy: "Codex",
+      whatCouldChange:
+        "Public project summaries can compress design roles; confirm against project records before using in an advisor memo.",
+    },
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "condo-hotel-mix",
+      publicText:
+        "Silverleaf's Beachwalk summary describes 216 hotel-condominium suites and 84 residential units.",
+      sourceType: "secondary-marketing",
+      sourceUrl: "https://silverleafrealtygroup.com/developments/beachwalk",
+      sourceDocReference: "Silverleaf Realty Group Beachwalk development page",
+      observedDate,
+      validThroughDate: "2026-07-15",
+      freshnessState: "review-due",
+      confidence: "medium",
+      reviewer: "Codex",
+      visibility: "public",
+      lastVerifiedBy: "Codex",
+      whatCouldChange:
+        "The split should be reconciled against condominium documents before offer-stage advice.",
+    },
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "rental-minimum",
+      publicText:
+        "Secondary notes describe a one-week rental minimum; Room 305 treats that as verifying until the recorded declaration is reviewed.",
+      sourceType: "recorded-declaration",
+      sourceDocReference: "Recorded declaration pull pending",
+      observedDate,
+      validThroughDate: "2026-06-30",
+      freshnessState: "review-due",
+      confidence: "verifying",
+      reviewer: "Isaac",
+      visibility: "public",
+      lastVerifiedBy: "CC + Codex",
+      whatCouldChange:
+        "A declaration amendment, association interpretation, or missing primary-record paragraph could change the public wording.",
+    },
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "owner-use-cap",
+      publicText:
+        "Owner-use limits remain a verify-before-offer item until the governing documents are pulled for the specific unit path.",
+      sourceType: "hoa-document",
+      sourceDocReference: "HOA and governing-document review pending",
+      observedDate,
+      validThroughDate: "2026-06-30",
+      freshnessState: "review-due",
+      confidence: "verifying",
+      reviewer: "Isaac",
+      visibility: "public",
+      lastVerifiedBy: "CC + Codex",
+      whatCouldChange:
+        "Program terms, association rules, or the buyer's intended-use mix could change the practical answer.",
+    },
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "rental-program-shape",
+      publicText:
+        "Room 305 treats Beachwalk as a working condo-hotel environment with multiple operator paths, not a simple residential tower.",
+      sourceType: "operator-observation",
+      sourceDocReference: "Isaac operating observation; primary contract review pending",
+      observedDate,
+      validThroughDate: "2026-08-19",
+      freshnessState: "fresh",
+      confidence: "high",
+      reviewer: "Isaac",
+      visibility: "public",
+      lastVerifiedBy: "CC + Codex",
+      whatCouldChange:
+        "Program contracts, association updates, or building staffing changes could change the owner experience.",
+    },
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "comps-refresh",
+      publicText:
+        "Beachwalk comp context should be refreshed immediately before offer because active listings and closed sales move quickly.",
+      sourceType: "secondary-marketing",
+      sourceUrl: "https://www.condoinvestments.com/property/beachwalk/",
+      sourceDocReference: "Public listing snapshot",
+      observedDate,
+      validThroughDate: "2026-06-15",
+      freshnessState: "review-due",
+      confidence: "medium",
+      reviewer: "Codex",
+      visibility: "public",
+      lastVerifiedBy: "Codex",
+      whatCouldChange:
+        "New listings, expired listings, and closed sales can change the comp set within weeks.",
+    },
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "owner-circle-reputation",
+      publicText:
+        "Private owner-circle reputation notes exist for Beachwalk but are not published without owner-safe wording.",
+      privateNotes:
+        "Isaac can discuss relationship texture on a qualified call; keep names and sensitive building politics out of public UI.",
+      sourceType: "operator-observation",
+      sourceDocReference: "Isaac relationship context",
+      observedDate,
+      validThroughDate: "2026-08-19",
+      freshnessState: "fresh",
+      confidence: "high",
+      reviewer: "Isaac",
+      visibility: "private",
+      lastVerifiedBy: "CC + Codex",
+      whatCouldChange:
+        "Board changes, operator changes, or owner feedback could change private relationship notes.",
+    },
+    {
+      buildingId: "beachwalk-resort",
+      claimId: "stale-render-test",
+      publicText:
+        "Stale Beachwalk test claim kept out of public rendering by source-packet policy.",
+      sourceType: "operator-observation",
+      sourceDocReference: "Render-policy test fixture",
+      observedDate: "2025-01-01",
+      validThroughDate: "2025-06-01",
+      freshnessState: "stale",
+      confidence: "medium",
+      reviewer: "Codex",
+      visibility: "public",
+      lastVerifiedBy: "Codex",
+      whatCouldChange:
+        "This fixture exists only to prove stale public claims do not render.",
+    },
+  ],
+} as const satisfies BuildingSourcePacket;

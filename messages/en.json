@@ -7,38 +7,62 @@
     "contact": "Contact"
   },
   "home": {
-    "hero": "Own Miami without being there. Use it, rent it, and know when to sell.",
-    "subcopy": "Room 305 helps foreign and absentee owners choose the right South Florida condo, operate it with discipline, and prepare what comes next.",
+    "hero": "Own a piece of Miami. Use it, rent it, sell when the time is right.",
+    "subcopy": "Room 305 helps you choose the building, understand the operating reality, and make the next decision — without needing to be in Miami.",
     "paths": {
       "buying": "I'm buying",
       "own": "I own here",
       "selling": "I may sell"
     },
     "buildingInputPlaceholder": "Building or area in South Florida",
-    "trustLine": "We track 19 South Florida buildings and work from what each building actually says, not market averages.",
-    "atlasLink": "Browse the 19 buildings we track →",
+    "trustLine": "We follow 19 South Florida buildings closely. Beachwalk is where our knowledge runs deepest — every other building marked by what we've verified.",
+    "atlasLink": "Browse all 19 buildings →",
+    "problemFrame": {
+      "eyebrow": "The reality",
+      "title": "Most foreign buyers find out what the building really allows after they've signed.",
+      "body1": "Of new South Florida construction in 2025, 49% sold to international buyers — per MIAMI Realtors' 2025 Global Report. Many discover after closing that the declaration or HOA doesn't support how they planned to own.",
+      "body2": "We read the building first.",
+      "oldWayTitle": "Old Way",
+      "ourWayTitle": "Our Way",
+      "rows": {
+        "row1Old": "Browse listings. Tour units. Sign.",
+        "row1Our": "Read the declaration. Verify the rules. Then talk units.",
+        "row2Old": "The agent shows the building's best face.",
+        "row2Our": "We show what's known, unknown, and worth verifying before offer.",
+        "row3Old": "Surprise HOA rules emerge after closing.",
+        "row3Our": "The HOA rules drive the conversation from the first call."
+      }
+    },
     "proofEyebrow": "Room 305",
     "proofTitle": "Founder-led follow-up, with building context in view.",
     "proof": {
-      "item1": "19 buildings tracked across the Hallandale → Brickell corridor",
-      "item2": "Operator-known: Beachwalk Resort",
-      "item3": "Founder-led follow-up · EN/ES"
+      "item1": "19 buildings followed across the Hallandale → Brickell corridor",
+      "item2": "Beachwalk Resort: where our knowledge runs deepest",
+      "item3": "New notes reviewed each business day, EN/ES"
     },
     "remoteEyebrow": "Remote ownership",
     "remoteOwnership": {
-      "heading": "How remote ownership works with us",
-      "step1": "Before purchase — building rules, ownership fit, real numbers",
-      "step2": "First 30 days — setup, handoff, vendor rhythm",
-      "step3": "Month 3 — operating review with the owner",
-      "step4": "Quarterly — owner report, next-decision flags"
+      "heading": "How we work with remote owners",
+      "step1": "Before purchase — building rules, ownership fit, what works and what doesn't",
+      "step2": "At purchase — closing logistics, vendor handoff, key relationships introduced",
+      "step3": "Ownership year 1 — building updates, decision flags, recommended check-ins",
+      "step4": "Beyond — when timing or needs shift, we help you decide what's next"
     },
-    "footerCta": "Founder-led calls in English and Spanish. We reply within one business day with building context already in view."
+    "founder": {
+      "eyebrow": "Founder",
+      "name": "Isaac Andretta",
+      "role": "Founder, Room 305",
+      "statLabelYears": "years in South Florida real estate",
+      "statLabelBuildings": "buildings followed closely",
+      "statLabelLanguages": "EN/ES",
+      "memo": "I started Room 305 because most owners find out what their building really allows after they've bought it. We follow the corridor building by building — the rules, the rental program details, the operating realities — so when we help someone buy, sell, or hold, they know what they're committing to. Beachwalk is the building I know best, having worked there for years."
+    },
+    "footerCta": "Founder-led calls in English and Spanish. We review new notes each business day."
   },
   "showroom": {
-    "eyebrow": "Building atlas",
+    "eyebrow": "Buildings we follow",
     "title": "The corridor we cover, by building.",
-    "body": "Hallandale to Brickell, plus the adjacent branded-residence edges. These are buildings we currently follow; cadence labels stay methodological until declaration lookups clear.",
-    "useContext": "Use as my context"
+    "body": "Hallandale to Brickell, plus the adjacent branded-residence edges. These are buildings we currently follow; rental-rule labels stay conservative until declaration lookups clear."
   },
   "leadForm": {
     "stepsLabel": "Concierge intake steps",
@@ -47,7 +71,7 @@
     "stepContact": "Contact",
     "buildingOrArea": "Building or area in South Florida",
     "buildingOrAreaPlaceholder": "Building or area in South Florida",
-    "countryOfResidence": "Where do you live now?",
+    "countryOfResidence": "Where are you based? (optional, helps us match time zones)",
     "useMixLabel": "What's the use mix?",
     "useMix": {
       "personal-led": "Mostly personal use",
@@ -86,9 +110,13 @@
     "whatsapp": "WhatsApp (optional, faster reply)",
     "submit": "Send for review",
     "submitting": "Sending",
+    "postFormExpectation": "We review new notes each business day. If there's a fit, Isaac sends a direct note with the building already in view.",
     "error": "The lead could not be sent.",
     "successHeading": "Got it.",
-    "successBody": "We review before replying. Expect a note within one business day if there's a fit, with the building context already in view."
+    "successBody": "We review before replying. If there's a fit, Isaac sends a note with the building context already in view."
+  },
+  "beachwalk": {
+    "memo": "Beachwalk is the building I know best, having worked there for years. The value is not just knowing the view lines or the lobby rhythm. It is knowing which questions to ask before someone falls in love with a unit."
   },
   "buy": {
     "eyebrow": "Buyer path",
@@ -100,13 +128,13 @@
     "eyebrow": "Seller path",
     "title": "Tell us what you own and what feels stuck.",
     "body": "The sale question changes by building, timing, tenant status, and the story around the unit. A few details let us prepare before we reply.",
-    "miniListLabel": "Buildings with deeper operator context"
+    "miniListLabel": "Buildings with deeper local context"
   },
   "own": {
     "eyebrow": "Owner path",
-    "title": "Tell us what you own and what is changing.",
-    "body": "Share the building, use mix, timing, and what is making you rethink the current rhythm. We will review before replying.",
-    "miniListLabel": "Buildings with deeper operator context"
+    "title": "Put a building expert in your corner.",
+    "body": "Share the building, use mix, timing, and what is making you rethink the next decision. We review the context as your trusted advisor before suggesting a next step.",
+    "miniListLabel": "Buildings with deeper local context"
   },
   "buyers": {
     "eyebrow": "Buyer route",
@@ -114,13 +142,23 @@
     "body": "This route will host the curated marketplace journey, A/B/C routing, and calendar handoff."
   },
   "buildings": {
-    "eyebrow": "Building atlas",
+    "eyebrow": "Buildings we follow",
     "title": "The corridor we currently follow.",
-    "body": "The corridor we cover, Hallandale to Brickell. These are buildings we currently follow. A subset is where we operate today; the rest are buildings we have studied and can speak to. Cadence labels are based on secondary sources until we file declaration lookups.",
+    "body": "The corridor we cover, Hallandale to Brickell. These are buildings we currently follow. Beachwalk is where our knowledge runs deepest; every other building is marked by what we have verified. Rental-rule labels stay conservative until declaration lookups clear.",
     "stageLabel": "Timeline",
-    "cadenceLabel": "Cadence frame",
-    "sourceLabel": "Source posture",
-    "useContext": "Use as my context"
+    "cadenceLabel": "Rental-rule view",
+    "sourceLabel": "Source status",
+    "contextCta": "Use this building as my context →",
+    "filters": {
+      "label": "Filter buildings by submarket",
+      "all": "All",
+      "hallandale": "Hallandale",
+      "hollywood": "Hollywood",
+      "downtown-worldcenter": "Downtown + Worldcenter",
+      "brickell-midtown": "Brickell + Midtown",
+      "miami-beach": "Miami Beach",
+      "north-corridor": "North corridor"
+    }
   },
   "newDevelopments": {
     "eyebrow": "New development route",
@@ -129,7 +167,7 @@
   },
   "notes": {
     "eyebrow": "Notes",
-    "title": "Operator notes",
+    "title": "Working notes",
     "body": "Placeholder route for future founder notes and source-backed market observations."
   },
   "calibration": {
@@ -144,11 +182,11 @@
   "owners": {
     "eyebrow": "Owner route",
     "title": "Owner acquisition is downstream of proof.",
-    "body": "This route remains a placeholder until owner-side storyboards and operating proof are cleared."
+    "body": "This route remains a placeholder until owner-side storyboards and public proof are cleared."
   },
   "about": {
     "eyebrow": "Method",
-    "title": "Operate first. Claim later.",
+    "title": "Know the building. Claim later.",
     "body": "Room 305 infrastructure is being built ahead of public claims. Compliance-dependent copy stays out until Stage 0 clears."
   },
   "contact": {

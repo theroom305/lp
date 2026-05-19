@@ -4,10 +4,8 @@ import {getTranslations} from "next-intl/server";
 import {LeadMicroform} from "@/components/marketplace/lead-microform";
 import {JsonLd} from "@/components/seo/json-ld";
 import {AmbientStrip} from "@/components/site/ambient-strip";
-import {
-  corridorBuildings,
-  getCorridorBuildingBySlug,
-} from "@/content/building-registry";
+import {getCorridorBuildingBySlug} from "@/content/building-registry";
+import {featuredBuildings} from "@/content/featured-buildings";
 import type {Locale} from "@/i18n/routing";
 import {breadcrumbJsonLd, localizedPath, pageMetadata} from "@/lib/seo";
 import {PageShell} from "@/components/site/page-shell";
@@ -47,10 +45,6 @@ export default async function OwnPage({params, searchParams}: OwnPageProps) {
     ? getCorridorBuildingBySlug(buildingSlug)
     : undefined;
   const prefillBuildingName = prefillBuilding?.name ?? buildingName;
-  const featuredBuildings = corridorBuildings
-    .filter((building) => building.isFullDossier)
-    .slice(0, 5);
-
   return (
     <PageShell>
       <JsonLd

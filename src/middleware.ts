@@ -19,6 +19,8 @@ const englishRewriteRoots = [
   "/sell",
 ] as const;
 
+const vercelLiveOrigin = "https://vercel.live";
+
 function shouldRewriteToEnglish(pathname: string): boolean {
   return (
     pathname === "/" ||
@@ -28,7 +30,35 @@ function shouldRewriteToEnglish(pathname: string): boolean {
   );
 }
 
+function isPublicPageOptionsRequest(request: NextRequest): boolean {
+  return request.method === "OPTIONS";
+}
+
+function createPublicPageOptionsResponse(request: NextRequest): NextResponse {
+  const origin = request.headers.get("origin");
+  const requestedHeaders =
+    request.headers.get("access-control-request-headers") ?? "";
+
+  const response = new NextResponse(null, {status: 204});
+  response.headers.set("access-control-allow-methods", "GET, HEAD, OPTIONS");
+  response.headers.set("access-control-max-age", "86400");
+
+  if (origin === vercelLiveOrigin) {
+    response.headers.set("access-control-allow-origin", vercelLiveOrigin);
+  }
+
+  if (requestedHeaders.length > 0) {
+    response.headers.set("access-control-allow-headers", requestedHeaders);
+  }
+
+  return response;
+}
+
 export default function middleware(request: NextRequest) {
+  if (isPublicPageOptionsRequest(request)) {
+    return createPublicPageOptionsResponse(request);
+  }
+
   if (shouldRewriteToEnglish(request.nextUrl.pathname)) {
     const url = request.nextUrl.clone();
     url.pathname =

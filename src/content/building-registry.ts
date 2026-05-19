@@ -1,13 +1,5 @@
 import {corridorBuildings} from "./building-registry.generated";
 
-const featuredSlugs = [
-  "beachwalk-resort",
-  "five-park-miami-beach",
-  "ritz-carlton-residences-miami-beach",
-  "the-crosby",
-  "e11even-hotel-residences",
-] as const;
-
 export type CorridorBuilding = Readonly<{
   slug: string;
   name: string;
@@ -28,16 +20,6 @@ export type CorridorBuilding = Readonly<{
 }>;
 
 export {corridorBuildings};
-
-export const featuredBuildings = featuredSlugs.map((slug) => {
-  const building = corridorBuildings.find((candidate) => candidate.slug === slug);
-
-  if (!building) {
-    throw new Error(`Featured building missing from registry: ${slug}`);
-  }
-
-  return building;
-});
 
 export function getCorridorBuildingBySlug(
   slug: string,

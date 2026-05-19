@@ -36,7 +36,7 @@ function normalizedLeadColumns(payload: LeadRequest) {
           : payload.customerState === "selling"
             ? "selling"
             : "owning",
-      country: payload.countryOfResidence,
+      country: payload.countryOfResidence ?? null,
       contactName: payload.contact.name,
       contactEmail: payload.contact.email,
       contactWhatsapp: payload.contact.whatsapp ?? payload.contact.phone ?? null,

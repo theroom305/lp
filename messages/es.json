@@ -7,38 +7,62 @@
     "contact": "Contacto"
   },
   "home": {
-    "hero": "Sea propietario en Miami sin estar allí. Disfrute, alquile, y sepa cuándo vender.",
-    "subcopy": "Room 305 acompaña a propietarios extranjeros y ausentes para elegir el condominio correcto en el sur de Florida, operarlo con disciplina, y preparar el siguiente paso.",
+    "hero": "Tenga un pedazo de Miami. Úselo, alquílelo, véndalo cuando sea el momento.",
+    "subcopy": "Room 305 le ayuda a elegir el edificio, entender lo que el edificio realmente permite, y tomar la siguiente decisión — sin necesidad de estar en Miami.",
     "paths": {
       "buying": "Estoy comprando",
       "own": "Ya tengo propiedad aquí",
       "selling": "Estoy considerando vender"
     },
     "buildingInputPlaceholder": "Edificio o zona en el sur de Florida",
-    "trustLine": "Hacemos seguimiento a 19 edificios del sur de Florida y trabajamos desde lo que dice cada edificio, no desde promedios de mercado.",
+    "trustLine": "Seguimos de cerca 19 edificios del sur de Florida. Beachwalk es donde nuestro conocimiento es más profundo — cada otro edificio marcado por lo que hemos verificado.",
     "atlasLink": "Conozca los 19 edificios que seguimos →",
+    "problemFrame": {
+      "eyebrow": "La realidad",
+      "title": "La mayoría de los compradores extranjeros descubre lo que el edificio realmente permite después de haber firmado.",
+      "body1": "De la construcción nueva en el sur de Florida durante 2025, el 49% se vendió a compradores internacionales — según el Reporte Global 2025 de MIAMI Realtors. Muchos descubren después del cierre que la declaración o el HOA no respaldan la forma en que planeaban poseer.",
+      "body2": "Nosotros leemos el edificio primero.",
+      "oldWayTitle": "Forma antigua",
+      "ourWayTitle": "Nuestra forma",
+      "rows": {
+        "row1Old": "Ver listados. Recorrer unidades. Firmar.",
+        "row1Our": "Leer la declaración. Verificar las reglas. Después hablar de unidades.",
+        "row2Old": "El agente muestra la mejor cara del edificio.",
+        "row2Our": "Mostramos lo que se sabe, lo que no, y lo que vale verificar antes de ofrecer.",
+        "row3Old": "Las reglas del HOA aparecen después del cierre.",
+        "row3Our": "Las reglas del HOA guían la conversación desde la primera llamada."
+      }
+    },
     "proofEyebrow": "Room 305",
     "proofTitle": "Seguimiento liderado por el fundador, con contexto del edificio en vista.",
     "proof": {
-      "item1": "19 edificios bajo seguimiento en el corredor Hallandale → Brickell",
-      "item2": "Operación conocida: Beachwalk Resort",
-      "item3": "Seguimiento liderado por el fundador · EN/ES"
+      "item1": "19 edificios seguidos en el corredor Hallandale → Brickell",
+      "item2": "Beachwalk Resort: donde nuestro conocimiento es más profundo",
+      "item3": "Notas nuevas revisadas cada día hábil, EN/ES"
     },
     "remoteEyebrow": "Propiedad remota",
     "remoteOwnership": {
-      "heading": "Cómo funciona la propiedad remota con nosotros",
-      "step1": "Antes de comprar — reglas del edificio, encaje de propiedad, números reales",
-      "step2": "Primeros 30 días — instalación, traspaso, ritmo de proveedores",
-      "step3": "Mes 3 — revisión operativa con el propietario",
-      "step4": "Trimestral — reporte al propietario, próximas decisiones"
+      "heading": "Cómo trabajamos con propietarios remotos",
+      "step1": "Antes de comprar — reglas del edificio, encaje de propiedad, qué funciona y qué no",
+      "step2": "En la compra — logística de cierre, traspaso, relaciones clave presentadas",
+      "step3": "Año 1 de propiedad — actualizaciones del edificio, señales de decisión, revisiones recomendadas",
+      "step4": "Más allá — cuando el momento o las necesidades cambien, le ayudamos a decidir qué sigue"
     },
-    "footerCta": "Llamadas con el fundador en inglés y español. Respondemos en un día hábil con el contexto del edificio ya en vista."
+    "founder": {
+      "eyebrow": "Fundador",
+      "name": "Isaac Andretta",
+      "role": "Fundador, Room 305",
+      "statLabelYears": "años en bienes raíces del sur de Florida",
+      "statLabelBuildings": "edificios bajo seguimiento",
+      "statLabelLanguages": "EN/ES",
+      "memo": "Empecé Room 305 porque la mayoría de los propietarios descubren lo que su edificio realmente permite después de haber comprado. Seguimos el corredor edificio por edificio — las reglas, los detalles del programa de alquiler, la realidad operativa — para que cuando ayudemos a alguien a comprar, vender o mantener, sepa a qué se está comprometiendo. Beachwalk es el edificio que mejor conozco, habiendo trabajado allí durante años."
+    },
+    "footerCta": "Llamadas con el fundador en inglés y español. Revisamos las notas nuevas cada día hábil."
   },
   "showroom": {
-    "eyebrow": "Atlas de edificios",
+    "eyebrow": "Edificios que seguimos",
     "title": "El corredor que seguimos, edificio por edificio.",
-    "body": "De Hallandale a Brickell, con bordes de residencias de marca cercanas. Estos son edificios que seguimos actualmente; las etiquetas de cadencia quedan metodológicas hasta cerrar la revisión de declaraciones.",
-    "useContext": "Usar como contexto"
+    "body": "De Hallandale a Brickell, con bordes de residencias de marca cercanas. Estos son edificios que seguimos actualmente; las etiquetas de reglas de alquiler quedan conservadoras hasta cerrar la revisión de declaraciones."
   },
   "leadForm": {
     "stepsLabel": "Pasos del intake concierge",
@@ -47,7 +71,7 @@
     "stepContact": "Contacto",
     "buildingOrArea": "Edificio o zona en el sur de Florida",
     "buildingOrAreaPlaceholder": "Edificio o zona en el sur de Florida",
-    "countryOfResidence": "¿Dónde vive actualmente?",
+    "countryOfResidence": "¿Dónde está usted basado? (opcional, ayuda a coordinar zonas horarias)",
     "useMixLabel": "¿Cuál es el uso previsto?",
     "useMix": {
       "personal-led": "Principalmente uso personal",
@@ -86,9 +110,13 @@
     "whatsapp": "WhatsApp (opcional, respuesta más rápida)",
     "submit": "Enviar para revisión",
     "submitting": "Enviando",
+    "postFormExpectation": "Revisamos las notas nuevas cada día hábil. Si hay encaje, Isaac envía una nota directa con el contexto del edificio ya en vista.",
     "error": "No se pudo enviar el lead.",
     "successHeading": "Recibido.",
-    "successBody": "Revisamos antes de responder. Espere una nota en un día hábil si hay encaje, con el contexto del edificio ya en vista."
+    "successBody": "Revisamos antes de responder. Si hay encaje, Isaac envía una nota con el contexto del edificio ya en vista."
+  },
+  "beachwalk": {
+    "memo": "Beachwalk es el edificio que mejor conozco, habiendo trabajado allí durante años. El valor no es solo conocer las vistas o el ritmo del lobby. Es saber qué preguntas hacer antes de que alguien se enamore de una unidad."
   },
   "buy": {
     "eyebrow": "Ruta comprador",
@@ -100,13 +128,13 @@
     "eyebrow": "Ruta vendedor",
     "title": "Cuéntenos qué tiene y qué se siente trabado.",
     "body": "La pregunta de venta cambia por edificio, tiempo, estado de ocupación y la historia de la unidad. Algunos detalles nos dejan prepararnos antes de responder.",
-    "miniListLabel": "Edificios con contexto operativo más profundo"
+    "miniListLabel": "Edificios con contexto local más profundo"
   },
   "own": {
     "eyebrow": "Ruta propietario",
-    "title": "Cuéntenos qué tiene y qué está cambiando.",
-    "body": "Comparta el edificio, uso previsto, momento y qué le hace reconsiderar el ritmo actual. Revisamos antes de responder.",
-    "miniListLabel": "Edificios con contexto operativo más profundo"
+    "title": "Ponga a un experto del edificio en su esquina.",
+    "body": "Comparta el edificio, uso previsto, momento y qué le hace reconsiderar la siguiente decisión. Revisamos el contexto como su asesor de confianza antes de sugerir un próximo paso.",
+    "miniListLabel": "Edificios con contexto local más profundo"
   },
   "buyers": {
     "eyebrow": "Ruta comprador",
@@ -114,13 +142,23 @@
     "body": "Esta ruta alojará el recorrido curado, el enrutamiento A/B/C y el paso a calendario."
   },
   "buildings": {
-    "eyebrow": "Atlas de edificios",
+    "eyebrow": "Edificios que seguimos",
     "title": "El corredor que seguimos actualmente.",
-    "body": "El corredor que cubrimos, de Hallandale a Brickell. Estos son edificios que seguimos actualmente. Un subconjunto es donde operamos hoy; el resto son edificios que hemos estudiado y podemos conversar. Las etiquetas de cadencia se basan en fuentes secundarias hasta completar las búsquedas de declaraciones.",
+    "body": "El corredor que cubrimos, de Hallandale a Brickell. Estos son edificios que seguimos actualmente. Beachwalk es donde nuestro conocimiento es más profundo; cada otro edificio está marcado por lo que hemos verificado. Las etiquetas de reglas de alquiler quedan conservadoras hasta completar las búsquedas de declaraciones.",
     "stageLabel": "Cronología",
-    "cadenceLabel": "Marco de cadencia",
-    "sourceLabel": "Postura de fuente",
-    "useContext": "Usar como contexto"
+    "cadenceLabel": "Vista de las reglas de alquiler",
+    "sourceLabel": "Estado de la fuente",
+    "contextCta": "Usar este edificio como mi contexto →",
+    "filters": {
+      "label": "Filtrar edificios por submercado",
+      "all": "Todos",
+      "hallandale": "Hallandale",
+      "hollywood": "Hollywood",
+      "downtown-worldcenter": "Downtown + Worldcenter",
+      "brickell-midtown": "Brickell + Midtown",
+      "miami-beach": "Miami Beach",
+      "north-corridor": "Corredor norte"
+    }
   },
   "newDevelopments": {
     "eyebrow": "Ruta de desarrollos",
@@ -129,7 +167,7 @@
   },
   "notes": {
     "eyebrow": "Notas",
-    "title": "Notas operativas",
+    "title": "Notas de trabajo",
     "body": "Ruta placeholder para futuras notas del fundador y observaciones de mercado respaldadas por fuentes."
   },
   "calibration": {
@@ -144,11 +182,11 @@
   "owners": {
     "eyebrow": "Ruta propietario",
     "title": "La adquisición de propietarios viene después de la prueba.",
-    "body": "Esta ruta queda como marcador hasta cerrar el storyboard de propietarios y la prueba operativa."
+    "body": "Esta ruta queda como marcador hasta cerrar el storyboard de propietarios y la prueba pública."
   },
   "about": {
     "eyebrow": "Método",
-    "title": "Operar primero. Afirmar después.",
+    "title": "Conocer el edificio. Afirmar después.",
     "body": "La infraestructura de Room 305 se construye antes de las afirmaciones públicas. El texto dependiente de cumplimiento espera Stage 0."
   },
   "contact": {

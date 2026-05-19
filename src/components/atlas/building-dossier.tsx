@@ -48,7 +48,7 @@ export function BuildingDossier({
               <dd>{corridorBuilding.city}</dd>
             </div>
             <div>
-              <dt>Cadence frame</dt>
+              <dt>Rental-rule view</dt>
               <dd>{corridorBuilding.cadenceLabel}</dd>
             </div>
             <div>
@@ -56,7 +56,7 @@ export function BuildingDossier({
               <dd>{corridorBuilding.brandTier}</dd>
             </div>
             <div>
-              <dt>Source posture</dt>
+              <dt>Source status</dt>
               <dd>{corridorBuilding.verificationLabel}</dd>
             </div>
           </dl>
@@ -65,7 +65,7 @@ export function BuildingDossier({
             href={ctaHref}
             data-test-id="building-dossier-context-cta"
           >
-            Use this building as my context
+            Use this building as my context →
           </Link>
         </aside>
 

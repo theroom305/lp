@@ -4,10 +4,8 @@ import {getTranslations} from "next-intl/server";
 import {LeadMicroform} from "@/components/marketplace/lead-microform";
 import {JsonLd} from "@/components/seo/json-ld";
 import {AmbientStrip} from "@/components/site/ambient-strip";
-import {
-  featuredBuildings,
-  getCorridorBuildingBySlug,
-} from "@/content/building-registry";
+import {getCorridorBuildingBySlug} from "@/content/building-registry";
+import {featuredBuildings} from "@/content/featured-buildings";
 import type {Locale} from "@/i18n/routing";
 import {breadcrumbJsonLd, localizedPath, pageMetadata} from "@/lib/seo";
 import {PageShell} from "@/components/site/page-shell";

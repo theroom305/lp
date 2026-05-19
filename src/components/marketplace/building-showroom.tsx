@@ -2,14 +2,9 @@ import Link from "next/link";
 import {useLocale, useTranslations} from "next-intl";
 
 import {BuildingTonalPlate} from "@/components/marketplace/building-tonal-plate";
-import {corridorBuildings} from "@/content/building-registry";
+import {featuredBuildings} from "@/content/featured-buildings";
 import type {Locale} from "@/i18n/routing";
 import {localizedPath} from "@/lib/seo";
-
-function buildingContextHref(buildingSlug: string, locale: Locale): string {
-  const buyPath = localizedPath({key: "buy", locale});
-  return `${buyPath}?building=${encodeURIComponent(buildingSlug)}&intent=buy`;
-}
 
 export function BuildingShowroom() {
   const t = useTranslations("showroom");
@@ -27,7 +22,7 @@ export function BuildingShowroom() {
         <p>{t("body")}</p>
       </div>
       <div className="building-grid">
-        {corridorBuildings.map((building) => (
+        {featuredBuildings.map((building) => (
           <article
             key={building.slug}
             className="building-card"
@@ -50,17 +45,11 @@ export function BuildingShowroom() {
                 <span className="building-card-badge">
                   {building.cadenceLabel}
                 </span>
+                <span className="building-card-source">
+                  {building.verificationLabel}
+                </span>
               </div>
             </Link>
-            <div className="building-card-actions">
-              <span>{building.verificationLabel}</span>
-              <Link
-                href={buildingContextHref(building.slug, locale)}
-                data-test-id={`building-context-${building.slug}`}
-              >
-                {t("useContext")}
-              </Link>
-            </div>
           </article>
         ))}
       </div>

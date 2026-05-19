@@ -132,17 +132,17 @@ function stageLabelForYear(year: number | null): string {
 function cadenceLabelForStatus(status: string): string {
   switch (status) {
     case "legal_7_night_min":
-      return "Weekly cadence · verifying";
+      return "Weekly rules pending";
     case "legal_no_minimum":
-      return "Short-stay cadence · verifying";
+      return "Short-stay rules pending";
     case "legal_30_night_min":
-      return "Monthly cadence · verifying";
+      return "Monthly rules pending";
     case "residential_only":
-      return "Residential cadence · verifying";
+      return "Residential rules pending";
     case "unverified":
-      return "Cadence under declaration review";
+      return "Rental rules under review";
     default:
-      return "Cadence under declaration review";
+      return "Rental rules under review";
   }
 }
 
@@ -152,18 +152,18 @@ function verificationLabelFor(record: SourceRecord): string {
   const status = requireString(record, "str_status");
 
   if (relationship === "operating") {
-    return "Operator-known";
+    return "Where we operate today";
   }
 
   if (status === "unverified") {
-    return "Declaration verifying";
+    return "Declaration review pending";
   }
 
   if (source === "secondary") {
-    return "Secondary source";
+    return "Secondary source reviewed";
   }
 
-  return "Declaration verifying";
+  return "Declaration review pending";
 }
 
 function toneFor(record: SourceRecord): string {

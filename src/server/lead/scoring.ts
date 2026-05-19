@@ -75,8 +75,8 @@ function normalizeSearchText(value: string): string {
     .trim();
 }
 
-function normalizeCountry(value: string): string {
-  return normalizeSearchText(value).replace(/\s+/g, "");
+function normalizeCountry(value: string | null | undefined): string {
+  return normalizeSearchText(value ?? "").replace(/\s+/g, "");
 }
 
 function matchBuilding(buildingOrArea: string): BuildingMatch | null {
@@ -120,7 +120,9 @@ function servicedLanguage(payload: V7LeadRequest): "en" | "es-LatAm" | "other" {
   return "en";
 }
 
-function timezoneForCountry(countryOfResidence: string): string | null {
+function timezoneForCountry(
+  countryOfResidence: string | null | undefined,
+): string | null {
   return countryTimezoneHints[normalizeCountry(countryOfResidence)] ?? null;
 }
 

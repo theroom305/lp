@@ -208,7 +208,7 @@ export function LeadMicroform({
         idempotencyKey,
         customerState: defaultCustomerState,
         buildingOrArea,
-        countryOfResidence: formValue(form, "countryOfResidence"),
+        countryOfResidence: optionalFormValue(form, "countryOfResidence"),
         useMix: submittedUseMix,
         holdHorizon: showHoldHorizon
           ? optionalFormValue(form, "holdHorizon")
@@ -319,7 +319,6 @@ export function LeadMicroform({
           <input
             id="countryOfResidence"
             name="countryOfResidence"
-            required
             autoComplete="country-name"
           />
         </div>
@@ -414,6 +413,9 @@ export function LeadMicroform({
       >
         {state.kind === "submitting" ? t("submitting") : t("submit")}
       </button>
+      <p className="form-note" data-test-id="post-form-expectation">
+        {t("postFormExpectation")}
+      </p>
 
       <p className="form-status" aria-live="polite" role="status">
         {state.kind === "error" ? state.message : null}

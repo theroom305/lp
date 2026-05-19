@@ -6,14 +6,14 @@ export function GET(): Response {
   const lines = [
     "# Room 305",
     "",
-    "Room 305 helps buyers and sellers of South Florida condos with operator-level building judgment; primary contact via /contact.",
+    "Room 305 helps buyers and sellers of South Florida condos choose buildings with corridor-deep context; primary contact via /contact.",
     "",
     "Current public surface:",
     `- Home: ${absoluteUrl(localizedPath({key: "home", locale: "en"}))}`,
     `- Buy: ${absoluteUrl(localizedPath({key: "buy", locale: "en"}))}`,
     `- Own: ${absoluteUrl(localizedPath({key: "own", locale: "en"}))}`,
     `- Sell: ${absoluteUrl(localizedPath({key: "sell", locale: "en"}))}`,
-    `- Building atlas: ${absoluteUrl(
+    `- Buildings we follow: ${absoluteUrl(
       localizedPath({key: "buildings", locale: "en"}),
     )} - buildings we follow, presented as a working scaffold.`,
     `- Contact: ${absoluteUrl(localizedPath({key: "contact", locale: "en"}))}`,

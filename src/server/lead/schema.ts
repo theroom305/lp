@@ -64,6 +64,12 @@ export const v7LeadTierSchema = z.enum([
 const cleanText = (min: number, max: number) =>
   z.string().trim().min(min).max(max);
 
+const optionalNullableText = (min: number, max: number) =>
+  z.preprocess(
+    (value) => (value === "" ? null : value),
+    z.string().trim().min(min).max(max).nullable().optional(),
+  );
+
 const profileSchema = z
   .object({
     country: cleanText(2, 80),
@@ -185,7 +191,7 @@ export const v7LeadRequestSchema = z
     idempotencyKey: z.string().min(16).max(120),
     customerState: customerStateSchema,
     buildingOrArea: cleanText(2, 200),
-    countryOfResidence: cleanText(2, 80),
+    countryOfResidence: optionalNullableText(1, 80),
     useMix: useMixSchema,
     holdHorizon: holdHorizonSchema.nullable().optional(),
     timeline: v7TimelineSchema,

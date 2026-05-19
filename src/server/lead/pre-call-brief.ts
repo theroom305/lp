@@ -11,11 +11,11 @@ type LeadSubmissionForBrief = Readonly<{
   score: LeadScore;
 }>;
 
-function clean(value: string | undefined): string {
+function clean(value: string | null | undefined): string {
   return (value ?? "").replace(/[\u0000-\u001F\u007F]/g, " ").trim();
 }
 
-function fallback(value: string | undefined, label = "Not provided"): string {
+function fallback(value: string | null | undefined, label = "Not provided"): string {
   const cleaned = clean(value);
   return cleaned.length > 0 ? cleaned : label;
 }

@@ -27,6 +27,7 @@ export function AmbientStrip({
   variant = "divider",
 }: AmbientStripProps) {
   const asset = assetForPlacement(placement);
+  const isLikelyLcp = variant === "side" || variant === "backdrop";
 
   if (!asset) {
     return null;
@@ -51,8 +52,9 @@ export function AmbientStrip({
         <img
           alt={asset.alt}
           decoding="async"
+          fetchPriority={isLikelyLcp ? "high" : "auto"}
           height={asset.height}
-          loading="lazy"
+          loading={isLikelyLcp ? "eager" : "lazy"}
           sizes={sizesByVariant[variant]}
           src={asset.srcWebp}
           width={asset.width}

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import type {Metadata} from "next";
+import {getMessages} from "next-intl/server";
 import {notFound} from "next/navigation";
 
+import {BeachwalkProofDossier} from "@/components/atlas/beachwalk-proof-dossier";
 import {BuildingDossier} from "@/components/atlas/building-dossier";
 import {BuildingTonalPlate} from "@/components/marketplace/building-tonal-plate";
 import {JsonLd} from "@/components/seo/json-ld";
@@ -12,7 +14,13 @@ import {
 } from "@/content/building-registry";
 import {getDossierForBuilding} from "@/content/atlas";
 import type {Locale} from "@/i18n/routing";
-import {breadcrumbJsonLd, localizedPath, pageMetadata} from "@/lib/seo";
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  localizedPath,
+  pageMetadata,
+} from "@/lib/seo";
+import {getPublicClaims, getSourcePacket} from "@/lib/source-packets";
 import {getPublicFactsForBuilding} from "@/server/claims/public-facts";
 import {PageShell} from "@/components/site/page-shell";
 
@@ -27,6 +35,39 @@ function buildingContextHref(buildingSlug: string, locale: Locale): string {
   return `${buyPath}?building=${encodeURIComponent(buildingSlug)}&intent=buy`;
 }
 
+function beachwalkArticleJsonLd(locale: Locale) {
+  const path = localizedPath({
+    key: "building",
+    locale,
+    slug: "beachwalk-resort",
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Beachwalk Resort Building Fit Review",
+    inLanguage: locale,
+    mainEntityOfPage: absoluteUrl(path),
+    dateModified: "2026-05-19",
+    publisher: {
+      "@type": "Organization",
+      name: "Room 305",
+      url: "https://theroom305.com",
+    },
+  };
+}
+
+function extractBeachwalkMemo(messages: Record<string, unknown>): string {
+  const beachwalk = messages.beachwalk;
+
+  if (!beachwalk || typeof beachwalk !== "object" || Array.isArray(beachwalk)) {
+    return "";
+  }
+
+  const memo = (beachwalk as Record<string, unknown>).memo;
+  return typeof memo === "string" ? memo : "";
+}
+
 export async function generateMetadata({
   params,
 }: BuildingPageProps): Promise<Metadata> {
@@ -39,7 +80,7 @@ export async function generateMetadata({
 
   return pageMetadata({
     title: building.name,
-    description: `Room 305 methodological scaffold for ${building.name}.`,
+    description: `Room 305 building context scaffold for ${building.name}.`,
     key: "building",
     locale,
     slug,
@@ -70,6 +111,31 @@ export default async function BuildingPage({params}: BuildingPageProps) {
       ])}
     />
   );
+
+  if (slug === "beachwalk-resort") {
+    const packet = getSourcePacket(slug);
+
+    if (!packet) {
+      notFound();
+    }
+
+    const messages = (await getMessages({locale})) as Record<string, unknown>;
+
+    return (
+      <PageShell>
+        {breadcrumb}
+        <JsonLd data={beachwalkArticleJsonLd(locale)} />
+        <AmbientStrip placement="slug-shared-backdrop" variant="backdrop" />
+        <BeachwalkProofDossier
+          building={building}
+          locale={locale}
+          memo={extractBeachwalkMemo(messages)}
+          packet={packet}
+          publicClaims={getPublicClaims(slug)}
+        />
+      </PageShell>
+    );
+  }
 
   if (isFullDossierSlug(slug)) {
     const dossier = getDossierForBuilding(slug);
@@ -118,11 +184,11 @@ export default async function BuildingPage({params}: BuildingPageProps) {
               <dd>{building.stageLabel}</dd>
             </div>
             <div>
-              <dt>Cadence frame</dt>
+              <dt>Rental-rule view</dt>
               <dd>{building.cadenceLabel}</dd>
             </div>
             <div>
-              <dt>Source posture</dt>
+              <dt>Source status</dt>
               <dd>{building.verificationLabel}</dd>
             </div>
           </dl>
@@ -132,11 +198,11 @@ export default async function BuildingPage({params}: BuildingPageProps) {
           <h1>{building.name}</h1>
           <p>
             Working scaffold. Room 305 follows this building, but the full
-            operator context waits for declaration review and a private memo
+            building context waits for declaration review and a private memo
             request.
           </p>
           <p>
-            Cadence labels are methodological until primary records or HOA
+            Rental-rule labels are conservative until primary records or HOA
             confirmation clear the public page.
           </p>
           <Link
@@ -144,7 +210,7 @@ export default async function BuildingPage({params}: BuildingPageProps) {
             href={buildingContextHref(slug, locale)}
             data-test-id="thin-building-context-cta"
           >
-            Use this building as my context
+            Use this building as my context →
           </Link>
         </section>
       </main>

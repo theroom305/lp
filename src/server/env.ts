@@ -5,6 +5,11 @@ const optionalEmail = z.preprocess(
   z.string().email().optional(),
 );
 
+const optionalNumber = z.preprocess(
+  (value) => (value === "" ? undefined : value),
+  z.coerce.number().int().positive().optional(),
+);
+
 const envSchema = z.object({
   LEAD_STORAGE_MODE: z.enum(["dry-run", "postgres"]).default("dry-run"),
   DATABASE_URL: z.string().url().optional(),
@@ -29,6 +34,15 @@ const envSchema = z.object({
   LEAD_NOTIFY_FROM: optionalEmail,
   LEAD_NOTIFY_REPLY_TO: optionalEmail,
   AUTH_SECRET: z.string().min(32),
+  FOUNDER_SECTION_LIVE: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((value) => value === "true"),
+  FOUNDER_VOICE_APPROVED: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((value) => value === "true"),
+  FOUNDER_YEARS_OPERATING: optionalNumber,
   LEAD_NOTIFICATION_WEBHOOK_URL: z.string().url().optional(),
   SENTRY_DSN: z.string().url().optional(),
   LOG_LEVEL: z.enum(["trace", "debug", "info", "warn", "error"]).default("info"),
@@ -49,6 +63,9 @@ export const env = envSchema.parse({
   LEAD_NOTIFY_FROM: process.env.LEAD_NOTIFY_FROM,
   LEAD_NOTIFY_REPLY_TO: process.env.LEAD_NOTIFY_REPLY_TO,
   AUTH_SECRET: process.env.AUTH_SECRET,
+  FOUNDER_SECTION_LIVE: process.env.FOUNDER_SECTION_LIVE,
+  FOUNDER_VOICE_APPROVED: process.env.FOUNDER_VOICE_APPROVED,
+  FOUNDER_YEARS_OPERATING: process.env.FOUNDER_YEARS_OPERATING,
   LEAD_NOTIFICATION_WEBHOOK_URL: process.env.LEAD_NOTIFICATION_WEBHOOK_URL,
   SENTRY_DSN: process.env.SENTRY_DSN,
   LOG_LEVEL: process.env.LOG_LEVEL,

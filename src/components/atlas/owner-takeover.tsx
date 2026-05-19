@@ -17,7 +17,7 @@ export function OwnerTakeoverCTA({buildingSlug}: OwnerTakeoverCTAProps) {
       <ClipboardCheck aria-hidden="true" size={20} />
       <div>
         <h3>Already own here?</h3>
-        <p>Request a private operating audit for this building.</p>
+        <p>Request a private operating review for this building.</p>
         <a href={`#owner-takeover-intake-${buildingSlug}`}>Open intake</a>
       </div>
     </aside>

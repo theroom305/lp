@@ -28,6 +28,9 @@ updated_at: 2026-05-18
 | `LEAD_NOTIFY_FROM` | unset | Required for live notification. If unset, v7 notification mode is dry-run and production is blocked by env. |
 | `LEAD_NOTIFY_REPLY_TO` | unset | Optional reply-to; defaults to `LEAD_NOTIFY_PRIMARY` when live notification is enabled. |
 | `AUTH_SECRET` | generated per Vercel project | Server-only Auth.js secret; never `NEXT_PUBLIC_`. |
+| `FOUNDER_SECTION_LIVE` | `false` | Server-only founder section gate. Default unset/false keeps founder copy and photo off the rendered LP. |
+| `FOUNDER_VOICE_APPROVED` | `false` | Server-only Beachwalk operator-memo gate. Default unset/false keeps unapproved Isaac memo copy out of rendered dossier pages. |
+| `FOUNDER_YEARS_OPERATING` | unset | Required only when `FOUNDER_SECTION_LIVE=true`; Dan/Isaac confirm the number before activation. |
 | `LEAD_NOTIFICATION_WEBHOOK_URL` | unset | Telegram notification target pending. |
 | `SENTRY_DSN` | unset | Sentry is env-gated; no paid monitoring or live alerts by default. |
 | `LOG_LEVEL` | `info` | Structured server logs without debug noise. |

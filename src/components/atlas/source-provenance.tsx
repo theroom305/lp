@@ -29,7 +29,7 @@ type SourceDrawerProps = Readonly<{
 export function SourceDrawer({facts}: SourceDrawerProps) {
   return (
     <details className="source-drawer" data-test-id="source-drawer">
-      <summary>Source posture</summary>
+      <summary>Source status</summary>
       {facts.length > 0 ? (
         <ul>
           {facts.map((fact) => (

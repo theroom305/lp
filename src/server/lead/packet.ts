@@ -51,8 +51,12 @@ function sanitize(value: string | null | undefined): string {
   return (value ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").trim();
 }
 
-function countryName(country: string, locale: "en" | "es"): string {
+function countryName(country: string | null | undefined, locale: "en" | "es"): string {
   const clean = sanitize(country);
+
+  if (clean.length === 0) {
+    return "-";
+  }
 
   if (/^[a-z]{2}$/i.test(clean)) {
     const displayNames = new Intl.DisplayNames([locale], {type: "region"});
@@ -104,15 +108,15 @@ function buildingContextBlock(classification: LeadClassification): string {
   if (classification.operatorKnown) {
     return [
       base,
-      "Room 305 relationship: operating units confirmed; exact count withheld pending Guesty and Isaac source sign-off",
-      "Watch: internal operator-known relationship. Do not imply public unit count or yield.",
+    "Room 305 relationship: Beachwalk is the building Isaac knows best; public unit count withheld pending Guesty and Isaac source sign-off",
+    "Watch: internal relationship context. Do not imply public unit count, yield, or management service.",
     ].join("\n");
   }
 
   return [
     base,
     "Room 305 relationship: none confirmed",
-    "Methodology applies — declaration lookup recommended",
+    "We can review this building too - declaration lookup recommended",
   ].join("\n");
 }
 
@@ -126,7 +130,7 @@ function leadAngle(
     classification.operatorKnown &&
     (payload.useMix === "mixed" || payload.useMix === "rental-led")
   ) {
-    return "Lead with what we operate at this building today and the cadence specifics.";
+    return "Lead with Beachwalk-specific context and the rental-rule specifics.";
   }
 
   if (
@@ -168,7 +172,7 @@ function avoidLine(
     (classification.tier === "high" || classification.tier === "qualified") &&
     (payload.useMix === "mixed" || payload.useMix === "rental-led")
   ) {
-    return "Avoid generic luxury language. Avoid promising yields. Avoid implying we operate buildings we don't.";
+    return "Avoid generic luxury language. Avoid promising yields. Avoid implying management services.";
   }
 
   if (classification.tier === "soft" || payload.useMix === "personal-led") {

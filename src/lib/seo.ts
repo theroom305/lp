@@ -218,7 +218,7 @@ export function buildingJsonLd(building: BuildingRecord) {
     additionalProperty: [
       {
         "@type": "PropertyValue",
-        name: "Verification state",
+        name: "What we've verified",
         value: building.verificationState,
       },
       {
@@ -257,7 +257,7 @@ export function notesArticleJsonLd(locale: Locale) {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: "Room 305 operator notes",
+    headline: "Room 305 working notes",
     inLanguage: locale,
     publisher: organizationJsonLd,
     mainEntityOfPage: absoluteUrl(localizedPath({key: "notes", locale})),

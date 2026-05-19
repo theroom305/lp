@@ -118,6 +118,7 @@ export function HomeFunnelHero({
           blurDataURL={blurDataUrl}
           className="hero-bitmap-image"
           fill
+          fetchPriority="high"
           placeholder="blur"
           priority
           quality={40}

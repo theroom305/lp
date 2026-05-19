@@ -21,8 +21,8 @@ export async function generateMetadata({
   const {locale} = await params;
 
   return pageMetadata({
-    title: "Operator notes",
-    description: "Room 305 source-gated operator notes scaffold.",
+    title: "Working notes",
+    description: "Room 305 source-gated working notes scaffold.",
     key: "notes",
     locale,
     indexable: false,

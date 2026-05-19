@@ -99,9 +99,9 @@ export const memoAdvisorMap: Record<
     deliveredOnly: false,
   },
   operator: {
-    label: "Operator Memo",
+    label: "Working Notes",
     advisor: "Spouse / family",
-    description: "Daily ownership reality, service tier, and operator cautions.",
+    description: "Daily ownership reality, service tier, and building cautions.",
     deliveredOnly: false,
   },
   investment_fit: {
@@ -113,7 +113,7 @@ export const memoAdvisorMap: Record<
   owner_takeover: {
     label: "Owner Takeover Memo",
     advisor: "Current-owner advisor",
-    description: "Switch audit, current-manager pain, and what changes on day one.",
+    description: "Switch review, current-manager pain, and what changes on day one.",
     deliveredOnly: true,
   },
 };
@@ -180,7 +180,7 @@ const sectionLabels: Record<DossierSectionId, string> = {
   fit: "Fit",
   rules: "Rules",
   "what-could-go-wrong": "What Could Go Wrong",
-  "operator-notes": "Operator Notes",
+  "operator-notes": "Working Notes",
   "ownership-path": "Ownership Path",
   compare: "Compare",
   sources: "Sources",
@@ -190,9 +190,9 @@ const sectionLabels: Record<DossierSectionId, string> = {
 const sectionEyebrows: Record<DossierSectionId, string> = {
   answer: "Section 01",
   fit: "Section 02",
-  rules: "Source posture",
+  rules: "Source status",
   "what-could-go-wrong": "Pratfall check",
-  "operator-notes": "Operating judgment",
+  "operator-notes": "Building judgment",
   "ownership-path": "Owner path",
   compare: "Market context",
   sources: "Provenance",
@@ -203,8 +203,8 @@ const placeholders: Record<DossierSectionId, string> = {
   answer: "Direct building answer placeholder. CC drafts in Step 3.5.",
   fit: "Buyer-fit and avoid-if placeholder. CC drafts in Step 3.5.",
   rules: "Source-backed rules table placeholder. Declaration facts arrive after verification.",
-  "what-could-go-wrong": "Per-building operator caution; CC drafts in Step 3.5.",
-  "operator-notes": "Operator judgment placeholder. No unverified numbers.",
+  "what-could-go-wrong": "Per-building caution; CC drafts in Step 3.5.",
+  "operator-notes": "Working judgment placeholder. No unverified numbers.",
   "ownership-path": "Buyer path and delivered-building owner path placeholder.",
   compare: "Adjacent-building comparison placeholder.",
   sources: "Layered source provenance placeholder.",
