@@ -32,3 +32,5 @@ lighthouse-v7-2-2-preview/*.json
 !lighthouse-v7-2-2-preview/summary.json
 lighthouse-v7-2-2-prod/*.json
 !lighthouse-v7-2-2-prod/summary.json
+lighthouse-v7-2-4-brand-preview/*.json
+!lighthouse-v7-2-4-brand-preview/summary.json

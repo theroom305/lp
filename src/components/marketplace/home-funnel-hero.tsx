@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {type FormEvent, useState} from "react";
@@ -19,16 +18,21 @@ type HomeFunnelHeroProps = Readonly<{
   ownLabel: string;
   sellingLabel: string;
   buildingPlaceholder: string;
+  pathSelectorLabel: string;
   trustLine: string;
   atlasHref: string;
   atlasLabel: string;
   buyHref: string;
   ownHref: string;
   sellHref: string;
+  visualEyebrow: string;
+  visualBuilding: string;
+  visualKnown: string;
+  visualUnknown: string;
+  visualVerify: string;
+  visualSource: string;
+  visualReply: string;
 }>;
-
-const blurDataUrl =
-  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTYnIGhlaWdodD0nMTAnIHZpZXdCb3g9JzAgMCAxNiAxMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cmVjdCB3aWR0aD0nMTYnIGhlaWdodD0nMTAnIGZpbGw9JyMyZTNhMmMnLz48Y2lyY2xlIGN4PScxMicgY3k9JzMnIHI9JzQnIGZpbGw9JyNiODk1NmEnIG9wYWNpdHk9Jy42Jy8+PHBhdGggZD0nTTAgN2M0LTQgNyAyIDE2LTQgdjdoLTE2eicgZmlsbD0nI2RmYzdhNCcgb3BhY2l0eT0nLjcnLz48L3N2Zz4=";
 
 function normalize(value: string): string {
   return value
@@ -68,12 +72,20 @@ export function HomeFunnelHero({
   ownLabel,
   sellingLabel,
   buildingPlaceholder,
+  pathSelectorLabel,
   trustLine,
   atlasHref,
   atlasLabel,
   buyHref,
   ownHref,
   sellHref,
+  visualEyebrow,
+  visualBuilding,
+  visualKnown,
+  visualUnknown,
+  visualVerify,
+  visualSource,
+  visualReply,
 }: HomeFunnelHeroProps) {
   const router = useRouter();
   const [selectedPath, setSelectedPath] = useState<PathKey>("buying");
@@ -111,21 +123,21 @@ export function HomeFunnelHero({
   return (
     <section className="home-funnel-hero" aria-labelledby="home-heading">
       <div className="hero-bitmap-media" data-test-id="hero-bitmap">
-        {/* Photo by Jason Briscoe on Unsplash: https://unsplash.com/photos/-eLfQTmDfLk */}
-        <Image
-          alt=""
-          aria-hidden="true"
-          blurDataURL={blurDataUrl}
-          className="hero-bitmap-image"
-          fill
-          fetchPriority="high"
-          placeholder="blur"
-          priority
-          quality={40}
-          sizes="(min-width: 760px) 48vw, 100vw"
-          src="/hero/room305-hero.avif"
-          unoptimized
-        />
+        <div className="hero-proof-visual">
+          <div className="hero-proof-panel">
+            <p>{visualEyebrow}</p>
+            <p className="proof-building-name">{visualBuilding}</p>
+            <ul>
+              <li>{visualKnown}</li>
+              <li>{visualUnknown}</li>
+              <li>{visualVerify}</li>
+            </ul>
+          </div>
+          <div className="hero-proof-footer">
+            <span>{visualSource}</span>
+            <strong>{visualReply}</strong>
+          </div>
+        </div>
       </div>
       <div className="home-funnel-copy">
         <h1 id="home-heading">{title}</h1>
@@ -140,7 +152,7 @@ export function HomeFunnelHero({
             placeholder={buildingPlaceholder}
             data-test-id="home-building-input"
           />
-          <div className="path-selector-actions" aria-label="Choose your path">
+          <div className="path-selector-actions" aria-label={pathSelectorLabel}>
             <button
               className="button-link button-link-primary"
               type="submit"

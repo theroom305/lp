@@ -2,21 +2,31 @@
   "nav": {
     "label": "Navegación principal",
     "buy": "Comprar",
-    "own": "Propiedad",
+    "own": "Propietarios",
     "sell": "Vender",
     "contact": "Contacto"
   },
   "home": {
     "hero": "Tenga un pedazo de Miami. Úselo, alquílelo, véndalo cuando sea el momento.",
-    "subcopy": "Room 305 le ayuda a elegir el edificio, entender lo que el edificio realmente permite, y tomar la siguiente decisión — sin necesidad de estar en Miami.",
+    "subcopy": "Room 305 lee el edificio primero — las reglas, la realidad operativa, la próxima decisión — para que usted decida con el cuadro completo, sin necesidad de estar en Miami.",
     "paths": {
       "buying": "Estoy comprando",
       "own": "Ya tengo propiedad aquí",
       "selling": "Estoy considerando vender"
     },
     "buildingInputPlaceholder": "Edificio o zona en el sur de Florida",
+    "pathSelectorLabel": "Elija su camino",
     "trustLine": "Seguimos de cerca 19 edificios del sur de Florida. Beachwalk es donde nuestro conocimiento es más profundo — cada otro edificio marcado por lo que hemos verificado.",
     "atlasLink": "Conozca los 19 edificios que seguimos →",
+    "visual": {
+      "eyebrow": "Nota del edificio",
+      "building": "Beachwalk Resort · Hallandale Beach",
+      "known": "Lo que sabemos — contexto operativo y datos públicos del edificio.",
+      "unknown": "Lo que falta verificar — documentos vigentes, términos y límites por unidad.",
+      "verify": "Lo que verificamos antes de una llamada — reglas de alquiler, uso del propietario, costos, comparables, fricción.",
+      "source": "Paquete de fuentes",
+      "reply": "Preparado antes de que Isaac responda."
+    },
     "problemFrame": {
       "eyebrow": "La realidad",
       "title": "La mayoría de los compradores extranjeros descubre lo que el edificio realmente permite después de haber firmado.",
@@ -57,7 +67,7 @@
       "statLabelLanguages": "EN/ES",
       "memo": "Empecé Room 305 porque la mayoría de los propietarios descubren lo que su edificio realmente permite después de haber comprado. Seguimos el corredor edificio por edificio — las reglas, los detalles del programa de alquiler, la realidad operativa — para que cuando ayudemos a alguien a comprar, vender o mantener, sepa a qué se está comprometiendo. Beachwalk es el edificio que mejor conozco, habiendo trabajado allí durante años."
     },
-    "footerCta": "Cuéntenos lo mínimo útil. Si hay una razón clara para seguir, Isaac responde con el edificio ya revisado."
+    "footerCta": "Cuéntenos lo mínimo útil. Si hay una razón clara para seguir, Isaac responde con el contexto del edificio ya en vista."
   },
   "showroom": {
     "eyebrow": "Edificios que seguimos",

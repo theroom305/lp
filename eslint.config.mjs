@@ -16,6 +16,8 @@ const eslintConfig = [
       ".venv-curation/**",
       ".next/**",
       ".vercel/**",
+      "playwright-report/**",
+      "test-results/**",
       "out/**",
       "build/**",
       "next-env.d.ts",

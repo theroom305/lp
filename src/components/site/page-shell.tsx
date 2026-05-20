@@ -15,7 +15,15 @@ export function PageShell({children}: PageShellProps) {
     <div className="site-shell">
       <header className="site-header">
         <Link href="/" className="brand-mark" data-test-id="site-logo">
-          Room 305
+          {/* Tiny static header mark; next/image inflates shared route JS here. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            alt="Room 305"
+            className="brand-logo"
+            height={63}
+            src="/brand/room305-logo.png"
+            width={81}
+          />
         </Link>
         <nav aria-label={t("label")}>
           <Link href={localizedPath({key: "buy", locale})}>{t("buy")}</Link>

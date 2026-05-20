@@ -2,21 +2,31 @@
   "nav": {
     "label": "Primary navigation",
     "buy": "Buy",
-    "own": "Own",
+    "own": "Owners",
     "sell": "Sell",
     "contact": "Contact"
   },
   "home": {
     "hero": "Own a piece of Miami. Use it, rent it, sell when the time is right.",
-    "subcopy": "Room 305 helps you choose the building, understand the operating reality, and make the next decision — without needing to be in Miami.",
+    "subcopy": "Room 305 reads the building first — the rules, the operating reality, the next decision — so you commit with the full picture, without needing to be in Miami.",
     "paths": {
       "buying": "I'm buying",
       "own": "I own here",
       "selling": "I may sell"
     },
     "buildingInputPlaceholder": "Building or area in South Florida",
+    "pathSelectorLabel": "Choose your path",
     "trustLine": "We follow 19 South Florida buildings closely. Beachwalk is where our knowledge runs deepest — every other building marked by what we've verified.",
     "atlasLink": "Browse all 19 buildings →",
+    "visual": {
+      "eyebrow": "Building note",
+      "building": "Beachwalk Resort · Hallandale Beach",
+      "known": "What we know — operating context and public building facts.",
+      "unknown": "What still needs checking — current documents, terms, unit-specific limits.",
+      "verify": "What we verify before a call — rental rules, owner use, fees, comps, friction.",
+      "source": "Source packet",
+      "reply": "Prepared before Isaac replies."
+    },
     "problemFrame": {
       "eyebrow": "The reality",
       "title": "Most foreign buyers find out what the building really allows after they've signed.",

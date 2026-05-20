@@ -28,6 +28,10 @@ export const metadata: Metadata = {
   },
   description:
     "A Room 305 scaffold for South Florida building context, buyer qualification, and founder-led follow-up.",
+  icons: {
+    apple: [{sizes: "512x512", type: "image/png", url: "/brand/room305-icon.png"}],
+    icon: [{sizes: "512x512", type: "image/png", url: "/brand/room305-icon.png"}],
+  },
 };
 
 type LocaleLayoutProps = Readonly<{
