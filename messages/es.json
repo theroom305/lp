@@ -34,11 +34,11 @@
       }
     },
     "proofEyebrow": "Room 305",
-    "proofTitle": "Seguimiento liderado por el fundador, con contexto del edificio en vista.",
+    "proofTitle": "Lo que hacemos cuando usted nos dice el edificio.",
     "proof": {
-      "item1": "19 edificios seguidos en el corredor Hallandale → Brickell",
-      "item2": "Beachwalk Resort: donde nuestro conocimiento es más profundo",
-      "item3": "Notas nuevas revisadas cada día hábil, EN/ES"
+      "item1": "Revisamos reglas, fuentes disponibles, realidad de renta y fricciones operativas.",
+      "item2": "Separamos lo que sabemos, lo que falta saber y lo que conviene verificar antes de una oferta.",
+      "item3": "Isaac responde si conviene una llamada, qué falta revisar, o si lo honesto es decir que no."
     },
     "remoteEyebrow": "Propiedad remota",
     "remoteOwnership": {
@@ -57,7 +57,7 @@
       "statLabelLanguages": "EN/ES",
       "memo": "Empecé Room 305 porque la mayoría de los propietarios descubren lo que su edificio realmente permite después de haber comprado. Seguimos el corredor edificio por edificio — las reglas, los detalles del programa de alquiler, la realidad operativa — para que cuando ayudemos a alguien a comprar, vender o mantener, sepa a qué se está comprometiendo. Beachwalk es el edificio que mejor conozco, habiendo trabajado allí durante años."
     },
-    "footerCta": "Llamadas con el fundador en inglés y español. Revisamos las notas nuevas cada día hábil."
+    "footerCta": "Cuéntenos lo mínimo útil. Si hay una razón clara para seguir, Isaac responde con el edificio ya revisado."
   },
   "showroom": {
     "eyebrow": "Edificios que seguimos",
